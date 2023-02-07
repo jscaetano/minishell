@@ -6,7 +6,7 @@
 /*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:03:07 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/01/30 18:45:00 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/02/07 18:08:27 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_ms
 	char	*cwd;
 	char	*input;
 	char	**path;
+	char	**env;
 }	t_ms;
 
 extern t_ms g_ms;
@@ -48,6 +49,7 @@ char		**ft_split(char const *s, char c);
 
 // utils.c
 int			ft_strcmp(char *s1, char *s2);
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_strlen(const char *s);
 void		ft_free(void *p);
 void		no_leaks();

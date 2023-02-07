@@ -6,7 +6,7 @@
 /*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:01:13 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/01/30 18:52:47 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/02/07 18:26:52 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,25 +38,56 @@ static void	read_input()
 	}
 }
 
+char	*get_env(char *str)
+{
+	int		i;
+	int		len;
+
+	len = ft_strlen(str);
+	i = 0;
+	while (g_ms.env[i])
+	{
+		if (!ft_strncmp(g_ms.env[i], str, len))
+		{
+			if (g_ms.env[i][len] == '=')
+				return (g_ms.env[i] + len + 1);
+		}
+		i++;
+	}
+	return (NULL);
+}
+
 static void	fill_args(char **envv)
+{
+	if (g_ms.cwd)
+		free(g_ms.cwd);
+	g_ms.env = envv;
+	g_ms.path = ft_split(get_env("PATH"), ':');
+	g_ms.cwd = getcwd(NULL, 4096);
+	return ;
+}
+
+void	env()
 {
 	int	i;
 
 	i = 0;
-	if (g_ms.cwd)
-		free(g_ms.cwd);
-	while(envv[i])
-	{
-		if (envv[i][0] == 'P' && envv[i][1] == 'A' && envv[i][2] == 'T'
-			&& envv[i][3] == 'H' && envv[i][4] == '=')
-		{
-			g_ms.path = ft_split(envv[i] + 5,':');
-			break ;
-		}
-		i++;
-	}
-	g_ms.cwd = getcwd(NULL, 4096);
-	return ;
+	while (g_ms.env[i])
+		printf("%s\n", g_ms.env[i++]);
+}
+
+void	handle_input()
+{
+	if (!ft_strcmp(g_ms.input, "exit"))
+		no_leaks();
+	else if (!ft_strcmp(g_ms.input, "pwd"))
+		printf("%s\n", g_ms.cwd);
+	else if (!ft_strcmp(g_ms.input, "env"))
+		env();
+
+	// printf("%s\n", g_ms.cwd);
+	// else if (!ft_strcmp(g_ms.input, "pwd"))
+
 }
 
 int	main(int argc, char **argv, char **envv)
@@ -69,9 +100,10 @@ int	main(int argc, char **argv, char **envv)
 	while (1)
 	{
 		read_input();
-		if (!ft_strcmp(g_ms.input, "exit"))
-			no_leaks();
-		printf("%s\n", g_ms.input);
+		add_history(g_ms.input);
+		handle_input();
+
+		// printf("%s\n", g_ms.input);
 		free(g_ms.input);
 	}
 	return (0);

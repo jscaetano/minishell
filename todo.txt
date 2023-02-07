@@ -1,6 +1,6 @@
 X	Display a prompt when waiting for a new command.
 
-	• Have a working history.
+X	• Have a working history.
 
 	• Search and launch the right executable (based on the PATH variable or using a
 		relative or an absolute path).
@@ -41,8 +41,8 @@ X		◦ ctrl-\ does nothing.
 	• Your shell must implement the following builtins:
 		◦ echo with option -n
 		◦ cd with only a relative or absolute path
-		◦ pwd with no options
+X		◦ pwd with no options
 		◦ export with no options
 		◦ unset with no options
-		◦ env with no options or arguments
-		◦ exit with no options
+x		◦ env with no options or arguments
+X		◦ exit with no options
