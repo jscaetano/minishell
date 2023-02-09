@@ -6,7 +6,7 @@
 /*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 18:41:55 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/02/07 18:08:15 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/02/09 19:42:41 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_strlen(const char *s)
 	int	i;
 
 	i = 0;
-	while (s[i] != '\0')
+	while (s[i])
 		i++;
 	return (i);
 }
@@ -53,10 +53,53 @@ void	ft_free(void *p)
 		free(p);
 }
 
-void no_leaks()
+char	*ft_strcpy(char *dest, char *src)
 {
+	int	i;
+
+	i = 0;
+	while (src[i] != '\0')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
+char	*ft_strdup(const char *s1)
+{
+	char	*dest;
+	int		srcsize;
+	char	*str;
+
+	str = (char *)s1;
+	srcsize = 0;
+	while (s1[srcsize] != '\0')
+		srcsize++;
+	dest = malloc((srcsize + 1));
+	ft_strcpy(dest, str);
+	return (dest);
+}
+
+
+void no_leaks(int end)
+{
+	int	i;
+
+	i = 0;
 	ft_free(g_ms.input);
-	ft_free(g_ms.cwd);
+	if (!g_ms.tokensfreed)
+	{
+		while (g_ms.tokens[i])
+			ft_free(g_ms.tokens[i++]);
+		ft_free(g_ms.tokens);
+		g_ms.tokensfreed = 1;
+	}
 	printf("\n");
-	exit(EXIT_SUCCESS);
+	if (end)
+	{
+		ft_free(g_ms.cwd);
+		exit(EXIT_SUCCESS);
+	}
 }

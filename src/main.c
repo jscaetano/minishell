@@ -6,7 +6,7 @@
 /*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:01:13 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/02/07 18:26:52 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/02/09 19:44:41 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static void	read_input()
 			break ;
 		else if (g_ms.input)
 			free(g_ms.input);
-		else if (!g_ms.input)
-			no_leaks();
+		else
+			no_leaks(1);
 	}
 }
 
@@ -43,18 +43,20 @@ char	*get_env(char *str)
 	int		i;
 	int		len;
 
-	len = ft_strlen(str);
 	i = 0;
+	if (str[0] == '$')
+		str++;
+	len = ft_strlen(str);
 	while (g_ms.env[i])
 	{
 		if (!ft_strncmp(g_ms.env[i], str, len))
 		{
 			if (g_ms.env[i][len] == '=')
-				return (g_ms.env[i] + len + 1);
+				return (ft_strdup(g_ms.env[i] + len + 1));
 		}
 		i++;
 	}
-	return (NULL);
+	return (str);
 }
 
 static void	fill_args(char **envv)
@@ -64,6 +66,7 @@ static void	fill_args(char **envv)
 	g_ms.env = envv;
 	g_ms.path = ft_split(get_env("PATH"), ':');
 	g_ms.cwd = getcwd(NULL, 4096);
+	g_ms.tokensfreed = 1;
 	return ;
 }
 
@@ -76,15 +79,44 @@ void	env()
 		printf("%s\n", g_ms.env[i++]);
 }
 
+void	echo()
+{
+	int		i;
+	int		size;
+	char	*tmp;
+
+	size = 0;
+	i = 1;
+	while (g_ms.tokens[i])
+	{
+		if (g_ms.tokens[i][0] == '$')
+		{
+			size = ft_strlen(get_env(g_ms.tokens[i]));
+			tmp = malloc(sizeof(char) * (size + 1));
+			tmp = get_env(g_ms.tokens[i]);
+			ft_free(g_ms.tokens[i]);
+			g_ms.tokens[i] = malloc(sizeof(char) * (size));
+			g_ms.tokens[i] = tmp;
+		}
+		printf("%s ", g_ms.tokens[i++]);
+	}
+}
+
 void	handle_input()
 {
-	if (!ft_strcmp(g_ms.input, "exit"))
-		no_leaks();
-	else if (!ft_strcmp(g_ms.input, "pwd"))
-		printf("%s\n", g_ms.cwd);
-	else if (!ft_strcmp(g_ms.input, "env"))
-		env();
+	int	i;
 
+	i = 0;
+	g_ms.tokens = ft_split(g_ms.input, ' ');
+	g_ms.tokensfreed = 0;
+	if (!ft_strcmp(g_ms.tokens[0], "exit"))
+		no_leaks(1);
+	else if (!ft_strcmp(g_ms.tokens[0], "pwd"))
+		printf("%s\n", g_ms.cwd);
+	else if (!ft_strcmp(g_ms.tokens[0], "env"))
+		env();
+	else if (!ft_strcmp(g_ms.tokens[0], "echo"))
+		echo();
 	// printf("%s\n", g_ms.cwd);
 	// else if (!ft_strcmp(g_ms.input, "pwd"))
 
@@ -104,7 +136,7 @@ int	main(int argc, char **argv, char **envv)
 		handle_input();
 
 		// printf("%s\n", g_ms.input);
-		free(g_ms.input);
+		//no_leaks(0);
 	}
 	return (0);
 }

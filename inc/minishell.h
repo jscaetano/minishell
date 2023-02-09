@@ -6,7 +6,7 @@
 /*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:03:07 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/02/07 18:08:27 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/02/08 19:31:35 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,15 @@
 # define CLR_RST	"\033[0m"
 
 # define INPUT_LEN	1000
-# define PROMPT		"\033[38;5;13mminishell > \033[0m"
+# define PROMPT		"\033[38;5;13mft_shell > \033[0m"
 
 typedef struct s_ms
 {
 	char	*cwd;
 	char	*input;
+	char	**tokens;
 	char	**path;
+	int		tokensfreed;
 	char	**env;
 }	t_ms;
 
@@ -52,6 +54,7 @@ int			ft_strcmp(char *s1, char *s2);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_strlen(const char *s);
 void		ft_free(void *p);
+char		*ft_strdup(const char *s1);
 void		no_leaks();
 
 

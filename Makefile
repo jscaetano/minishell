@@ -6,12 +6,12 @@
 #    By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/30 17:50:46 by joacaeta          #+#    #+#              #
-#    Updated: 2023/01/30 18:43:53 by joacaeta         ###   ########.fr        #
+#    Updated: 2023/02/09 19:19:37 by joacaeta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC := gcc
-FLAGS := -Wall -Wextra -Werror -lreadline -g -fsanitize=address
+CC := cc
+FLAGS := -Wall -Wextra -Werror -fsanitize=address -g
 INCLUDE_DIRS :=	src \
 				inc \
 				.
@@ -26,7 +26,7 @@ all: $(NAME)
 	$(CC) $(FLAGS) -c $^ -o $@ $(INCLUDES)
 
 $(NAME) : $(OBJS)
-	$(CC) $(FLAGS) $^ -o $@ $(INCLUDES)
+	$(CC) $(FLAGS) $^ -o $@ $(INCLUDES) -lreadline
 
 clean:
 	rm -f $(OBJS)
@@ -37,7 +37,7 @@ fclean: clean
 re: fclean all
 	rm -f *.gch
 
-run: all
+run: re
 	./minishell
 
 .PHONY: libft all bonus clean fclean re
