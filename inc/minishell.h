@@ -6,7 +6,7 @@
 /*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:03:07 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/02/08 19:31:35 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/02/09 21:34:44 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,19 @@
 # define INPUT_LEN	1000
 # define PROMPT		"\033[38;5;13mft_shell > \033[0m"
 
+typedef struct s_var
+{
+	char			*name;
+	char			*content;
+	struct s_var	*next;
+}	t_var;
+
+typedef struct s_env
+{
+	int				size;
+	struct s_var	*top;
+}	t_env;
+
 typedef struct s_ms
 {
 	char	*cwd;
@@ -41,7 +54,8 @@ typedef struct s_ms
 	char	**tokens;
 	char	**path;
 	int		tokensfreed;
-	char	**env;
+	t_env	*env;
+	t_env	*tmp;
 }	t_ms;
 
 extern t_ms g_ms;
@@ -54,6 +68,8 @@ int			ft_strcmp(char *s1, char *s2);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_strlen(const char *s);
 void		ft_free(void *p);
+char		*ft_strndup(const char *s1, int size);
+
 char		*ft_strdup(const char *s1);
 void		no_leaks();
 

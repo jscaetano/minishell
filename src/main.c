@@ -6,7 +6,7 @@
 /*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:01:13 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/02/09 19:44:41 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/02/09 22:13:01 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,45 +38,93 @@ static void	read_input()
 	}
 }
 
+// returns the content of the var in env with the name str or just returns str
 char	*get_env(char *str)
 {
 	int		i;
 	int		len;
+	t_var	*tmp;
 
 	i = 0;
 	if (str[0] == '$')
 		str++;
 	len = ft_strlen(str);
-	while (g_ms.env[i])
+	tmp = g_ms.env->top;
+	while (tmp->next)
 	{
-		if (!ft_strncmp(g_ms.env[i], str, len))
-		{
-			if (g_ms.env[i][len] == '=')
-				return (ft_strdup(g_ms.env[i] + len + 1));
-		}
-		i++;
+		if (!ft_strncmp(tmp->name, str, len))
+			return (tmp->content);
+		tmp = tmp->next;
 	}
-	return (str);
+	if (!ft_strncmp(tmp->name, str, len))
+		return (tmp->content);
+	return (str--);
+}
+
+void	ft_stackpush(t_env *env, char *equal)
+{
+	int		i;
+	int		j;
+	t_var	*new;
+
+	i = 0;
+	j = 0;
+	new = malloc(sizeof(t_var));
+	while (equal[i] != '=')
+		i++;
+	new->name = ft_strndup(equal, i);
+	i++;
+	new->content = ft_strdup(equal + i);
+	new->next = env->top;
+	env->top = new;
+	env->size++;
+}
+
+// creates and fills the env list with var (including name and content)
+t_env	*envlist(char **envv)
+{
+	t_env	*env;
+	int		size;
+	int		i;
+
+	i = 0;
+	size = 0;
+	while (envv[i++])
+		size++;
+	i = size - 1;
+	env = malloc(sizeof(t_env));
+	if (!env)
+		return (NULL);
+	env->size = 0;
+	env->top = NULL;
+	while (i >= 0)
+		ft_stackpush(env, envv[i--]);
+	return (env);
 }
 
 static void	fill_args(char **envv)
 {
 	if (g_ms.cwd)
 		free(g_ms.cwd);
-	g_ms.env = envv;
+	g_ms.env = envlist(envv);
 	g_ms.path = ft_split(get_env("PATH"), ':');
 	g_ms.cwd = getcwd(NULL, 4096);
 	g_ms.tokensfreed = 1;
 	return ;
 }
 
+// env builtin, prints all env
 void	env()
 {
-	int	i;
+	t_var	*tmp;
 
-	i = 0;
-	while (g_ms.env[i])
-		printf("%s\n", g_ms.env[i++]);
+	tmp = g_ms.env->top;
+	while (tmp->next)
+	{
+		printf("%s=%s\n", tmp->name, tmp->content);
+		tmp = tmp->next;
+	}
+	printf("%s=%s\n", tmp->name, tmp->content);
 }
 
 void	echo()
@@ -102,6 +150,78 @@ void	echo()
 	}
 }
 
+//export (add a=x expression, if previously stored in tmp to env)
+void	export()
+{
+
+}
+
+//unset (remove a=x expression, if stored in env or in tmp)
+void	unset()
+{
+	int		i;
+	t_var	*tmp;
+	t_var	*tmpenv;
+	t_var	*prev;
+
+	i = 1;
+	prev = NULL;
+	while (g_ms.tokens[i])
+	{
+		tmpenv = g_ms.env->top;
+		while (tmpenv->next)
+		{
+			if (!ft_strcmp(tmpenv->name, g_ms.tokens[i]))
+			{
+				if (prev)
+					prev->next = tmpenv->next;
+				else
+					g_ms.env->top = g_ms.env->top->next;
+				ft_free(tmpenv->name);
+				ft_free(tmpenv->content);
+				ft_free(tmpenv);
+			}
+			prev = tmpenv;
+			tmpenv = tmpenv->next;
+		}
+		i++;
+	}
+}
+
+//stores a=x expression in tmp
+void	store_equals(char *equal)
+{
+	g_ms.tmp = envlist(NULL);
+	ft_stackpush(g_ms.tmp, equal);
+}
+
+//if there is a a=x expression, store it in tmp
+int	find_equals()
+{
+	int	i;
+	int	j;
+	int r;
+
+	r = 0;
+	i = 0;
+	while (g_ms.tokens[i])
+	{
+		j = 0;
+		while (g_ms.tokens[i][j])
+		{
+			if (g_ms.tokens[i][j] == '=')
+			{
+				store_equals(g_ms.tokens[i]);
+				r = 1;
+				break ;
+			}
+			j++;
+		}
+		i++;
+	}
+	return (r);
+}
+
 void	handle_input()
 {
 	int	i;
@@ -109,6 +229,10 @@ void	handle_input()
 	i = 0;
 	g_ms.tokens = ft_split(g_ms.input, ' ');
 	g_ms.tokensfreed = 0;
+
+	if (find_equals())
+		return ;
+
 	if (!ft_strcmp(g_ms.tokens[0], "exit"))
 		no_leaks(1);
 	else if (!ft_strcmp(g_ms.tokens[0], "pwd"))
@@ -117,6 +241,10 @@ void	handle_input()
 		env();
 	else if (!ft_strcmp(g_ms.tokens[0], "echo"))
 		echo();
+	else if (!ft_strcmp(g_ms.tokens[0], "unset"))
+		unset();
+	else if (!ft_strcmp(g_ms.tokens[0], "export"))
+		export();
 	// printf("%s\n", g_ms.cwd);
 	// else if (!ft_strcmp(g_ms.input, "pwd"))
 
