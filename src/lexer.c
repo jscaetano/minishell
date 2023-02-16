@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 12:10:46 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/02/16 18:19:30 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:53:55 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,25 +84,25 @@ void	add_token(t_ms *ms, char *str, t_lexeme lexeme)
 void	print_token(t_token *token)
 {
 	if (token->type == LEX_IN_REDIR_1)
-		printf("[  LEX_IN_REDIR_1  ] -> \"%s\"\n", token->str);
+		printf("[ LEX_IN_REDIR_1 ] -> \"%s\"\n", token->str);
 	else if (token->type == LEX_OUT_REDIR_1)
-		printf("[ LEX_OUT_REDIR_1  ] -> \"%s\"\n", token->str);
+		printf("[ LEX_OUT_REDIR_1 ] -> \"%s\"\n", token->str);
 	else if (token->type == LEX_IN_REDIR_2)
-		printf("[  LEX_IN_REDIR_2  ] -> \"%s\"\n", token->str);
+		printf("[ LEX_IN_REDIR_2 ] -> \"%s\"\n", token->str);
 	else if (token->type == LEX_OUT_REDIR_2)
-		printf("[  LEX_OUT_REDIR_2 ] -> \"%s\"\n", token->str);
-	else if (token->type == LEX_SINGLE_QUOTE)
-		printf("[ LEX_SINGLE_QUOTE ] -> \"%s\"\n", token->str);
-	else if (token->type == LEX_DOUBLE_QUOTE)
-		printf("[ LEX_DOUBLE_QUOTE ] -> \"%s\"\n", token->str);
+		printf("[ LEX_OUT_REDIR_2 ] -> \"%s\"\n", token->str);
+	else if (token->type == LEX_SINGLE_QUOTES)
+		printf("[ LEX_SINGLE_QUOTES ] -> \"%s\"\n", token->str);
+	else if (token->type == LEX_DOUBLE_QUOTES)
+		printf("[ LEX_DOUBLE_QUOTES ] -> \"%s\"\n", token->str);
 	else if (token->type == LEX_RIGHT_PAR)
-		printf("[   LEX_RIGHT_PAR  ] -> \"%s\"\n", token->str);
+		printf("[ LEX_RIGHT_PAR ] -> \"%s\"\n", token->str);
 	else if (token->type == LEX_LEFT_PAR)
-		printf("[   LEX_LEFT_PAR   ] -> \"%s\"\n", token->str);
+		printf("[ LEX_LEFT_PAR ] -> \"%s\"\n", token->str);
 	else if (token->type == LEX_PIPE)
-		printf("[     LEX_PIPE     ] -> \"%s\"\n", token->str);
+		printf("[ LEX_PIPE ] -> \"%s\"\n", token->str);
 	else if (token->type == LEX_TERM)
-		printf("[     LEX_TERM     ] -> \"%s\"\n", token->str);
+		printf("[ LEX_TERM ] -> \"%s\"\n", token->str);
 }
 
 void	print_lexer(t_lexer *lexer)
@@ -119,6 +119,7 @@ void	print_lexer(t_lexer *lexer)
 		token = token->next;
 	}
 }
+
 //cat filename | grep Error | sort >> "asfasf afasfasf"
 void	lexer(t_ms *ms)
 {	
@@ -146,16 +147,15 @@ void	lexer(t_ms *ms)
 		else if (!ft_strncmp(&ms->input[i], "\"", 1))
 		{
 			token_length = ft_strclen(&ms->input[i + 1], '"') + 2;
-			add_token(ms, ft_substr(&ms->input[i + 1], 0, token_length - 2), LEX_TERM);
+			add_token(ms, ft_substr(&ms->input[i + 1], 0, token_length - 2), LEX_DOUBLE_QUOTES);
 		}
 		else if (!ft_strncmp(&ms->input[i], "'", 1))
 		{
 			token_length = ft_strclen(&ms->input[i + 1], '\'') + 2;
-			add_token(ms, ft_substr(&ms->input[i + 1], 0, token_length - 2), LEX_TERM);
+			add_token(ms, ft_substr(&ms->input[i + 1], 0, token_length - 2), LEX_SINGLE_QUOTES);
 		}
 		else
 			add_token(ms, ft_substr(&ms->input[i], 0, token_length), LEX_TERM);
 		i += token_length;
 	}
-	return ;	
 }

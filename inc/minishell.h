@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:03:07 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/02/16 17:44:34 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:51:27 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,11 @@ typedef enum s_lexemes
 	LEX_OUT_REDIR_1,		// >
 	LEX_IN_REDIR_2,			// <<
 	LEX_OUT_REDIR_2,		// >>
-	LEX_SINGLE_QUOTE,		// '
-	LEX_DOUBLE_QUOTE,		// "
+	LEX_SINGLE_QUOTES,		// '
+	LEX_DOUBLE_QUOTES,		// "
 	LEX_RIGHT_PAR,			// (
 	LEX_LEFT_PAR,			// )
+	LEX_VARIABLE,			// $
 	LEX_PIPE,				// |
 	LEX_TERM,				// anything else
 }t_lexeme;
