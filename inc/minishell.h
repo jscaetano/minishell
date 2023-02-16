@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:03:07 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/02/16 18:51:27 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:58:24 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,20 @@ t_lexer	new_lexer(int n);
 
 t_token	*new_token(char *str, t_lexeme type);
 
-void	destroy_token(t_token *token);
+t_token	*get_last_token(t_lexer *lexer);
 
-void	destroy_lexer(t_lexer *lexer);
+void	add_token(t_ms *ms, char *str, t_lexeme lexeme);
 
 void	lexer(t_ms *ms);
 
+//!_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/= DEBUG =\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
+void	print_token(t_token *token);
+
 void	print_lexer(t_lexer *lexer);
+
+//!_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/= DESTROY =\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
+void	destroy_token(t_token *token);
+
+void	destroy_lexer(t_lexer *lexer);
 
 #endif
