@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:01:13 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/02/09 19:44:41 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/02/16 15:25:54 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static void	fill_args(char **envv)
 	g_ms.path = ft_split(get_env("PATH"), ':');
 	g_ms.cwd = getcwd(NULL, 4096);
 	g_ms.tokensfreed = 1;
+	g_ms.lexer = new_lexer(0);
 	return ;
 }
 
@@ -107,6 +108,8 @@ void	handle_input()
 	int	i;
 
 	i = 0;
+	lexer(&g_ms);
+	print_lexer(&g_ms.lexer);
 	g_ms.tokens = ft_split(g_ms.input, ' ');
 	g_ms.tokensfreed = 0;
 	if (!ft_strcmp(g_ms.tokens[0], "exit"))

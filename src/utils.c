@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 18:41:55 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/02/09 19:42:41 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/02/16 17:46:33 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,16 @@ int	ft_strlen(const char *s)
 	return (i);
 }
 
+int	ft_strclen(const char *s, char c)
+{
+	int i;
+
+	i = 0;
+	while (s[i] && s[i] != c)
+		i++;
+	return (i);
+}
+
 void	ft_free(void *p)
 {
 	if (p)
@@ -80,6 +90,29 @@ char	*ft_strdup(const char *s1)
 	dest = malloc((srcsize + 1));
 	ft_strcpy(dest, str);
 	return (dest);
+}
+
+char	*ft_substr(char const *s, int start, int len)
+{
+	int		i;
+	char	*res;
+
+	if (!s)
+		return (NULL);
+	i = 0;
+	res = (char *)malloc(len + 1);
+	if (res == NULL)
+		return (NULL);
+	if (start <= ft_strlen(s))
+	{
+		while (i < len && s[i + start])
+		{
+			res[i] = s[i + start];
+			i++;
+		}
+	}
+	res[i] = '\0';
+	return (res);
 }
 
 
