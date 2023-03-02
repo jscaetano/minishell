@@ -6,7 +6,7 @@
 /*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:01:13 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/02 15:49:08 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/03/02 18:24:15 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,23 +61,52 @@ char	*get_env(char *str)
 	return (str--);
 }
 
+// pushes to tmp, if new name, else changes content to the new one
 void	ft_stackpush(t_env *env, char *equal)
 {
 	int		i;
-	int		j;
+	char	*name;
+	t_var	*tmp;
 	t_var	*new;
 
 	i = 0;
-	j = 0;
-	new = malloc(sizeof(t_var));
+	tmp = env->top;
 	while (equal[i] != '=')
 		i++;
-	new->name = ft_strndup(equal, i);
+	name = ft_strndup(equal, i);
+	if (tmp)
+	{
+		while (tmp)
+		{
+			if (!ft_strcmp(tmp->name, name))
+			{
+				i++;
+				tmp->content = ft_strdup(equal + i);
+				return ;
+			}
+			tmp = tmp->next;
+		}
+	}
+	new = malloc(sizeof(t_var));
+	new->name = name;
 	i++;
 	new->content = ft_strdup(equal + i);
 	new->next = env->top;
 	env->top = new;
 	env->size++;
+}
+
+// new empty list
+t_env	*ft_stacknew(void)
+{
+	t_env	*ret;
+
+	ret = malloc(sizeof(t_env));
+	if (!ret)
+		return (NULL);
+	ret->size = 0;
+	ret->top = NULL;
+	return (ret);
 }
 
 // creates and fills the env list with var (including name and content)
@@ -106,7 +135,9 @@ static void	fill_args(char **envv)
 {
 	if (g_ms.cwd)
 		free(g_ms.cwd);
+	g_ms.envv = envv;
 	g_ms.env = envlist(envv);
+	g_ms.tmp = ft_stacknew();
 	g_ms.path = ft_split(get_env("PATH"), ':');
 	g_ms.cwd = getcwd(NULL, 4096);
 	g_ms.tokensfreed = 1;
@@ -119,6 +150,8 @@ void	env()
 	t_var	*tmp;
 
 	tmp = g_ms.env->top;
+	if (!tmp)
+		return ;
 	while (tmp->next)
 	{
 		printf("%s=%s\n", tmp->name, tmp->content);
@@ -153,33 +186,86 @@ void	echo()
 //export (add a=x expression, if previously stored in tmp to env)
 void	export()
 {
+	int		i;
+	t_var	*tmpenv;
+	t_var	*tmp;
+	t_var	*new;
 
+	i = 1;
+	new = malloc(sizeof(t_var));
+	tmpenv = g_ms.tmp->top;
+	tmp = g_ms.env->top;
+	while (g_ms.tokens[i])
+	{
+		tmpenv = g_ms.tmp->top;
+		while (tmpenv)
+		{
+			if (!ft_strcmp(tmpenv->name, g_ms.tokens[i]))
+			{
+				while (tmp)
+				{
+					if(!ft_strcmp(tmpenv->name, tmp->name))
+					{
+						tmp->content = tmpenv->content;
+						free (new);
+						return ;
+					}
+					tmp = tmp->next;
+				}
+				new->name = ft_strdup(tmpenv->name);
+				new->content = ft_strdup(tmpenv->content);
+				new->next = g_ms.env->top;
+				g_ms.env->top = new;
+				g_ms.env->size++;
+			}
+			tmpenv = tmpenv->next;
+		}
+		i++;
+	}
 }
 
 //unset (remove a=x expression, if stored in env or in tmp)
 void	unset()
 {
 	int		i;
-	t_var	*tmp;
 	t_var	*tmpenv;
 	t_var	*prev;
 
 	i = 1;
-	prev = NULL;
 	while (g_ms.tokens[i])
 	{
-		tmpenv = g_ms.env->top;
-		while (tmpenv->next)
+		prev = NULL;
+		tmpenv = g_ms.tmp->top;
+		while (tmpenv)
 		{
 			if (!ft_strcmp(tmpenv->name, g_ms.tokens[i]))
 			{
+				ft_free(tmpenv->name);
+				ft_free(tmpenv->content);
+				g_ms.tmp->size--;
 				if (prev)
 					prev->next = tmpenv->next;
 				else
-					g_ms.env->top = g_ms.env->top->next;
+					g_ms.tmp->top = tmpenv->next;
+			}
+			prev = tmpenv;
+			tmpenv = tmpenv->next;
+		}
+		prev = NULL;
+		tmpenv = g_ms.env->top;
+		while (tmpenv)
+		{
+			if (!ft_strcmp(tmpenv->name, g_ms.tokens[i]))
+			{
 				ft_free(tmpenv->name);
 				ft_free(tmpenv->content);
-				ft_free(tmpenv);
+				if (prev)
+					prev->next = tmpenv->next;
+				else
+				{
+					g_ms.env->top = tmpenv->next;
+				}
+				g_ms.env->size--;
 			}
 			prev = tmpenv;
 			tmpenv = tmpenv->next;
@@ -191,7 +277,6 @@ void	unset()
 //stores a=x expression in tmp
 void	store_equals(char *equal)
 {
-	g_ms.tmp = envlist(NULL);
 	ft_stackpush(g_ms.tmp, equal);
 }
 
@@ -222,6 +307,22 @@ int	find_equals()
 	return (r);
 }
 
+// for testing purposes, print tmp list
+void	printtmp()
+{
+	t_var	*tmp;
+
+	tmp = g_ms.tmp->top;
+	if (!tmp)
+		return ;
+	while (tmp->next)
+	{
+		printf("%s = %s\n", tmp->name, tmp->content);
+		tmp = tmp->next;
+	}
+	printf("%s = %s\n", tmp->name, tmp->content);
+}
+
 void	handle_input()
 {
 	int	i;
@@ -232,7 +333,6 @@ void	handle_input()
 
 	if (find_equals())
 		return ;
-
 	if (!ft_strcmp(g_ms.tokens[0], "exit"))
 		no_leaks(1);
 	else if (!ft_strcmp(g_ms.tokens[0], "pwd"))
@@ -245,9 +345,58 @@ void	handle_input()
 		unset();
 	else if (!ft_strcmp(g_ms.tokens[0], "export"))
 		export();
+	else if ((!ft_strcmp(g_ms.tokens[0], "ptmp"))) //for testing
+		printtmp();
+	else
+		exec_if_exists(g_ms.tokens[0], NULL);
 	// printf("%s\n", g_ms.cwd);
 	// else if (!ft_strcmp(g_ms.input, "pwd"))
 
+}
+
+
+//add
+
+void	exec(char *pathtoexe, char **argv)
+{
+	pid_t	pid;
+
+	pid = fork();
+	// execve(pathtoexe, argv, g_ms.envv);
+	if (pid == 0)
+		execve(pathtoexe, argv, g_ms.envv);
+	else
+		waitpid(pid, NULL, 0);
+}
+
+void	exec_if_exists(char *exe, char **argv)
+{
+	char	*pathtoexe;
+	int		i;
+
+	i = 0;
+	while(g_ms.path[i])
+	{
+		pathtoexe = ft_strjoin(g_ms.path[i], "/");
+		pathtoexe = ft_strjoin(pathtoexe, exe);
+		if (access(pathtoexe, F_OK) == 0)
+		{
+			exec(pathtoexe, argv);
+			free(pathtoexe);
+			return ;
+		}
+		free(pathtoexe);
+		i++;
+	}
+	pathtoexe = ft_strjoin(g_ms.cwd, "/");
+	pathtoexe = ft_strjoin(pathtoexe, exe);
+	if (access(pathtoexe, F_OK) == 0)
+	{
+		exec(pathtoexe, argv);
+		free(pathtoexe);
+		return ;
+	}
+	return ;
 }
 
 int	main(int argc, char **argv, char **envv)

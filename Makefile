@@ -6,12 +6,12 @@
 #    By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/30 17:50:46 by joacaeta          #+#    #+#              #
-#    Updated: 2023/02/09 21:46:08 by joacaeta         ###   ########.fr        #
+#    Updated: 2023/03/02 16:15:59 by joacaeta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC := cc
-FLAGS := #-Wall -Wextra -Werror -fsanitize=address -g
+FLAGS := -Wall -Wextra -Werror -fsanitize=address -g
 INCLUDE_DIRS :=	src \
 				inc \
 				.

@@ -6,7 +6,7 @@
 /*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 18:41:55 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/02/09 21:35:27 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/03/02 16:06:36 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,28 @@ char	*ft_strndup(const char *s1, int size)
 	dest = malloc((srcsize + 1));
 	ft_strncpy(dest, str, size);
 	return (dest);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*r;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	r = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	while (s1[i] != '\0')
+	{
+		r[i] = s1[i];
+		i++;
+	}
+	while (s2[j] != '\0')
+	{
+		r[i++] = s2[j++];
+	}
+	r[i] = '\0';
+	return (r);
 }
 
 void no_leaks(int end)

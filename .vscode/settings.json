@@ -3,6 +3,7 @@
 		"minishell.h": "c",
 		"limits.h": "c",
 		"readline.h": "c",
-		"signal.h": "c"
+		"signal.h": "c",
+		"history.h": "c"
 	}
 }

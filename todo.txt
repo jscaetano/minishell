@@ -2,7 +2,7 @@ X	Display a prompt when waiting for a new command.
 
 X	• Have a working history.
 
-	• Search and launch the right executable (based on the PATH variable or using a
+X	• Search and launch the right executable (based on the PATH variable or using a
 		relative or an absolute path).
 
 X	• Not use more than one global variable. Think about it. You will have to explain
@@ -25,7 +25,7 @@ X	• Not interpret unclosed quotes or special characters which are not required
 	• Implement pipes (| character). The output of each command in the pipeline is
 		connected to the input of the next command via a pipe.
 
-	• Handle environment variables ($ followed by a sequence of characters) which
+X	• Handle environment variables ($ followed by a sequence of characters) which
 		should expand to their values.
 
 	• Handle $? which should expand to the exit status of the most recently executed
