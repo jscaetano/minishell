@@ -25,7 +25,7 @@ static void	sigint_action(int signal)
 
 static void	read_input()
 {
-	//printf(CLR_BLUE"\n[%s]\n"CLR_RST, g_ms.cwd);
+	printf(CLR_BLUE"\n[%s]\n"CLR_RST, g_ms.cwd);
 	while (1)
 	{
 		g_ms.input = readline(PROMPT);
@@ -41,11 +41,9 @@ static void	read_input()
 // returns the content of the var in env with the name str or just returns str
 char	*get_env(char *str)
 {
-	int		i;
 	int		len;
 	t_var	*tmp;
 
-	i = 0;
 	if (str[0] == '$')
 		str++;
 	len = ft_strlen(str);
@@ -329,9 +327,6 @@ void	printtmp()
 
 void	handle_input()
 {
-	int	i;
-
-	i = 0;
 	g_ms.tokens = ft_split(g_ms.input, ' ');
 	g_ms.tokensfreed = 0;
 
@@ -407,6 +402,8 @@ void	exec_if_exists(char *exe, char **argv)
 		free(pathtoexe);
 		return ;
 	}
+	else
+		printf("minishell: command not found: %s", exe);
 	return ;
 }
 
