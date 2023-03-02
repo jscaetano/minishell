@@ -6,7 +6,7 @@
 /*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:01:13 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/02 18:24:15 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/03/02 19:36:43 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	sigint_action(int signal)
 
 static void	read_input()
 {
-	printf(CLR_BLUE"\n[%s]\n"CLR_RST, g_ms.cwd);
+	//printf(CLR_BLUE"\n[%s]\n"CLR_RST, g_ms.cwd);
 	while (1)
 	{
 		g_ms.input = readline(PROMPT);
@@ -160,7 +160,7 @@ void	env()
 	printf("%s=%s\n", tmp->name, tmp->content);
 }
 
-void	echo()
+void	echo(int flag)
 {
 	int		i;
 	int		size;
@@ -168,6 +168,8 @@ void	echo()
 
 	size = 0;
 	i = 1;
+	if (flag)
+		i++;
 	while (g_ms.tokens[i])
 	{
 		if (g_ms.tokens[i][0] == '$')
@@ -179,7 +181,9 @@ void	echo()
 			g_ms.tokens[i] = malloc(sizeof(char) * (size));
 			g_ms.tokens[i] = tmp;
 		}
-		printf("%s ", g_ms.tokens[i++]);
+		printf("%s", g_ms.tokens[i++]);
+		if (!flag)
+			printf("\n");
 	}
 }
 
@@ -340,11 +344,18 @@ void	handle_input()
 	else if (!ft_strcmp(g_ms.tokens[0], "env"))
 		env();
 	else if (!ft_strcmp(g_ms.tokens[0], "echo"))
-		echo();
+	{
+		if (!ft_strcmp(g_ms.tokens[1], "-n"))
+			echo(1);
+		else
+			echo(0);
+	}
 	else if (!ft_strcmp(g_ms.tokens[0], "unset"))
 		unset();
 	else if (!ft_strcmp(g_ms.tokens[0], "export"))
 		export();
+	else if (!ft_strcmp(g_ms.tokens[0], "cd"))
+		cd();
 	else if ((!ft_strcmp(g_ms.tokens[0], "ptmp"))) //for testing
 		printtmp();
 	else

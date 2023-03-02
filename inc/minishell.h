@@ -6,7 +6,7 @@
 /*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:03:07 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/02 16:49:07 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/03/02 19:36:38 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <readline/history.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 
 # define CLR_RED	"\033[38;5;1m"
 # define CLR_GREEN	"\033[38;5;47m"
@@ -78,5 +79,9 @@ char		*ft_strdup(const char *s1);
 void		no_leaks();
 
 void		exec_if_exists(char *exe, char **argv);
+
+//builtins
+
+void	cd();
 
 #endif

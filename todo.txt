@@ -39,10 +39,11 @@ X		◦ ctrl-D exits the shell.
 X		◦ ctrl-\ does nothing.
 
 	• Your shell must implement the following builtins:
-		◦ echo with option -n
-		◦ cd with only a relative or absolute path
+X		◦ echo with option -n
+		◦ cd with a relative path
+X		◦ cd with an absolute path
 X		◦ pwd with no options
-		◦ export with no options
-		◦ unset with no options
+X		◦ export with no options
+X		◦ unset with no options
 x		◦ env with no options or arguments
 X		◦ exit with no options
