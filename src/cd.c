@@ -12,13 +12,13 @@
 
 #include "minishell.h"
 
-void	ft_cd()
+void	ft_cd(void)
 {
 	struct stat	stats;
+	char		*cwd;
 
 	if (!ms()->tokens[1])
 		return ;
-	//same dir
 	if (!ft_strcmp(ms()->tokens[1], "."))
 		return ;
 	stat(ms()->tokens[1], &stats);
@@ -26,9 +26,11 @@ void	ft_cd()
 	{
 		chdir(ms()->tokens[1]);
 		free(ms()->cwd);
-		ms()->cwd = getcwd(NULL, 4096);
+		cwd = getcwd(NULL, 4096);
+		ms()->cwd = cwd;
 		return ;
 	}
 	else
-		printf(CLR_RED"cd: no such file or directory: %s\n"CLR_RST, ms()->tokens[1]);
+		printf(CLR_RED"cd: no such file or directory: %s\n"CLR_RST, \
+			ms()->tokens[1]);
 }

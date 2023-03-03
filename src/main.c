@@ -23,13 +23,18 @@ static void	sigint_action(int signal)
 
 static void	fill_args(char **envv)
 {
+	char	**path;
+	char	*cwd;
+
 	if (ms()->cwd)
 		free(ms()->cwd);
 	ms()->envv = envv;
 	ms()->env = envlist(envv);
 	ms()->tmp = ft_stacknew();
-	ms()->path = ft_split(get_env("PATH"), ':');
-	ms()->cwd = getcwd(NULL, 4096);
+	path = ft_split(get_env("PATH"), ':');
+	ms()->path = path;
+	cwd = getcwd(NULL, 4096);
+	ms()->cwd = cwd;
 	ms()->tokensfreed = 1;
 	return ;
 }
@@ -47,9 +52,6 @@ int	main(int argc, char **argv, char **envv)
 		read_input();
 		add_history(ms()->input);
 		handle_input();
-
-		// printf("%s\n", ms()->input);
-		//no_leaks(0);
 	}
 	return (0);
 }

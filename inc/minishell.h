@@ -73,7 +73,7 @@ char		*ft_strjoin(char const *s1, char const *s2);
 void		ft_free(void *p);
 char		*ft_strndup(const char *s1, int size);
 char		*ft_strdup(const char *s1);
-void		no_leaks(void);
+void		no_leaks(int end);
 
 //cd
 void		ft_cd(void);

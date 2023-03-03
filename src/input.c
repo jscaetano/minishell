@@ -6,15 +6,18 @@
 /*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/03 19:34:24 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/03/03 19:48:30 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_input()
+void	handle_input(void)
 {
-	ms()->tokens = ft_split(ms()->input, ' ');
+	char	**tokens;
+
+	tokens = ft_split(ms()->input, ' ');
+	ms()->tokens = tokens;
 	ms()->tokensfreed = 0;
 	if (find_equals())
 		return ;
@@ -40,13 +43,13 @@ void	handle_input()
 		ft_export();
 	else if (!ft_strcmp(ms()->tokens[0], "cd"))
 		ft_cd();
-	else if ((!ft_strcmp(ms()->tokens[0], "ptmp"))) //for testing
+	else if ((!ft_strcmp(ms()->tokens[0], "ptmp")))
 		printtmp();
 	else
 		exec_if_exists(ms()->tokens[0], NULL);
 }
 
-void	read_input()
+void	read_input(void)
 {
 	printf(CLR_BLUE"[%s]\n"CLR_RST, ms()->cwd);
 	while (1)
