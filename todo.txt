@@ -40,7 +40,7 @@ X		◦ ctrl-\ does nothing.
 
 	• Your shell must implement the following builtins:
 X		◦ echo with option -n
-		◦ cd with a relative path
+X		◦ cd with a relative path
 X		◦ cd with an absolute path
 X		◦ pwd with no options
 X		◦ export with no options

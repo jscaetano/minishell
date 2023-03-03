@@ -12,22 +12,23 @@
 
 #include "minishell.h"
 
-void	cd()
+void	ft_cd()
 {
 	struct stat	stats;
 
-	if (!g_ms.tokens[1])
+	if (!ms()->tokens[1])
 		return ;
 	//same dir
-	if (!ft_strcmp(g_ms.tokens[1], "."))
+	if (!ft_strcmp(ms()->tokens[1], "."))
 		return ;
-	stat(g_ms.tokens[1], &stats);
+	stat(ms()->tokens[1], &stats);
 	if (S_ISDIR(stats.st_mode))
 	{
-		chdir(g_ms.tokens[1]);
-		g_ms.cwd = getcwd(NULL, 4096);
+		chdir(ms()->tokens[1]);
+		free(ms()->cwd);
+		ms()->cwd = getcwd(NULL, 4096);
 		return ;
 	}
 	else
-		printf("cd: no such file or directory: %s\n", g_ms.tokens[1]);
+		printf(CLR_RED"cd: no such file or directory: %s\n"CLR_RST, ms()->tokens[1]);
 }

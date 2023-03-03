@@ -62,26 +62,51 @@ typedef struct s_ms
 	t_env	*tmp;
 }	t_ms;
 
-extern t_ms g_ms;
-
-// ft_split.c
+// ft_split
 char		**ft_split(char const *s, char c);
 
-// utils.c
+// utils
 int			ft_strcmp(char *s1, char *s2);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_strlen(const char *s);
 char		*ft_strjoin(char const *s1, char const *s2);
 void		ft_free(void *p);
 char		*ft_strndup(const char *s1, int size);
-
 char		*ft_strdup(const char *s1);
-void		no_leaks();
+void		no_leaks(void);
 
+//cd
+void		ft_cd(void);
+
+//env
+t_env		*envlist(char **envv);
+char		*get_env(char *str);
+void		ft_env(void);
+
+//fake global
+t_ms		*ms(void);
+
+//export unset
+void		ft_export(void);
+void		ft_unset(void);
+int			find_equals(void);
+
+//lists
+void		ft_stackpush(t_env *env, char *equal);
+t_env		*ft_stacknew(void);
+
+//exec
+void		exec(char *pathtoexe, char **argv);
 void		exec_if_exists(char *exe, char **argv);
 
-//builtins
+//input
+void		handle_input(void);
+void		read_input(void);
 
-void	cd();
+//echo
+void		ft_echo(int flag);
+
+//testing
+void		printtmp(void);
 
 #endif
