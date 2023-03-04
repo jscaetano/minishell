@@ -103,7 +103,7 @@ char		*ft_strjoin(char const *s1, char const *s2);
 char		*ft_substr(char const *s, int start, int len);
 void		ft_free(void *p);
 void		*ft_memchr(const void *s, int c, size_t n);
-int			ft_strlen_delim(const char *s, char delim);
+int			ft_strlen_delim(const char *s, char delim, int symbols);
 char		*ft_strndup(const char *s1, int size);
 char		*ft_strdup(const char *s1);
 void		no_leaks(int end);

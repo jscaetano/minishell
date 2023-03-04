@@ -6,7 +6,7 @@
 /*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 12:10:46 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/03/04 19:11:31 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/03/04 19:34:27 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,24 +113,25 @@ void	lexer(t_ms *ms)
 		}
 		else if (ms->input[i] == '"')
 		{
-			token_length = ft_strlen_delim(&ms->input[i], '\"') + 2;
-			add_token(ms, ft_substr(&ms->input[i + 1], 0, token_length - 2), LEX_DOUBLE_QUOTES);
+			token_length = ft_strlen_delim(&ms->input[i + 1], '\"', 0) + 2;
+			add_token(ms, ft_substr(&ms->input[i], 0, token_length), LEX_DOUBLE_QUOTES);
 		}
 		else if (ms->input[i] == '\'')
 		{
-			token_length = ft_strlen_delim(&ms->input[i], '\'') + 2;
-			add_token(ms, ft_substr(&ms->input[i + 1], 0, token_length - 2), LEX_SINGLE_QUOTES);
+			token_length = ft_strlen_delim(&ms->input[i + 1], '\'', 0) + 2;
+			add_token(ms, ft_substr(&ms->input[i], 0, token_length), LEX_SINGLE_QUOTES);
 		}
 		else
 		{
 			printf("term ");
-			token_length = ft_strlen_delim(&ms->input[i], 0);
+			token_length = ft_strlen_delim(&ms->input[i], 0, 1);
 			add_token(ms, ft_substr(&ms->input[i], 0, token_length), LEX_TERM);
 		}
 		i += token_length;
 		#ifdef DEBUG
-			// printf("tokenlen = %d\n", token_length);
-			// printf("i = %d\n", i);
+			//printf("tokenlen = %d\n", token_length);
+			//printf("i = %d\n", i);
+			sleep(1);
 		#endif
 	}
 }
