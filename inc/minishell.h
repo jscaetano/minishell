@@ -63,7 +63,7 @@ typedef struct s_token{
 typedef struct s_lexer
 {
 	t_token	*head;
-	int		n;	
+	int		n;
 }t_lexer;
 
 typedef struct s_var
@@ -103,7 +103,7 @@ char		*ft_strjoin(char const *s1, char const *s2);
 char		*ft_substr(char const *s, int start, int len);
 void		ft_free(void *p);
 void		*ft_memchr(const void *s, int c, size_t n);
-int			ft_strlen_delim(const char *s, char *delim);
+int			ft_strlen_delim(const char *s, char delim);
 char		*ft_strndup(const char *s1, int size);
 char		*ft_strdup(const char *s1);
 void		no_leaks(int end);

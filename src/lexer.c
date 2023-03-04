@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 12:10:46 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/03/04 18:48:17 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/03/04 19:11:31 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_token	*new_token(char *str, t_lexeme type)
 t_token	*get_last_token(t_lexer *lexer)
 {
 	t_token	*aux;
-	
+
 	if (!lexer || !lexer->head)
 		return (NULL);
 	aux = lexer->head;
@@ -50,7 +50,7 @@ t_token	*get_last_token(t_lexer *lexer)
 void	add_token(t_ms *ms, char *str, t_lexeme lexeme)
 {
 	t_token	*token;
-	
+
 	token = new_token(str, lexeme);
 	if (!token || !str)
 		no_leaks(1);
@@ -70,17 +70,20 @@ void	clean_lexer_tokens(t_lexer *lexer)
 
 //cat filename | grep Error | sort >> "asfasf afasfasf"
 void	lexer(t_ms *ms)
-{	
+{
 	int	i;
 	int len;
 	int	token_length;
-	
+
 	i = 0;
 	len = ft_strlen(ms->input);
 	while (i < len)
 	{
 		if (ms->input[i] == ' ')
-			i++;
+		{
+			printf("space ");
+			token_length = 1;
+		}
 		else if (ms->input[i] == '|')
 		{
 			add_token(ms, ft_strdup("|"), LEX_PIPE);
@@ -110,22 +113,24 @@ void	lexer(t_ms *ms)
 		}
 		else if (ms->input[i] == '"')
 		{
-			token_length = ft_strlen_delim(&ms->input[i + 1], "\"") + 2;
+			token_length = ft_strlen_delim(&ms->input[i], '\"') + 2;
 			add_token(ms, ft_substr(&ms->input[i + 1], 0, token_length - 2), LEX_DOUBLE_QUOTES);
 		}
 		else if (ms->input[i] == '\'')
 		{
-			token_length = ft_strlen_delim(&ms->input[i + 1], "'") + 2;
+			token_length = ft_strlen_delim(&ms->input[i], '\'') + 2;
 			add_token(ms, ft_substr(&ms->input[i + 1], 0, token_length - 2), LEX_SINGLE_QUOTES);
 		}
 		else
 		{
-			token_length = ft_strlen_delim(&ms->input[i + 1], " ");
+			printf("term ");
+			token_length = ft_strlen_delim(&ms->input[i], 0);
 			add_token(ms, ft_substr(&ms->input[i], 0, token_length), LEX_TERM);
 		}
 		i += token_length;
 		#ifdef DEBUG
-			printf("i = %d\n", i);
+			// printf("tokenlen = %d\n", token_length);
+			// printf("i = %d\n", i);
 		#endif
 	}
 }
@@ -135,12 +140,12 @@ void	lexer(t_ms *ms)
 	int	i;
 	int	len;
 	int	token_len;
-	
+
 	i = 0;
 	len = ft_strlen(ms->input);
 	while (i < len)
 	{
 		token_len = ft_strlen_delim(ms->input, SYMBOLS);
-			
+
 	}
 } */

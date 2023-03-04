@@ -84,13 +84,13 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	return (NULL);
 }
 
-int		ft_strlen_delim(const char *s, char *delim)
+int		ft_strlen_delim(const char *s, char delim)
 {
 	int	i;
 
 	i = 0;
-	while (s[i] && !ft_memchr(delim, s[i], ft_strlen(delim) + 1))
+	while (s[i] && s[i] != delim && s[i] != '<' && s[i] != '>' && s[i] != '\'' \
+		&& s[i] != '"' && s[i] != '|')
 		i++;
 	return (i);
 }
-
