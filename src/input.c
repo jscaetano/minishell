@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/03 19:48:30 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/03/04 18:18:40 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ void	handle_input(void)
 {
 	char	**tokens;
 
+	
+	lexer(ms());
+	print_lexer(&ms()->lexer);
 	tokens = ft_split(ms()->input, ' ');
 	ms()->tokens = tokens;
 	ms()->tokensfreed = 0;
