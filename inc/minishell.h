@@ -56,6 +56,7 @@ typedef enum s_lexemes
 
 typedef struct s_token{
 	char			*str;
+	char			**args;
 	t_lexeme		type;
 	struct s_token	*next;
 }t_token;
@@ -111,7 +112,6 @@ void		no_leaks(int end);
 //! Lexer
 t_lexer		new_lexer(int n);
 void		lexer(t_ms *ms);
-void		print_lexer(t_lexer *lexer);
 
 //cd
 void		ft_cd(void);
@@ -146,5 +146,7 @@ void		ft_echo(int flag);
 
 //testing
 void		printtmp(void);
+void		print_lexer_args();
+void		print_token(t_token *token);
 
 #endif

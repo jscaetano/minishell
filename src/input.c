@@ -12,13 +12,29 @@
 
 #include "minishell.h"
 
+void	token_args(void)
+{
+	t_token	*tmp;
+
+	tmp = ms()->lexer.head;
+	while (tmp)
+	{
+		tmp->args = ft_split(tmp->str, ' ');
+		tmp = tmp->next;
+	}
+	return ;
+}
+
 void	handle_input(void)
 {
 	char	**tokens;
 
-	
 	lexer(ms());
-	print_lexer(&ms()->lexer);
+	token_args();
+	//print_lexer(&ms()->lexer);
+	print_lexer_args();
+	printf("\n\n\n\n");
+
 	tokens = ft_split(ms()->input, ' ');
 	ms()->tokens = tokens;
 	ms()->tokensfreed = 0;
