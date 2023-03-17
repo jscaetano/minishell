@@ -41,10 +41,10 @@
 
 typedef enum s_lexemes
 {
-	LEX_IN_REDIR_1,			// <
-	LEX_OUT_REDIR_1,		// >
-	LEX_IN_REDIR_2,			// <<
-	LEX_OUT_REDIR_2,		// >>
+	LEX_IN_1,			// <
+	LEX_OUT_1,		// >
+	LEX_IN_2,			// <<
+	LEX_OUT_2,		// >>
 	LEX_SINGLE_QUOTES,		// '
 	LEX_DOUBLE_QUOTES,		// "
 	LEX_RIGHT_PAR,			// (
@@ -108,10 +108,12 @@ int			ft_strlen_delim(const char *s, char delim, int symbols);
 char		*ft_strndup(const char *s1, int size);
 char		*ft_strdup(const char *s1);
 void		no_leaks(int end);
+void		matrix_destroy(void *matrix);
 
 //! Lexer
-t_lexer		new_lexer(int n);
+t_lexer		lx_new(int n);
 void		lexer(t_ms *ms);
+void		lx_clear(t_lexer *lexer);
 
 //cd
 void		ft_cd(void);

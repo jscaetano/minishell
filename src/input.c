@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/04 18:18:40 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/03/17 16:56:21 by crypto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	handle_input(void)
 		printtmp();
 	else
 		exec_if_exists(ms()->tokens[0], NULL);
+	lx_clear(&ms()->lexer);
 }
 
 void	read_input(void)

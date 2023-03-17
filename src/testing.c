@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   testing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:10:59 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/03 19:40:00 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/03/17 16:54:04 by crypto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ void	printtmp(void)
 
 void	print_token(t_token *token)
 {
-	if (token->type == LEX_IN_REDIR_1)
+	if (token->type == LEX_IN_1)
 		printf("[ LEX_IN_REDIR_1 ] -> \"%s\"\n", token->str);
-	else if (token->type == LEX_OUT_REDIR_1)
+	else if (token->type == LEX_OUT_1)
 		printf("[ LEX_OUT_REDIR_1 ] -> \"%s\"\n", token->str);
-	else if (token->type == LEX_IN_REDIR_2)
+	else if (token->type == LEX_IN_2)
 		printf("[ LEX_IN_REDIR_2 ] -> \"%s\"\n", token->str);
-	else if (token->type == LEX_OUT_REDIR_2)
+	else if (token->type == LEX_OUT_2)
 		printf("[ LEX_OUT_REDIR_2 ] -> \"%s\"\n", token->str);
 	else if (token->type == LEX_SINGLE_QUOTES)
 		printf("[ LEX_SINGLE_QUOTES ] -> \"%s\"\n", token->str);

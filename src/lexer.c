@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 12:10:46 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/03/04 19:34:27 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/03/17 16:53:38 by crypto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_lexer	new_lexer(int n)
+t_lexer	lx_new(int n)
 {
 	t_lexer lexer;
 
@@ -32,6 +32,16 @@ t_token	*new_token(char *str, t_lexeme type)
 	token->type = type;
 	token->next = NULL;
 	return (token);
+}
+
+void	token_destroy(t_token **token)
+{
+	if (!(*token))
+		return ;
+	free((*token)->str);
+	matrix_destroy((*token)->args);
+	free(*token);
+	*token = NULL;
 }
 
 t_token	*get_last_token(t_lexer *lexer)
@@ -62,9 +72,16 @@ void	add_token(t_ms *ms, char *str, t_lexeme lexeme)
 }
 
 // To remove the tokens after each input
-void	clean_lexer_tokens(t_lexer *lexer)
+void	lx_clear(t_lexer *lexer)
 {
-	(void)lexer;
+	t_token	*aux;
+
+	while (aux)
+	{
+		aux = lexer->head->next;
+		token_destroy(&lexer->head);
+		lexer->head = aux;
+	}
 	return ;
 }
 
@@ -94,22 +111,22 @@ void	lexer(t_ms *ms)
 			token_length = 1;
 			if (ms->input[i + 1] == '<')
 			{
-				add_token(ms, ft_strdup("<<"), LEX_IN_REDIR_2);
+				add_token(ms, ft_strdup("<<"), LEX_IN_2);
 				token_length++;
 			}
 			else
-				add_token(ms, ft_strdup("<"), LEX_IN_REDIR_1);
+				add_token(ms, ft_strdup("<"), LEX_IN_1);
 		}
 		else if (ms->input[i] == '>')
 		{
 			token_length = 1;
 			if (ms->input[i + 1] == '>')
 			{
-				add_token(ms, ft_strdup(">>"), LEX_OUT_REDIR_2);
+				add_token(ms, ft_strdup(">>"), LEX_OUT_2);
 				token_length++;
 			}
 			else
-				add_token(ms, ft_strdup(">"), LEX_OUT_REDIR_1);
+				add_token(ms, ft_strdup(">"), LEX_OUT_1);
 		}
 		else if (ms->input[i] == '"')
 		{
@@ -135,18 +152,3 @@ void	lexer(t_ms *ms)
 		#endif
 	}
 }
-
-/* void	lexer2(t_ms *ms)
-{
-	int	i;
-	int	len;
-	int	token_len;
-
-	i = 0;
-	len = ft_strlen(ms->input);
-	while (i < len)
-	{
-		token_len = ft_strlen_delim(ms->input, SYMBOLS);
-
-	}
-} */
