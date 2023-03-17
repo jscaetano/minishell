@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 12:10:46 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/03/17 16:53:38 by crypto           ###   ########.fr       */
+/*   Updated: 2023/03/17 19:04:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_lexer	lx_new(int n)
 {
-	t_lexer lexer;
+	t_lexer	lexer;
 
 	lexer.head = 0;
 	lexer.n = n;
@@ -23,7 +23,7 @@ t_lexer	lx_new(int n)
 
 t_token	*new_token(char *str, t_lexeme type)
 {
-	t_token *token;
+	t_token	*token;
 
 	token = malloc(sizeof(t_token));
 	if (!token)
@@ -34,14 +34,13 @@ t_token	*new_token(char *str, t_lexeme type)
 	return (token);
 }
 
-void	token_destroy(t_token **token)
+void	token_destroy(t_token *token)
 {
-	if (!(*token))
+	if (!token)
 		return ;
-	free((*token)->str);
-	matrix_destroy((*token)->args);
-	free(*token);
-	*token = NULL;
+	ft_free(token->str);
+	matrix_destroy(token->args);
+	ft_free(token);
 }
 
 t_token	*get_last_token(t_lexer *lexer)
@@ -79,7 +78,7 @@ void	lx_clear(t_lexer *lexer)
 	while (aux)
 	{
 		aux = lexer->head->next;
-		token_destroy(&lexer->head);
+		token_destroy(lexer->head);
 		lexer->head = aux;
 	}
 	return ;
@@ -97,10 +96,7 @@ void	lexer(t_ms *ms)
 	while (i < len)
 	{
 		if (ms->input[i] == ' ')
-		{
-			printf("space ");
 			token_length = 1;
-		}
 		else if (ms->input[i] == '|')
 		{
 			add_token(ms, ft_strdup("|"), LEX_PIPE);
@@ -140,7 +136,6 @@ void	lexer(t_ms *ms)
 		}
 		else
 		{
-			printf("term ");
 			token_length = ft_strlen_delim(&ms->input[i], 0, 1);
 			add_token(ms, ft_substr(&ms->input[i], 0, token_length), LEX_TERM);
 		}

@@ -41,18 +41,25 @@
 
 typedef enum s_lexemes
 {
-	LEX_IN_1,			// <
-	LEX_OUT_1,		// >
-	LEX_IN_2,			// <<
-	LEX_OUT_2,		// >>
+	LEX_IN_1,				// <
+	LEX_OUT_1,				// >
+	LEX_IN_2,				// <<
+	LEX_OUT_2,				// >>
 	LEX_SINGLE_QUOTES,		// '
 	LEX_DOUBLE_QUOTES,		// "
+	LEX_PIPE,				// |
+	LEX_VARIABLE,			// $
+	LEX_TERM,				// anything else
 	LEX_RIGHT_PAR,			// (
 	LEX_LEFT_PAR,			// )
-	LEX_VARIABLE,			// $
-	LEX_PIPE,				// |
-	LEX_TERM,				// anything else
 }t_lexeme;
+
+typedef enum s_scanner_op
+{
+	READ,
+	NEXT,
+	RESET
+} t_scanner_op;
 
 typedef struct s_token{
 	char			*str;
@@ -66,6 +73,13 @@ typedef struct s_lexer
 	t_token	*head;
 	int		n;
 }t_lexer;
+
+typedef struct s_ast
+{
+	void			*content;
+	struct s_ast	*left;
+	struct s_ast	*right;
+}t_ast;
 
 typedef struct s_var
 {
@@ -90,7 +104,7 @@ typedef struct s_ms
 	int		tokensfreed;
 	t_env	*env;
 	t_env	*tmp;
-	t_lexer lexer;
+	t_lexer	lexer;
 }	t_ms;
 
 // ft_split
@@ -110,10 +124,28 @@ char		*ft_strdup(const char *s1);
 void		no_leaks(int end);
 void		matrix_destroy(void *matrix);
 
+//! Scanner
+t_token		*scanner(t_scanner_op op);
+
+//! Abstract Syntax Tree
+t_ast		*ast_new(void *content);
+void		ast_insert_left(t_ast **ast, t_ast *node);
+void		ast_insert_right(t_ast **ast, t_ast *node);
+void		ast_traverse(t_ast **ast, void (*f)());
+void		ast_print(t_ast *ast, int depth, void (*f)());
+
+
 //! Lexer
 t_lexer		lx_new(int n);
 void		lexer(t_ms *ms);
 void		lx_clear(t_lexer *lexer);
+t_token		*new_token(char *str, t_lexeme type);
+void		token_destroy(t_token *token);
+
+//! Parser
+t_ast		*parser();
+t_ast		*parse_pipeline();
+t_ast		*parse_command();
 
 //cd
 void		ft_cd(void);
@@ -149,6 +181,6 @@ void		ft_echo(int flag);
 //testing
 void		printtmp(void);
 void		print_lexer_args();
-void		print_token(t_token *token);
+void		token_print(t_token *token);
 
 #endif

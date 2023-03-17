@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/17 16:56:21 by crypto           ###   ########.fr       */
+/*   Updated: 2023/03/17 19:01:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,10 @@ void	handle_input(void)
 	lexer(ms());
 	token_args();
 	//print_lexer(&ms()->lexer);
-	print_lexer_args();
+	// print_lexer_args();
+	t_ast *ast = parser();
+	ast_print(ast, 0, &token_print);
 	printf("\n\n\n\n");
-
 	tokens = ft_split(ms()->input, ' ');
 	ms()->tokens = tokens;
 	ms()->tokensfreed = 0;
