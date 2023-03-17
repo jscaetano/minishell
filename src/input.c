@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/17 19:01:38 by marvin           ###   ########.fr       */
+/*   Updated: 2023/03/17 20:15:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,15 @@
 
 void	token_args(void)
 {
-	t_token	*tmp;
+	t_list	*node;
+	t_token	*token;
 
-	tmp = ms()->lexer.head;
-	while (tmp)
+	node = ms()->lexemes;
+	while (node)
 	{
-		tmp->args = ft_split(tmp->str, ' ');
-		tmp = tmp->next;
+		token = (t_token *)node->content;
+		token->args = ft_split(token->str, ' ');
+		node = node->next;
 	}
 	return ;
 }
@@ -31,7 +33,6 @@ void	handle_input(void)
 
 	lexer(ms());
 	token_args();
-	//print_lexer(&ms()->lexer);
 	// print_lexer_args();
 	t_ast *ast = parser();
 	ast_print(ast, 0, &token_print);
@@ -67,7 +68,7 @@ void	handle_input(void)
 		printtmp();
 	else
 		exec_if_exists(ms()->tokens[0], NULL);
-	lx_clear(&ms()->lexer);
+	ft_lstclear(&ms()->lexemes, &token_destroy);
 }
 
 void	read_input(void)

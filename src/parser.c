@@ -25,7 +25,7 @@ t_ast	*append_pipeline(t_ast *ast, t_ast *command)
 {
 	t_ast	*root;
 
-	root = ast_new(new_token(ft_strdup("|"), LEX_PIPE));
+	root = ast_new(token_new(ft_strdup("|"), LEX_PIPE));
 	if (!root)
 		return (NULL);
 	ast_insert_left(&root, ast);

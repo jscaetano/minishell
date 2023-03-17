@@ -37,9 +37,9 @@
 # define INPUT_LEN	1000
 # define PROMPT		"\033[38;5;13mft_shell > \033[0m"
 # define SYMBOLS	"<>\'\"| "
-# define DEBUG
+// # define DEBUG
 
-typedef enum s_lexemes
+typedef enum s_lex_type
 {
 	LEX_IN_1,				// <
 	LEX_OUT_1,				// >
@@ -52,7 +52,7 @@ typedef enum s_lexemes
 	LEX_TERM,				// anything else
 	LEX_RIGHT_PAR,			// (
 	LEX_LEFT_PAR,			// )
-}t_lexeme;
+}t_lex_type;
 
 typedef enum s_scanner_op
 {
@@ -61,18 +61,18 @@ typedef enum s_scanner_op
 	RESET
 } t_scanner_op;
 
-typedef struct s_token{
+typedef struct s_list
+{
+	void			*content;
+	struct s_list	*next;
+}	t_list;
+
+typedef struct s_token
+{
 	char			*str;
 	char			**args;
-	t_lexeme		type;
-	struct s_token	*next;
+	t_lex_type		type;
 }t_token;
-
-typedef struct s_lexer
-{
-	t_token	*head;
-	int		n;
-}t_lexer;
 
 typedef struct s_ast
 {
@@ -104,8 +104,7 @@ typedef struct s_ms
 	int		tokensfreed;
 	t_env	*env;
 	t_env	*tmp;
-	t_list	*tokens;
-	t_lexer	lexer;
+	t_list	*lexemes;
 }	t_ms;
 
 // ft_split
@@ -124,6 +123,11 @@ char		*ft_strndup(const char *s1, int size);
 char		*ft_strdup(const char *s1);
 void		no_leaks(int end);
 void		matrix_destroy(void *matrix);
+t_list		*ft_lstnew(void *content);
+t_list		*ft_lstlast(t_list *lst);
+void		ft_lstadd_back(t_list **lst, t_list *new);
+void		ft_lstdelone(t_list *lst, void (*del)(void *));
+void		ft_lstclear(t_list **lst, void (*del)(void *));
 
 //! Scanner
 t_token		*scanner(t_scanner_op op);
@@ -135,13 +139,11 @@ void		ast_insert_right(t_ast **ast, t_ast *node);
 void		ast_traverse(t_ast **ast, void (*f)());
 void		ast_print(t_ast *ast, int depth, void (*f)());
 
-
 //! Lexer
-t_lexer		lx_new(int n);
+t_token		*token_new(char *str, t_lex_type type);
+void		token_destroy(void *token);
+void		token_push(char *str, t_lex_type lexeme);
 void		lexer(t_ms *ms);
-void		lx_clear(t_lexer *lexer);
-t_token		*new_token(char *str, t_lexeme type);
-void		token_destroy(t_token *token);
 
 //! Parser
 t_ast		*parser();

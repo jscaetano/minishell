@@ -56,7 +56,7 @@ void	ast_print(t_ast *ast, int depth, void (*f)())
 		return ;
 	for (int i = 0; i < depth; i++)
 		printf(" ");
-	printf("%d->", depth);
+	printf("[DEPTH %d]", depth);
 	(*f)(ast->content);
 	ast_print(ast->left, depth + 1, f);
 	ast_print(ast->right, depth + 1, f);

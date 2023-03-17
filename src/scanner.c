@@ -14,13 +14,15 @@
 
 t_token*    scanner(t_scanner_op op)
 {
-    static t_token  *current = NULL;
+    static t_list  *current = NULL;
 
 	if (!current)
-		current = ms()->lexer.head;
-    if (op == NEXT)
+		current = ms()->lexemes;
+    if (op == NEXT && current->next)
 		current = current->next;
     else if (op == RESET)
         current = NULL;
-    return (current);
+	else if (op == READ)
+    	return (current->content);
+	return (NULL);
 }
