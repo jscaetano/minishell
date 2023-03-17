@@ -104,6 +104,7 @@ typedef struct s_ms
 	int		tokensfreed;
 	t_env	*env;
 	t_env	*tmp;
+	t_list	*tokens;
 	t_lexer	lexer;
 }	t_ms;
 
