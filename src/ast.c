@@ -42,22 +42,20 @@ void	ast_insert_right(t_ast **ast, t_ast *node)
 void    ast_traverse(t_ast *ast, void (*f)())
 {
 	if (!ast)
-	{
-
 		return ;
-	}
 	ast_traverse(ast->left, f);
 	ast_traverse(ast->right, f);
-	(*f)(ast);
+	(*f)(&ast);
 }
 
-void    ast_destroy_node(t_ast *node)
+void    ast_destroy_node(t_ast ** node)
 {
 	#ifdef DEBUG
-		printf("Token: \"%s\" (%zu)\n", node->token->str, ft_strlen(node->token->str));
+		printf("Token: \"%s\" (%zu)\n", (*node)->token->str, ft_strlen((*node)->token->str));
 	#endif
-	token_destroy(node->token);
-	ft_free(node);
+	token_destroy((*node)->token);
+	ft_free(*node);
+	*node = NULL;
 }
 
 void	ast_print(t_ast *ast, int depth, void (*f)())

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/21 19:31:48 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/03/21 20:09:20 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	handle_input(void)
 		printtmp();
 	else
 		exec_if_exists(ms()->tokens[0], NULL);
+	ft_lstclear(&ms()->lexemes, &token_destroy);
 	ast_traverse(ms()->ast, &ast_destroy_node);
 }
 

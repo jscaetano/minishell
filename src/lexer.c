@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 12:10:46 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/03/21 19:08:48 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/03/21 20:09:55 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,43 @@ t_token	*token_new(char *str, t_lex_type type)
 	return (token);
 }
 
-void	token_destroy(t_token *token)
+char **	matrix_copy(char **matrix)
+{
+	char **dup;
+	size_t	i;
+
+	i = 0;
+	while (matrix[i])
+		i++;
+	dup = ft_calloc(i + 1, sizeof(char *));
+	if (!dup)
+		return (NULL);
+	i = -1;
+	while (matrix[++i])
+		dup[i] = ft_strdup(matrix[i]);
+	return (dup);
+}
+
+t_token * token_copy(t_token * token)
+{
+	t_token	*dup;
+	size_t	i;
+	
+	i = 0;
+	dup = token_new(ft_strdup(token->str), token->type);
+	if (!dup)
+		return (NULL);
+	if (token->args)
+		dup->args = matrix_copy(token->args);
+	return (dup);
+}
+
+void	token_destroy(void *token)
 {
 	if (!token)
 		return ;
-	ft_free(token->str);
-	matrix_destroy(token->args);
+	ft_free(((t_token *)token)->str);
+	matrix_destroy(((t_token *)token)->args);
 	ft_free(token);
 }
 

@@ -55,7 +55,7 @@ t_ast	*parse_command()
 {
 	t_ast	*root;
 
-	root = ast_new(scanner(READ));
+	root = ast_new(token_copy(scanner(READ)));
 	if (!root)
 		return (NULL);
 	scanner(NEXT);

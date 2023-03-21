@@ -102,7 +102,7 @@ typedef struct s_ms
 	t_env	*tmp;
 	t_list	*lexemes;
 	t_ast	*ast;
-}	t_ms;
+}t_ms;
 
 // utils
 char	*ft_strndup(const char *s1, int size);
@@ -123,12 +123,13 @@ t_ast		*ast_new(t_token *token);
 void		ast_insert_left(t_ast **ast, t_ast *node);
 void		ast_insert_right(t_ast **ast, t_ast *node);
 void		ast_traverse(t_ast *ast, void (*f)());
-void		ast_destroy_node(t_ast *node);
+void    	ast_destroy_node(t_ast ** node);
 void		ast_print(t_ast *ast, int depth, void (*f)());
 
 //! Lexer
 t_token		*token_new(char *str, t_lex_type type);
-void		token_destroy(t_token *token);
+t_token		*token_copy(t_token * token);
+void		token_destroy(void *token);
 void		token_push(char *str, t_lex_type lexeme);
 void		lexer(t_ms *ms);
 
