@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   fake_global.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:05:08 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/03 19:14:38 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/03/21 09:35:09 by crypto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./inc/minishell.h"
+#include "minishell.h"
 
 t_ms	*ms(void)
 {
