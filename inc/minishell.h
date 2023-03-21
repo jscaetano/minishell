@@ -39,7 +39,7 @@
 # define INPUT_LEN	1000
 # define PROMPT		"\033[38;5;13mft_shell > \033[0m"
 # define SYMBOLS	"<>\'\"| "
-// # define DEBUG
+# define DEBUG
 
 typedef enum s_lex_type
 {
@@ -63,7 +63,6 @@ typedef enum s_scanner_op
 	RESET
 } t_scanner_op;
 
-
 typedef struct s_token
 {
 	char			*str;
@@ -73,7 +72,7 @@ typedef struct s_token
 
 typedef struct s_ast
 {
-	void			*content;
+	t_token			*token;
 	struct s_ast	*left;
 	struct s_ast	*right;
 }t_ast;
@@ -102,6 +101,7 @@ typedef struct s_ms
 	t_env	*env;
 	t_env	*tmp;
 	t_list	*lexemes;
+	t_ast	*ast;
 }	t_ms;
 
 // utils
@@ -119,15 +119,16 @@ void		matrix_destroy(void *matrix);
 t_token		*scanner(t_scanner_op op);
 
 //! Abstract Syntax Tree
-t_ast		*ast_new(void *content);
+t_ast		*ast_new(t_token *token);
 void		ast_insert_left(t_ast **ast, t_ast *node);
 void		ast_insert_right(t_ast **ast, t_ast *node);
-void		ast_traverse(t_ast **ast, void (*f)());
+void		ast_traverse(t_ast *ast, void (*f)());
+void		ast_destroy_node(t_ast *node);
 void		ast_print(t_ast *ast, int depth, void (*f)());
 
 //! Lexer
 t_token		*token_new(char *str, t_lex_type type);
-void		token_destroy(void *token);
+void		token_destroy(t_token *token);
 void		token_push(char *str, t_lex_type lexeme);
 void		lexer(t_ms *ms);
 

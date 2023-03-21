@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 12:10:46 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/03/17 20:00:09 by marvin           ###   ########.fr       */
+/*   Updated: 2023/03/21 19:08:48 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_token	*token_new(char *str, t_lex_type type)
 {
 	t_token	*token;
 
-	token = malloc(sizeof(t_token));
+	token = ft_calloc(1, sizeof(t_token));
 	if (!token)
 		return (NULL);
 	token->str = str;
@@ -24,12 +24,12 @@ t_token	*token_new(char *str, t_lex_type type)
 	return (token);
 }
 
-void	token_destroy(void *token)
+void	token_destroy(t_token *token)
 {
 	if (!token)
 		return ;
-	ft_free(((t_token *)token)->str);
-	matrix_destroy(((t_token *)token)->args);
+	ft_free(token->str);
+	matrix_destroy(token->args);
 	ft_free(token);
 }
 

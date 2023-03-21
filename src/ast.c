@@ -12,42 +12,52 @@
 
 #include "minishell.h"
 
-t_ast   *ast_new(void *content)
+t_ast	*ast_new(t_token *token)
 {
-    t_ast   *node;
+	t_ast	*node;
 
-    node = malloc(sizeof(t_ast));
-    if (!node)
-        return (NULL);
-    node->content = content;
-    node->left = NULL;
-    node->right = NULL;
-    return (node);
+	node = ft_calloc(1, sizeof(t_ast));
+	if (!node)
+		return (NULL);
+	node->token = token;
+	return (node);
 }
 
-void    ast_insert_left(t_ast **ast, t_ast *node)
+void	ast_insert_left(t_ast **ast, t_ast *node)
 {
-    if (*ast)
-        (*ast)->left = node;
-    else
-        *ast = node;
+	if (*ast)
+		(*ast)->left = node;
+	else
+		*ast = node;
 }
 
-void    ast_insert_right(t_ast **ast, t_ast *node)
+void	ast_insert_right(t_ast **ast, t_ast *node)
 {
-    if (*ast)
-        (*ast)->right = node;
-    else
-        *ast = node;
+	if (*ast)
+		(*ast)->right = node;
+	else
+		*ast = node;
 }
 
-void    ast_traverse(t_ast **ast, void (*f)())
+void    ast_traverse(t_ast *ast, void (*f)())
 {
-    if (!(*ast))
-        return ;
-    ast_traverse(&(*ast)->left, f);
-    ast_traverse(&(*ast)->right, f);
-    (*f)(*ast);
+	if (!ast)
+	{
+
+		return ;
+	}
+	ast_traverse(ast->left, f);
+	ast_traverse(ast->right, f);
+	(*f)(ast);
+}
+
+void    ast_destroy_node(t_ast *node)
+{
+	#ifdef DEBUG
+		printf("Token: \"%s\" (%zu)\n", node->token->str, ft_strlen(node->token->str));
+	#endif
+	token_destroy(node->token);
+	ft_free(node);
 }
 
 void	ast_print(t_ast *ast, int depth, void (*f)())
@@ -57,7 +67,7 @@ void	ast_print(t_ast *ast, int depth, void (*f)())
 	for (int i = 0; i < depth; i++)
 		printf(" ");
 	printf("[DEPTH %d]", depth);
-	(*f)(ast->content);
+	(*f)(ast->token);
 	ast_print(ast->left, depth + 1, f);
 	ast_print(ast->right, depth + 1, f);
 }

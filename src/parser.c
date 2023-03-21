@@ -21,7 +21,7 @@ t_ast	*parser()
 	return (root);
 }
 
-t_ast	*append_pipeline(t_ast *ast, t_ast *command)
+t_ast	*extend_pipeline(t_ast *ast, t_ast *command)
 {
 	t_ast	*root;
 
@@ -46,7 +46,7 @@ t_ast	*parse_pipeline()
 	{
 		scanner(NEXT);
 		command = parse_command();
-		root = append_pipeline(root, command);
+		root = extend_pipeline(root, command);
 	}
 	return (root);
 }

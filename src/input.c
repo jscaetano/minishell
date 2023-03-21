@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/17 20:15:58 by marvin           ###   ########.fr       */
+/*   Updated: 2023/03/21 17:20:00 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,11 @@ void	handle_input(void)
 	lexer(ms());
 	token_args();
 	// print_lexer_args();
-	t_ast *ast = parser();
-	ast_print(ast, 0, &token_print);
-	printf("\n\n\n\n");
+	ms()->ast = parser();
+	#ifdef DEBUG
+		ast_print(ms()->ast, 0, &token_print);
+		printf("\n\n\n\n");
+	#endif
 	tokens = ft_split(ms()->input, ' ');
 	ms()->tokens = tokens;
 	ms()->tokensfreed = 0;
@@ -68,7 +70,7 @@ void	handle_input(void)
 		printtmp();
 	else
 		exec_if_exists(ms()->tokens[0], NULL);
-	ft_lstclear(&ms()->lexemes, &token_destroy);
+	ast_traverse(ms()->ast, &ast_destroy_node);
 }
 
 void	read_input(void)

@@ -28,8 +28,8 @@ SRCS			= src
 LIBFT_PATH		= libft
 GNL_PATH		= get_next_line
 PRINTF_PATH		= ft_printf
-_SUBFOLDERS		= 
-VPATH			= $(addprefix $(SRCS)/, $(_SUBFOLDERS))
+_SUBFOLDERS		= commands debug parsing
+VPATH			= $(SRCS) $(addprefix $(SRCS)/, $(_SUBFOLDERS))
 OBJ_DIR			= objs
 #OBJ_DIR_BONUS	= objs_bonus
 
@@ -55,9 +55,9 @@ $(NAME): $(OBJ_DIR) $(TARGET)
 	
 $(OBJ_DIR)/%.o : $(SRCS)/%.c 
 	echo "[$(CYAN)Compiling$(RESET)] $(CFLAGS) $(GREEN)$<$(RESET)"
-	$(CC) $(CFLAGS) -c $< -o $@ -I $(DEPS) $(LIBFT)
+	$(CC) $(CFLAGS) -c $< -o $@ -I $(DEPS)
 
-$(OBJ_DIR) :
+$(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
 clean:
