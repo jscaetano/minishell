@@ -24,6 +24,8 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 
+# include "libft.h"
+
 # define CLR_RED	"\033[38;5;1m"
 # define CLR_GREEN	"\033[38;5;47m"
 # define CLR_BLUE	"\033[0;34m"
@@ -61,11 +63,6 @@ typedef enum s_scanner_op
 	RESET
 } t_scanner_op;
 
-typedef struct s_list
-{
-	void			*content;
-	struct s_list	*next;
-}	t_list;
 
 typedef struct s_token
 {
@@ -107,27 +104,16 @@ typedef struct s_ms
 	t_list	*lexemes;
 }	t_ms;
 
-// ft_split
-char		**ft_split(char const *s, char c);
-
 // utils
+char	*ft_strndup(const char *s1, int size);
+char		*ft_strcpy(char *dest, char *src);
+char		*ft_strncpy(char *dest, char *src, int size);
 int			ft_strcmp(char *s1, char *s2);
-int			ft_strncmp(const char *s1, const char *s2, size_t n);
-int			ft_strlen(const char *s);
 char		*ft_strjoin(char const *s1, char const *s2);
-char		*ft_substr(char const *s, int start, int len);
 void		ft_free(void *p);
-void		*ft_memchr(const void *s, int c, size_t n);
 int			ft_strlen_delim(const char *s, char delim, int symbols);
-char		*ft_strndup(const char *s1, int size);
-char		*ft_strdup(const char *s1);
 void		no_leaks(int end);
 void		matrix_destroy(void *matrix);
-t_list		*ft_lstnew(void *content);
-t_list		*ft_lstlast(t_list *lst);
-void		ft_lstadd_back(t_list **lst, t_list *new);
-void		ft_lstdelone(t_list *lst, void (*del)(void *));
-void		ft_lstclear(t_list **lst, void (*del)(void *));
 
 //! Scanner
 t_token		*scanner(t_scanner_op op);

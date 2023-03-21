@@ -19,6 +19,9 @@ INCLUDES := $(addprefix -I, $(INCLUDE_DIRS))
 NAME := minishell
 SRCS := $(wildcard src/*.c)
 OBJS := $(SRCS:.c=.o)
+MKFLAGS := --no-print-directory -C
+LFT_PATH := libft
+LIBS := -L libft -lft 
 
 all: $(NAME)
 
@@ -26,12 +29,15 @@ all: $(NAME)
 	$(CC) $(FLAGS) -c $^ -o $@ $(INCLUDES)
 
 $(NAME) : $(OBJS)
-	$(CC) $(FLAGS) $^ -o $@ $(INCLUDES) -lreadline
+	make bonus $(MKFLAGS) $(LFT_PATH)
+	$(CC) $(FLAGS) $^ -o $@ $(INCLUDES) $(LIBS) -lreadline
 
 clean:
+	make clean $(MKFLAGS) $(LFT_PATH)
 	rm -f $(OBJS)
 
 fclean: clean
+	make fclean $(MKFLAGS) $(LFT_PATH)
 	rm -f $(NAME)
 
 re: fclean all

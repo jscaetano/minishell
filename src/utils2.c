@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:37:44 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/04 18:16:37 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/03/21 09:22:58 by crypto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,26 +70,4 @@ char	*ft_strndup(const char *s1, int size)
 	dest = malloc((srcsize + 1));
 	ft_strncpy(dest, str, size);
 	return (dest);
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	char	*r;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	r = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	while (s1[i] != '\0')
-	{
-		r[i] = s1[i];
-		i++;
-	}
-	while (s2[j] != '\0')
-	{
-		r[i++] = s2[j++];
-	}
-	r[i] = '\0';
-	return (r);
 }

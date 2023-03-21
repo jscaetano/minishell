@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils3.c                                           :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/17 16:50:12 by crypto            #+#    #+#             */
-/*   Updated: 2023/03/21 09:22:06 by crypto           ###   ########.fr       */
+/*   Created: 2022/11/02 18:42:23 by ncarvalh          #+#    #+#             */
+/*   Updated: 2022/11/06 19:11:55 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void    matrix_destroy(void *matrix)
-{
-    size_t i;
-
-    i = 0;
-    while (((char**)matrix)[i])
-        free(((char**)matrix)[i++]);
-    free(matrix);
+void	ft_putendl_fd(char *s, int fd)
+{	
+	if (fd < 0)
+		return ;
+	if (s)
+		ft_putstr_fd(s, fd);
+	ft_putchar_fd('\n', fd);
 }
+/* 
+int main(int argc, char **argv)
+{
+	(void) argc;
+	ft_putendl_fd(argv[1], STDOUT_FILENO);
+} */

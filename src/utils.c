@@ -37,53 +37,6 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }
 
-int	ft_strlen(const char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
-char	*ft_substr(char const *s, int start, int len)
-{
-	int		i;
-	char	*res;
-
-	if (!s)
-		return (NULL);
-	i = 0;
-	res = (char *)malloc(len + 1);
-	if (res == NULL)
-		return (NULL);
-	if (start <= ft_strlen(s))
-	{
-		while (i < len && s[i + start])
-		{
-			res[i] = s[i + start];
-			i++;
-		}
-	}
-	res[i] = '\0';
-	return (res);
-}
-
-void	*ft_memchr(const void *s, int c, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < n)
-	{
-		if (((unsigned char *)s)[i] == (unsigned char)c)
-			return ((void *)s + i);
-		i++;
-	}
-	return (NULL);
-}
-
 int		ft_strlen_delim(const char *s, char delim, int symbols)
 {
 	int	i;
