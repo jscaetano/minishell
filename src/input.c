@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/21 17:20:00 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/03/21 19:31:48 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,14 @@ void	token_args(void)
 	while (node)
 	{
 		token = (t_token *)node->content;
-		token->args = ft_split(token->str, ' ');
+		if (token->type != LEX_DOUBLE_QUOTES && token->type != LEX_SINGLE_QUOTES)
+			token->args = ft_split(token->str, ' ');
+		else
+		{
+			token->args = malloc(sizeof(char *) * 2);
+			token->args[0] = ft_strdup(token->str);
+			token->args[1] = NULL;
+		}
 		node = node->next;
 	}
 	return ;
@@ -36,7 +43,8 @@ void	handle_input(void)
 	// print_lexer_args();
 	ms()->ast = parser();
 	#ifdef DEBUG
-		ast_print(ms()->ast, 0, &token_print);
+		//ast_print(ms()->ast, 0, &token_print);
+		print_lexer_args();
 		printf("\n\n\n\n");
 	#endif
 	tokens = ft_split(ms()->input, ' ');

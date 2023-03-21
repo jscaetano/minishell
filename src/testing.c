@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   testing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:10:59 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/17 20:08:22 by marvin           ###   ########.fr       */
+/*   Updated: 2023/03/21 19:28:20 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,9 @@ void	print_lexer_args()
 		token_print(token);
 		printf("args: \n");
 		j = 0;
-		while (token->args[j])
-			printf("%s\n", token->args[j++]);
+		if (token->args)
+			while (token->args[j])
+				printf("%s\n", token->args[j++]);
 		node = node->next;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:44:06 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/02/27 21:10:03 by crypto           ###   ########.fr       */
+/*   Updated: 2023/03/21 19:29:50 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,12 @@ char	**ft_split(char const *s, char c)
 	words[num] = NULL;
 	return (words);
 }
-/* 
+/*
 int main(int argc, char **argv)
-{	
+{
 	(void)argc;
 	char **words;
-	
+
 	words = ft_split(argv[1], argv[2][0]);
 
 	int i = 0;
