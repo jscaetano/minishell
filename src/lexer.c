@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 12:10:46 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/03/21 20:09:55 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/03/21 21:56:10 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_token * token_copy(t_token * token)
 {
 	t_token	*dup;
 	size_t	i;
-	
+
 	i = 0;
 	dup = token_new(ft_strdup(token->str), token->type);
 	if (!dup)
@@ -84,6 +84,7 @@ void	lexer(t_ms *ms)
 	len = ft_strlen(ms->input);
 	while (i < len)
 	{
+		printf("i : %d\n", i);
 		if (ms->input[i] == ' ')
 			token_length = 1;
 		else if (ms->input[i] == '|')
@@ -116,12 +117,14 @@ void	lexer(t_ms *ms)
 		else if (ms->input[i] == '"')
 		{
 			token_length = ft_strlen_delim(&ms->input[i + 1], '\"', 0) + 2;
-			token_push(ft_substr(&ms->input[i], 0, token_length), LEX_DOUBLE_QUOTES);
+			((t_token *)ft_lstlast(ms->lexemes)->content)->str = ft_strjoin(((t_token *)ft_lstlast(ms->lexemes)->content)->str, ft_substr(&ms->input[i], 0, token_length));
+			//token_push(ft_substr(&ms->input[i], 0, token_length), LEX_DOUBLE_QUOTES);
 		}
 		else if (ms->input[i] == '\'')
 		{
 			token_length = ft_strlen_delim(&ms->input[i + 1], '\'', 0) + 2;
-			token_push(ft_substr(&ms->input[i], 0, token_length), LEX_SINGLE_QUOTES);
+			((t_token *)ft_lstlast(ms->lexemes)->content)->str = ft_strjoin(((t_token *)ft_lstlast(ms->lexemes)->content)->str, ft_substr(&ms->input[i], 0, token_length));
+			//token_push(ft_substr(&ms->input[i], 0, token_length), LEX_SINGLE_QUOTES);
 		}
 		else
 		{

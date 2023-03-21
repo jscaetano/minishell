@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/21 20:09:20 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/03/21 22:31:10 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,85 @@ void	token_args(void)
 	return ;
 }
 
+int	double_quotes(t_token *token, int i)
+{
+	char	*cpy;
+	int		j;
+	char	*str;
+	// char	*env;
+	// int		r;
+
+	str = token->str;
+	// r = 0;
+	cpy = ft_strndup(str, i);
+
+	printf("copy: %s\n", cpy);
+	sleep(3);
+
+	j = i + 1;
+	while (str[j] && str[j] != '\"')
+	{
+		if (str[j] == '$')
+		{
+			// env = get_env(ft_substr(&str[j + 1], 0, ft_strlen_delim(&str[j + 1], 0, 1)));
+			// r += (ft_strlen(env) - ft_strlen_delim(&str[j + 1], 0, 1));
+			cpy = ft_strjoin(cpy, get_env(ft_substr(&str[j + 1], 0, ft_strlen_delim(&str[j + 1], 0, 1))));
+			j += ft_strlen_delim(&str[j + 1], 0, 1);
+		}
+		j++;
+	}
+
+	printf("copy: %s\n", cpy);
+	sleep(3);
+
+	cpy = ft_strjoin(cpy, ft_strdup(&str[j + 1]));
+
+	printf("copy: %s\n", cpy);
+	sleep(3);
+	token->str = cpy;
+	return (0);
+}
+
+int	single_quotes(t_token *token, int i)
+{
+	char	*str;
+
+	str = token->str;
+	(void)i;
+	return i;
+}
+
+void	deal_quotes()
+{
+	t_list	*tmplist;
+	t_token *tmptoken;
+	int		i;
+
+	tmplist = ms()->lexemes;
+	while (tmplist)
+	{
+		i = 0;
+		tmptoken = ((t_token *)tmplist->content);
+		if (tmptoken->type != LEX_TERM)
+			continue;
+		while(tmptoken->str[i])
+		{
+			if (tmptoken->str[i] == '"')
+				double_quotes(tmptoken, i);
+			else if (tmptoken->str[i] == '\'')
+				single_quotes(tmptoken, i);
+			i++;
+		}
+		tmplist = tmplist->next;
+	}
+}
+
 void	handle_input(void)
 {
 	char	**tokens;
 
 	lexer(ms());
+	deal_quotes();
 	token_args();
 	// print_lexer_args();
 	ms()->ast = parser();
