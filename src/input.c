@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/22 20:12:11 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/03/22 21:23:09 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	deal_quotes()
 	while (tmplist)
 	{
 		tmptoken = ((t_token *)tmplist->content);
-		if (tmptoken->type == LEX_DOUBLE_QUOTES)
+		if (tmptoken->type == LEX_DOUBLE_QUOTES || tmptoken->type == LEX_TERM)
 			double_quotes(tmptoken);
 		tmplist = tmplist->next;
 	}
@@ -100,15 +100,7 @@ void	handle_input(void)
 	else if (!ft_strcmp(ms()->tokens[0], "env"))
 		ft_env();
 	else if (!ft_strcmp(ms()->tokens[0], "echo"))
-	{
-		if (ms()->tokens[1])
-		{
-			if (!ft_strcmp(ms()->tokens[1], "-n"))
-				ft_echo(1);
-			else
-				ft_echo(0);
-		}
-	}
+		ft_echo();
 	else if (!ft_strcmp(ms()->tokens[0], "unset"))
 		ft_unset();
 	else if (!ft_strcmp(ms()->tokens[0], "export"))

@@ -171,7 +171,7 @@ void		handle_input(void);
 void		read_input(void);
 
 //echo
-void		ft_echo(int flag);
+void		ft_echo(void);
 
 //testing
 void		printtmp(void);

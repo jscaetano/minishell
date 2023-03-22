@@ -3,46 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:33:06 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/21 09:35:00 by crypto           ###   ########.fr       */
+/*   Updated: 2023/03/22 21:28:01 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_echo(int flag)
+void	ft_echo(void)
 {
 	int		i;
-	int		size;
-	char	*tmp;
 
-	size = 0;
 	i = 1;
-	if (flag)
+	if (!ft_strcmp(ms()->tokens[1], "-n"))
 		i++;
-	while (ms()->tokens[i])
+	while (ms()->tokens[i + 1])
 	{
-		if (ms()->tokens[i][0] == '$')
-		{
-			if (ft_strlen(ms()->tokens[i]) != 1)
-			{
-				if (get_env(ms()->tokens[i]))
-				{
-					size = ft_strlen(get_env(ms()->tokens[i]));
-					tmp = malloc(sizeof(char) * (size + 1));
-					tmp = get_env(ms()->tokens[i]);
-					ft_free(ms()->tokens[i]);
-					ms()->tokens[i] = malloc(sizeof(char) * (size));
-					ms()->tokens[i] = tmp;
-				}
-				else
-					ms()->tokens[i] = "";
-			}
-		}
 		printf("%s", ms()->tokens[i++]);
-		if (!flag)
-			printf("\n");
+		printf(" ");
 	}
+	printf("%s", ms()->tokens[i++]);
+	if (ft_strcmp(ms()->tokens[1], "-n"))
+		printf("\n");
 }
