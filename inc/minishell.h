@@ -40,6 +40,7 @@
 # define PROMPT		"\033[38;5;13mft_shell > \033[0m"
 # define SYMBOLS	"<>\'\"| "
 # define DEBUG
+# define HERE		printf("HERE\n");
 
 typedef enum s_lex_type
 {

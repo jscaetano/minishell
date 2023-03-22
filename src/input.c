@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/21 23:58:35 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/03/22 15:02:35 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,8 @@ void	handle_input(void)
 	char	**tokens;
 
 	lexer(ms());
-	deal_quotes();
+	if (ft_strchr(ms()->input, '\"'))
+		deal_quotes();
 	token_args();
 	// print_lexer_args();
 	ms()->ast = parser();
