@@ -37,6 +37,31 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }
 
+size_t	matrix_size(char **mat)
+{
+	size_t	i;
+
+	i = 0;
+	while (mat[i])
+		i++;
+	return (i);
+}
+
+char	**matrix_append(char **m1, char *str)
+{
+	char **res;
+	size_t	i;
+
+	i = -1;
+	res = ft_calloc(matrix_size(m1) + 2, sizeof(char *));
+	if (!res)
+		return (NULL);
+	while(m1[++i])
+		res[i] = ft_strdup(m1[i]);
+	res[i] = str;
+	return (res);
+}
+
 int		ft_strlen_sep(const char *s, char *seps)
 {
 	int	i;

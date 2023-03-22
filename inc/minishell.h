@@ -74,6 +74,7 @@ typedef struct s_token
 typedef struct s_ast
 {
 	t_token			*token;
+	char			**args;
 	struct s_ast	*left;
 	struct s_ast	*right;
 }t_ast;
@@ -106,7 +107,7 @@ typedef struct s_ms
 }t_ms;
 
 // utils
-char	*ft_strndup(const char *s1, int size);
+char		*ft_strndup(const char *s1, int size);
 char		*ft_strcpy(char *dest, char *src);
 char		*ft_strncpy(char *dest, char *src, int size);
 int			ft_strcmp(char *s1, char *s2);
@@ -116,7 +117,8 @@ int			ft_strlen_sep(const char *s, char *seps);
 int			ft_strlen_sep_alnum(const char *s);
 void		no_leaks(int end);
 void		matrix_destroy(void *matrix);
-
+size_t		matrix_size(char **mat);
+char		**matrix_append(char **m1, char *str);
 //! Scanner
 t_token		*scanner(t_scanner_op op);
 
@@ -174,6 +176,7 @@ void		ft_echo(int flag);
 //testing
 void		printtmp(void);
 void		print_lexer_args();
+void		matrix_print(char **matrix);
 void		token_print(t_token *token);
 
 #endif

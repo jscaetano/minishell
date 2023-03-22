@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   testing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:10:59 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/22 19:28:43 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/03/22 21:11:20 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,17 @@ void	printtmp(void)
 		tmp = tmp->next;
 	}
 	printf("%s=%s\n", tmp->name, tmp->content);
+}
+
+void	matrix_print(char **matrix)
+{
+	if (!matrix)
+		return ;
+	size_t	i;
+
+	i = -1;
+	while (matrix[++i])
+		printf("matrix[%zu] = \"%s\"\n", i, matrix[i]);
 }
 
 void	token_print(t_token *token)

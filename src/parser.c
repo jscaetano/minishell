@@ -16,8 +16,8 @@ t_ast	*parser()
 {
 	t_ast	*root;
 
-	root = parse_pipeline();
 	scanner(RESET);
+	root = parse_pipeline();
 	return (root);
 }
 
@@ -54,10 +54,19 @@ t_ast	*parse_pipeline()
 t_ast	*parse_command()
 {
 	t_ast	*root;
+	t_token	*curr;
 
 	root = ast_new(token_copy(scanner(READ)));
 	if (!root)
 		return (NULL);
-	scanner(NEXT);
+	root->args = ft_calloc(1, sizeof(char *));
+	curr = scanner(READ);
+	while (curr->type != LEX_PIPE)
+	{
+		root->args = matrix_append(root->args, curr->str);
+		if (!scanner(NEXT))
+			break;
+		curr = scanner(READ);
+	}
 	return (root);
 }
