@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/22 15:02:35 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/03/22 15:04:26 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ void	handle_input(void)
 
 	lexer(ms());
 	if (ft_strchr(ms()->input, '\"'))
-		deal_quotes();
 	token_args();
 	// print_lexer_args();
 	ms()->ast = parser();
