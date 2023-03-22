@@ -112,8 +112,8 @@ char		*ft_strncpy(char *dest, char *src, int size);
 int			ft_strcmp(char *s1, char *s2);
 char		*ft_strjoin(char const *s1, char const *s2);
 void		ft_free(void *p);
-int			ft_strlen_delim(const char *s, char delim, int symbols);
-int			ft_strlen_delim_alnum(const char *s);
+int			ft_strlen_sep(const char *s, char *seps);
+int			ft_strlen_sep_alnum(const char *s);
 void		no_leaks(int end);
 void		matrix_destroy(void *matrix);
 

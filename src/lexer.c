@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 12:10:46 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/03/22 19:43:49 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/03/22 20:11:30 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,19 +116,19 @@ void	lexer(t_ms *ms)
 		}
 		else if (ms->input[i] == '"')
 		{
-			token_length = ft_strlen_delim(&ms->input[i + 1], '\"', 0) + 2;
+			token_length = ft_strlen_sep(&ms->input[i + 1], "\"") + 2;
 			//((t_token *)ft_lstlast(ms->lexemes)->content)->str = ft_strjoin(((t_token *)ft_lstlast(ms->lexemes)->content)->str, ft_substr(&ms->input[i], 0, token_length));
 			token_push(ft_substr(&ms->input[i + 1], 0, token_length - 2), LEX_DOUBLE_QUOTES);
 		}
 		else if (ms->input[i] == '\'')
 		{
-			token_length = ft_strlen_delim(&ms->input[i + 1], '\'', 0) + 2;
+			token_length = ft_strlen_sep(&ms->input[i + 1], "\'") + 2;
 			//((t_token *)ft_lstlast(ms->lexemes)->content)->str = ft_strjoin(((t_token *)ft_lstlast(ms->lexemes)->content)->str, ft_substr(&ms->input[i], 0, token_length));
 			token_push(ft_substr(&ms->input[i + 1], 0, token_length - 2), LEX_SINGLE_QUOTES);
 		}
 		else
 		{
-			token_length = ft_strlen_delim(&ms->input[i], ' ', 1);
+			token_length = ft_strlen_sep(&ms->input[i], " ");
 			token_push(ft_substr(&ms->input[i], 0, token_length), LEX_TERM);
 		}
 		i += token_length;

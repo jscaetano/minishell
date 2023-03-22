@@ -37,26 +37,17 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }
 
-int		ft_strlen_delim(const char *s, char delim, int symbols)
+int		ft_strlen_sep(const char *s, char *seps)
 {
 	int	i;
 
 	i = 0;
-	if (symbols)
-	{
-		while (s[i] && s[i] != delim && s[i] != '<' && s[i] != '>' \
-			&& s[i] != '\'' && s[i] != '"' && s[i] != '|')
-			i++;
-	}
-	else
-	{
-		while (s[i] && s[i] != delim)
-			i++;
-	}
+	while (s[i] && !ft_strchr(seps, s[i]))
+		i++;
 	return (i);
 }
 
-int		ft_strlen_delim_alnum(const char *s)
+int		ft_strlen_sep_alnum(const char *s)
 {
 	int	i;
 

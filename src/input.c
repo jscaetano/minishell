@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/22 19:46:43 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/03/22 20:12:11 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ void	double_quotes(t_token *token)
 	{
 		if (str[i] == '$')
 		{
-			env = get_env(ft_substr(&str[i + 1], 0, ft_strlen_delim_alnum(&str[i + 1])));
+			env = get_env(ft_substr(&str[i + 1], 0, ft_strlen_sep_alnum(&str[i + 1])));
 			cpy = ft_strjoin(cpy, env);
-			i += ft_strlen_delim_alnum(&str[i + 1]);
+			i += ft_strlen_sep_alnum(&str[i + 1]);
 		}
 		else
 			cpy = ft_strjoin(cpy, ft_strndup(&str[i], 1));
@@ -85,8 +85,7 @@ void	handle_input(void)
 	deal_quotes();
 	ms()->ast = parser();
 	#ifdef DEBUG
-		//ast_print(ms()->ast, 0, &token_print);
-		print_lexer_args();
+		ast_print(ms()->ast, 0, &token_print);
 		printf("\n\n\n\n");
 	#endif
 	tokens = ft_split(ms()->input, ' ');
