@@ -6,7 +6,7 @@
 /*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:10:59 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/21 22:14:53 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/03/21 23:33:36 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,14 @@ void	print_lexer_args()
 		token = (t_token *)node->content;
 		printf("[%2d]", i++);
 		token_print(token);
-		// printf("args: \n");
-		// j = 0;
-		// if (token->args)
-		// 	while (token->args[j])
-		// 		printf("%s\n", token->args[j++]);
+		printf("\nargs: \n");
+		j = 0;
+		if (token->args)
+			while (token->args[j])
+			{
+				printf("arg %d: %s\n", j, token->args[j]);
+				j++;
+			}
 		node = node->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/21 22:31:10 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/03/21 23:58:35 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,36 +39,31 @@ int	double_quotes(t_token *token, int i)
 	char	*cpy;
 	int		j;
 	char	*str;
-	// char	*env;
-	// int		r;
+	char	*env;
+	int		r;
 
 	str = token->str;
-	// r = 0;
+	r = 0;
 	cpy = ft_strndup(str, i);
 
-	printf("copy: %s\n", cpy);
-	sleep(3);
+	printf("copy 1: %s\n", cpy);
 
 	j = i + 1;
 	while (str[j] && str[j] != '\"')
 	{
 		if (str[j] == '$')
 		{
-			// env = get_env(ft_substr(&str[j + 1], 0, ft_strlen_delim(&str[j + 1], 0, 1)));
-			// r += (ft_strlen(env) - ft_strlen_delim(&str[j + 1], 0, 1));
-			cpy = ft_strjoin(cpy, get_env(ft_substr(&str[j + 1], 0, ft_strlen_delim(&str[j + 1], 0, 1))));
-			j += ft_strlen_delim(&str[j + 1], 0, 1);
+			env = get_env(ft_substr(&str[j + 1], 0, ft_strlen_delim(&str[j + 1], ' ', 1)));
+			r += (ft_strlen(env) - ft_strlen_delim(&str[j + 1], ' ', 1));
+			cpy = ft_strjoin(cpy, get_env(ft_substr(&str[j + 1], 0, ft_strlen_delim(&str[j + 1], ' ', 1))));
+			j += ft_strlen_delim(&str[j + 1], ' ', 1);
+		}
+		else
+		{
+			cpy = ft_strjoin(cpy, ft_strndup(&str[j], 1));
 		}
 		j++;
 	}
-
-	printf("copy: %s\n", cpy);
-	sleep(3);
-
-	cpy = ft_strjoin(cpy, ft_strdup(&str[j + 1]));
-
-	printf("copy: %s\n", cpy);
-	sleep(3);
 	token->str = cpy;
 	return (0);
 }
@@ -98,7 +93,10 @@ void	deal_quotes()
 		while(tmptoken->str[i])
 		{
 			if (tmptoken->str[i] == '"')
+			{
 				double_quotes(tmptoken, i);
+				printf("STRING = %s\n", tmptoken->str);
+			}
 			else if (tmptoken->str[i] == '\'')
 				single_quotes(tmptoken, i);
 			i++;
