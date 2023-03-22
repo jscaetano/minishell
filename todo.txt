@@ -47,3 +47,26 @@ X		◦ export with no options
 X		◦ unset with no options
 x		◦ env with no options or arguments
 X		◦ exit with no options
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////
+
+
+fix lexer tokens to args :
+	echo ' "$USER" '
+		arg 0: echo
+		arg 1: ' "$USER" '
+
+	and not
+		arg 0: echo
+		arg 1: '
+		arg 2: "$USER"
+		arg 3: '

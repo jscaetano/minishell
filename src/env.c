@@ -6,7 +6,7 @@
 /*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:26:30 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/21 21:58:37 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/03/22 17:35:20 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*get_env(char *str)
 	}
 	if (!ft_strncmp(tmp->name, str, len))
 		return (tmp->content);
-	return (0);
+	return (ft_strdup(""));
 }
 
 // env builtin, prints all env

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/22 15:04:26 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/03/22 19:46:43 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@ void	token_args(void)
 {
 	t_list	*node;
 	t_token	*token;
+	int		i;
 
 	node = ms()->lexemes;
 	while (node)
 	{
 		token = (t_token *)node->content;
+		i = 0;
 		if (token->type != LEX_DOUBLE_QUOTES && token->type != LEX_SINGLE_QUOTES)
 			token->args = ft_split(token->str, ' ');
 		else
@@ -34,73 +36,43 @@ void	token_args(void)
 	return ;
 }
 
-int	double_quotes(t_token *token, int i)
+void	double_quotes(t_token *token)
 {
 	char	*cpy;
-	int		j;
+	int		i;
 	char	*str;
 	char	*env;
-	int		r;
 
 	str = token->str;
-	r = 0;
-	cpy = ft_strndup(str, i);
-
-	printf("copy 1: %s\n", cpy);
-
-	j = i + 1;
-	while (str[j] && str[j] != '\"')
+	i = 0;
+	cpy = ft_strdup("");
+	while (str[i])
 	{
-		if (str[j] == '$')
+		if (str[i] == '$')
 		{
-			env = get_env(ft_substr(&str[j + 1], 0, ft_strlen_delim(&str[j + 1], ' ', 1)));
-			r += (ft_strlen(env) - ft_strlen_delim(&str[j + 1], ' ', 1));
-			cpy = ft_strjoin(cpy, get_env(ft_substr(&str[j + 1], 0, ft_strlen_delim(&str[j + 1], ' ', 1))));
-			j += ft_strlen_delim(&str[j + 1], ' ', 1);
+			env = get_env(ft_substr(&str[i + 1], 0, ft_strlen_delim_alnum(&str[i + 1])));
+			cpy = ft_strjoin(cpy, env);
+			i += ft_strlen_delim_alnum(&str[i + 1]);
 		}
 		else
-		{
-			cpy = ft_strjoin(cpy, ft_strndup(&str[j], 1));
-		}
-		j++;
+			cpy = ft_strjoin(cpy, ft_strndup(&str[i], 1));
+		i++;
 	}
 	token->str = cpy;
-	return (0);
-}
-
-int	single_quotes(t_token *token, int i)
-{
-	char	*str;
-
-	str = token->str;
-	(void)i;
-	return i;
+	return ;
 }
 
 void	deal_quotes()
 {
 	t_list	*tmplist;
 	t_token *tmptoken;
-	int		i;
 
 	tmplist = ms()->lexemes;
 	while (tmplist)
 	{
-		i = 0;
 		tmptoken = ((t_token *)tmplist->content);
-		if (tmptoken->type != LEX_TERM)
-			continue;
-		while(tmptoken->str[i])
-		{
-			if (tmptoken->str[i] == '"')
-			{
-				double_quotes(tmptoken, i);
-				printf("STRING = %s\n", tmptoken->str);
-			}
-			else if (tmptoken->str[i] == '\'')
-				single_quotes(tmptoken, i);
-			i++;
-		}
+		if (tmptoken->type == LEX_DOUBLE_QUOTES)
+			double_quotes(tmptoken);
 		tmplist = tmplist->next;
 	}
 }
@@ -110,9 +82,7 @@ void	handle_input(void)
 	char	**tokens;
 
 	lexer(ms());
-	if (ft_strchr(ms()->input, '\"'))
-	token_args();
-	// print_lexer_args();
+	deal_quotes();
 	ms()->ast = parser();
 	#ifdef DEBUG
 		//ast_print(ms()->ast, 0, &token_print);

@@ -44,8 +44,8 @@ int		ft_strlen_delim(const char *s, char delim, int symbols)
 	i = 0;
 	if (symbols)
 	{
-		while (s[i] && s[i] != delim && s[i] != '<' && s[i] != '>' && s[i] != '\'' \
-			&& s[i] != '"' && s[i] != '|')
+		while (s[i] && s[i] != delim && s[i] != '<' && s[i] != '>' \
+			&& s[i] != '\'' && s[i] != '"' && s[i] != '|')
 			i++;
 	}
 	else
@@ -53,5 +53,15 @@ int		ft_strlen_delim(const char *s, char delim, int symbols)
 		while (s[i] && s[i] != delim)
 			i++;
 	}
+	return (i);
+}
+
+int		ft_strlen_delim_alnum(const char *s)
+{
+	int	i;
+
+	i = 0;
+	while (ft_isalnum(s[i]))
+		i++;
 	return (i);
 }
