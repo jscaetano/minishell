@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 12:10:46 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/03/22 20:11:30 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/03/26 15:16:26 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void	lexer(t_ms *ms)
 		}
 		else
 		{
-			token_length = ft_strlen_sep(&ms->input[i], " ");
+			token_length = ft_strlen_sep(&ms->input[i], SYMBOLS);
 			token_push(ft_substr(&ms->input[i], 0, token_length), LEX_TERM);
 		}
 		i += token_length;
