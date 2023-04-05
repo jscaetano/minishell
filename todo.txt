@@ -11,9 +11,9 @@ X	• Not use more than one global variable. Think about it. You will have to ex
 X	• Not interpret unclosed quotes or special characters which are not required by the
 		subject such as \ (backslash) or ; (semicolon).
 
-	• Handle ’ (single quote) which should prevent the shell from interpreting the metacharacters in the quoted sequence.
+X	• Handle ’ (single quote) which should prevent the shell from interpreting the metacharacters in the quoted sequence.
 
-	• Handle " (double quote) which should prevent the shell from interpreting the metacharacters in the quoted sequence except for $ (dollar sign).
+X	• Handle " (double quote) which should prevent the shell from interpreting the metacharacters in the quoted sequence except for $ (dollar sign).
 
 	• Implement redirections:
 		◦ < should redirect input.
@@ -49,24 +49,138 @@ x		◦ env with no options or arguments
 X		◦ exit with no options
 
 
+///////////////////////////////////////////
 
-
-
-
-
-
+	-in the handle_input function, run the parsed arguments and not just the argv
 
 
 ///////////////////////////////////////////
 
 
-fix lexer tokens to args :
-	echo ' "$USER" '
-		arg 0: echo
-		arg 1: ' "$USER" '
+EVALUATION TESTS:
 
-	and not
-		arg 0: echo
-		arg 1: '
-		arg 2: "$USER"
-		arg 3: '
+Mandatory part
+
+Reminder : Remember that for the duration of the defence, no segfault,
+nor other unexpected, premature, uncontrolled or unexpected
+termination of the program, else the final grade is 0. Use the appropriate
+flag. This rule is active thoughout the whole defence.
+
+Memory leaks
+
+Fork and execve
+
+x	- Run minishell, then run the following command "$> foo".
+	It must fail with a proper error message and then give
+	back the prompt.
+
+x	- Run the following command "$> /bin/ls". ls must be
+	properly executed and then give back the prompt.
+
+x	- Run the following command "$> /bin/ls -laF". ls must
+	be properly executed with the -l, -a, -F flags and
+	then give back the prompt.
+
+x	- Run the following command "$> /bin/ls -l -a -F". ls must
+	be properly executed with the -l, -a, -F flags and then
+	give back the prompt.
+
+Builtins
+
+x	- Run minishell, then run the following command "$> exit".
+	The program must terminate proprely and give back the
+	parent's shell. Run the minishell again.
+
+	- Run a command such as "$> echo "It works"". The message
+	must be properly displayed.
+
+	- Run a command such as "$> echo It works" (without the
+	double quotes). The message must be properly displayed.
+
+x	- Run a command such as "$> cd /absolute/path/of/your/choice",
+	then run the following command "$> /bin/pwd". /bin/pwd
+	must confirm that the current folder was updated.
+
+x	- Run a command such as "$> cd relative/path/of/your/choice",
+	then run the following command "$> /bin/pwd". /bin/pwd
+	must confirm that the current folder was updated.
+
+x	- Run the following command "$> cd", then run "$> /bin/pwd".
+	/bin/pwd must confirm that the current folder is the
+	user's home folder.
+
+	- Run the following command "$> cd -", then run "$> /bin/pwd".
+	/bin/pwd must confirm that the current folder is the
+	folder relative/path/of/your/choice used before.
+
+	- Run the following command "$> cd ~/path/of/your/choice",
+	then run "$> /bin/pwd". "$> /bin/pwd". /bin/pwd must
+	confirm that the current folder was updated.
+
+Environment management
+
+x	- Run the following command "$> env". Environment variables
+	must be displayed as key=value.
+
+	- Run a command such as "$> setenv FOO bar" or
+	"$> setenv FOO=bar" depending on the implemented syntax.
+	Then run the following command "$> env". The environment
+	must display a FOO variable with the value bar.
+
+	- Run the following command "$> echo $FOO". The value bar
+	must be displayed.
+
+x	- Run the following command "$> /usr/bin/env". Minishell
+	must send the appropriate environment to ran binaries.
+	/usr/bin/env must display environment including FOO and
+	its value bar.
+
+	- Run the following command "$> unsetenv FOO". Then run
+	"$> env". The environment variable FOO must not be
+	displayed anymore.
+
+	- Run the following command again "$> unsetenv FOO". Then
+	run "$> env". Environment must not change.
+
+	- Run the following command again "$> /usr/bin/env".
+	/usr/bin/env must not display variable FOO anymore.
+
+PATH management
+
+	- Run the following command "$> unsetenv PATH", then run
+	"$> setenv PATH "/bin:/usr/bin" or "$> setenv
+	"PATH=/bin:/usr/bin" depending on the implemented syntax.
+	Then run the following command "$> ls". /bin/ls must be
+	properly executed.
+
+	- Run the following command "$> emacs". /usr/bin/emacs
+	must be properly executed.
+
+	- Run the following command "$> unsetenv PATH", then run
+	"$> ls". It must fail.
+
+	- Run now the following command "$> emacs". It must also
+	fail.
+
+	- Run the following command "$> /bin/ls". /bin/ls must
+	be properly executed.
+
+	- Run the following command "$> /usr/bin/emacs".
+	/usr/bin/emacs must be properly executed.
+
+Command line management
+
+x	- Run an empty command "$> ". The shell must do nothing and give
+	back the prompt.
+
+x	- Run a command made of just a single space "$> ". The shell
+	must do nothing and give back the prompt.
+
+x	- Run a command made of spaces and tabulations. The shell
+	must do nothing and give back the prompt.
+
+x	- Run a command made of spaces and tabulations before and
+	after its named and between its parameters such as
+	"$> /bin/ls -l -A". All those
+	spaces and tabulations musn't interfere with the
+	command's execution.

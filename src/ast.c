@@ -50,9 +50,9 @@ void    ast_traverse(t_ast *ast, void (*f)())
 
 void    ast_destroy_node(t_ast ** node)
 {
-	#ifdef DEBUG
-		printf("Token: \"%s\" (%zu)\n", (*node)->token->str, ft_strlen((*node)->token->str));
-	#endif
+	// #ifdef DEBUG
+	// 	printf("Token: \"%s\" (%zu)\n", (*node)->token->str, ft_strlen((*node)->token->str));
+	// #endif
 	token_destroy((*node)->token);
 	ft_free(*node);
 	*node = NULL;

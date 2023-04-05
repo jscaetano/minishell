@@ -6,7 +6,7 @@
 /*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/22 21:23:09 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/04/05 11:50:28 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ void	handle_input(void)
 {
 	char	**tokens;
 
+	if (is_spaces((ms()->input)))
+		return ;
 	lexer(ms());
 	deal_quotes();
 	ms()->ast = parser();
@@ -110,7 +112,7 @@ void	handle_input(void)
 	else if ((!ft_strcmp(ms()->tokens[0], "ptmp")))
 		printtmp();
 	else
-		exec_if_exists(ms()->tokens[0], NULL);
+		exec_if_exists(ms()->tokens[0], ms()->tokens);
 	ft_lstclear(&ms()->lexemes, &token_destroy);
 	ast_traverse(ms()->ast, &ast_destroy_node);
 }

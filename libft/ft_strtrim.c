@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:48:41 by ncarvalh          #+#    #+#             */
-/*   Updated: 2022/11/06 10:10:52 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/05 11:14:50 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 		return (NULL);
 	return (new);
 }
-/* 
+/*
 int main(int argc, char **argv)
 {
 	(void)argc;

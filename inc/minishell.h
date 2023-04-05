@@ -119,6 +119,8 @@ void		no_leaks(int end);
 void		matrix_destroy(void *matrix);
 size_t		matrix_size(char **mat);
 char		**matrix_append(char **m1, char *str);
+int			is_spaces(char *str);
+
 //! Scanner
 t_token		*scanner(t_scanner_op op);
 

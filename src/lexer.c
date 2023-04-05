@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 12:10:46 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/03/26 15:16:26 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/05 12:06:33 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_token	*token_new(char *str, t_lex_type type)
 	return (token);
 }
 
-char **	matrix_copy(char **matrix)
+char	**matrix_copy(char **matrix)
 {
 	char **dup;
 	size_t	i;
@@ -41,7 +41,7 @@ char **	matrix_copy(char **matrix)
 	return (dup);
 }
 
-t_token * token_copy(t_token * token)
+t_token	*token_copy(t_token * token)
 {
 	t_token	*dup;
 	size_t	i;

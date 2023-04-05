@@ -6,7 +6,7 @@
 /*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/03 19:35:24 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/04/05 11:03:09 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,11 @@ void	exec_if_exists(char *exe, char **argv)
 	{
 		exec(pathtoexe, argv);
 		free(pathtoexe);
+		return ;
+	}
+	else if(access(exe, F_OK) == 0)
+	{
+		exec(exe, argv);
 		return ;
 	}
 	else

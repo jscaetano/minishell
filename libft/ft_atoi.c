@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:37:34 by ncarvalh          #+#    #+#             */
-/*   Updated: 2022/11/06 14:38:50 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/05 11:44:40 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_atoi(const char *nptr)
 		res = res * 10 + nptr[i++] - '0';
 	return (signal * res);
 }
-/* 
+/*
 int main(int argc, char **argv)
 {
 	(void) argc;
@@ -48,7 +48,7 @@ int main(int argc, char **argv)
 	printf("\n\t>>> USING ft_atoi() <<<\n\n");
 	printf("Sending str = \'%s\'\n", argv[1]);
 	printf("Resulting in: %d\n", ft_atoi(argv[1]));
-	
+
 	printf("\n\t>>> USING atoi() <<<\n\n");
 	printf("Sending str = \'%s\'\n", argv[1]);
 	printf("Resulting in: %d\n", atoi(argv[1]));
