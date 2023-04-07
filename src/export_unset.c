@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   export_unset.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:09:10 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/03 19:39:38 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/03/26 15:36:44 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //export (add a=x expression, if previously stored in tmp to env)
-void	ft_export(void)
+void	ft_export(char **tokens)
 {
 	int		i;
 	t_var	*tmpenv;
@@ -24,12 +24,12 @@ void	ft_export(void)
 	new = malloc(sizeof(t_var));
 	tmpenv = ms()->tmp->top;
 	tmp = ms()->env->top;
-	while (ms()->tokens[i])
+	while (tokens[i])
 	{
 		tmpenv = ms()->tmp->top;
 		while (tmpenv)
 		{
-			if (!ft_strcmp(tmpenv->name, ms()->tokens[i]))
+			if (!ft_strcmp(tmpenv->name, tokens[i]))
 			{
 				while (tmp)
 				{
@@ -54,20 +54,20 @@ void	ft_export(void)
 }
 
 //unset (remove a=x expression, if stored in env or in tmp)
-void	ft_unset(void)
+void	ft_unset(char **tokens)
 {
 	int		i;
 	t_var	*tmpenv;
 	t_var	*prev;
 
 	i = 1;
-	while (ms()->tokens[i])
+	while (tokens[i])
 	{
 		prev = NULL;
 		tmpenv = ms()->tmp->top;
 		while (tmpenv)
 		{
-			if (!ft_strcmp(tmpenv->name, ms()->tokens[i]))
+			if (!ft_strcmp(tmpenv->name, tokens[i]))
 			{
 				ft_free(tmpenv->name);
 				ft_free(tmpenv->content);
@@ -84,7 +84,7 @@ void	ft_unset(void)
 		tmpenv = ms()->env->top;
 		while (tmpenv)
 		{
-			if (!ft_strcmp(tmpenv->name, ms()->tokens[i]))
+			if (!ft_strcmp(tmpenv->name, tokens[i]))
 			{
 				ft_free(tmpenv->name);
 				ft_free(tmpenv->content);

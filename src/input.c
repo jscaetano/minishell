@@ -3,38 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/05 11:50:28 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/04/07 18:51:26 by crypto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	token_args(void)
-{
-	t_list	*node;
-	t_token	*token;
-	int		i;
-
-	node = ms()->lexemes;
-	while (node)
-	{
-		token = (t_token *)node->content;
-		i = 0;
-		if (token->type != LEX_DOUBLE_QUOTES && token->type != LEX_SINGLE_QUOTES)
-			token->args = ft_split(token->str, ' ');
-		else
-		{
-			token->args = malloc(sizeof(char *) * 2);
-			token->args[0] = ft_strdup(token->str);
-			token->args[1] = NULL;
-		}
-		node = node->next;
-	}
-	return ;
-}
 
 void	double_quotes(t_token *token)
 {
@@ -77,6 +53,30 @@ void	deal_quotes()
 	}
 }
 
+void	execute_node(t_ast **node)
+{
+	if ((*node)->token->type != LEX_TERM)
+		printf("Piping: \n");
+	else if (!ft_strcmp((*node)->args[0], "exit"))
+		no_leaks(1);
+	else if (!ft_strcmp((*node)->args[0], "pwd"))
+		printf("%s\n", ms()->cwd);
+	else if (!ft_strcmp((*node)->args[0], "env"))
+		ft_env();
+	else if (!ft_strcmp((*node)->args[0], "echo"))
+		ft_echo((*node)->args);
+	else if (!ft_strcmp((*node)->args[0], "unset"))
+		ft_unset((*node)->args);
+	else if (!ft_strcmp((*node)->args[0], "export"))
+		ft_export((*node)->args);
+	else if (!ft_strcmp((*node)->args[0], "cd"))
+		ft_cd((*node)->args);
+	else if ((!ft_strcmp((*node)->args[0], "ptmp")))
+		printtmp();
+	else
+		exec_if_exists((*node)->args[0], NULL);	
+}
+
 void	handle_input(void)
 {
 	char	**tokens;
@@ -95,24 +95,7 @@ void	handle_input(void)
 	ms()->tokensfreed = 0;
 	if (find_equals())
 		return ;
-	if (!ft_strcmp(ms()->tokens[0], "exit"))
-		no_leaks(1);
-	else if (!ft_strcmp(ms()->tokens[0], "pwd"))
-		printf("%s\n", ms()->cwd);
-	else if (!ft_strcmp(ms()->tokens[0], "env"))
-		ft_env();
-	else if (!ft_strcmp(ms()->tokens[0], "echo"))
-		ft_echo();
-	else if (!ft_strcmp(ms()->tokens[0], "unset"))
-		ft_unset();
-	else if (!ft_strcmp(ms()->tokens[0], "export"))
-		ft_export();
-	else if (!ft_strcmp(ms()->tokens[0], "cd"))
-		ft_cd();
-	else if ((!ft_strcmp(ms()->tokens[0], "ptmp")))
-		printtmp();
-	else
-		exec_if_exists(ms()->tokens[0], ms()->tokens);
+	ast_traverse(ms()->ast, &execute_node);
 	ft_lstclear(&ms()->lexemes, &token_destroy);
 	ast_traverse(ms()->ast, &ast_destroy_node);
 }

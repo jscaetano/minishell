@@ -145,7 +145,7 @@ t_ast		*parse_pipeline();
 t_ast		*parse_command();
 
 //cd
-void		ft_cd(void);
+void		ft_cd(char **tokens);
 
 //env
 t_env		*envlist(char **envv);
@@ -156,8 +156,8 @@ void		ft_env(void);
 t_ms		*ms(void);
 
 //export unset
-void		ft_export(void);
-void		ft_unset(void);
+void		ft_export(char **tokens);
+void		ft_unset(char **tokens);
 int			find_equals(void);
 
 //lists
@@ -173,7 +173,7 @@ void		handle_input(void);
 void		read_input(void);
 
 //echo
-void		ft_echo(void);
+void		ft_echo(char **tokens);
 
 //testing
 void		printtmp(void);
