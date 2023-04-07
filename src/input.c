@@ -6,7 +6,7 @@
 /*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/07 18:55:08 by crypto           ###   ########.fr       */
+/*   Updated: 2023/04/07 18:55:31 by crypto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	execute_node(t_ast **node)
 	else if ((!ft_strcmp((*node)->args[0], "ptmp")))
 		printtmp();
 	else
-		exec_if_exists((*node)->args[0], NULL);	
+		exec_if_exists((*node)->args[0], (*node)->args);	
 }
 
 void	handle_input(void)
