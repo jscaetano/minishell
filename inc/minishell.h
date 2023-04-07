@@ -177,8 +177,8 @@ void		ft_echo(char **tokens);
 
 //testing
 void		printtmp(void);
-void		print_lexer_args();
-void		matrix_print(char **matrix);
-void		token_print(t_token *token);
+void		lexer_debug();
+void		matrix_debug(char **matrix);
+void		token_debug(t_token *token);
 
 #endif

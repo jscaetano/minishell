@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   testing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:10:59 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/22 21:11:20 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/03/27 13:26:23 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	printtmp(void)
 	printf("%s=%s\n", tmp->name, tmp->content);
 }
 
-void	matrix_print(char **matrix)
+void	matrix_debug(char **matrix)
 {
 	if (!matrix)
 		return ;
@@ -39,7 +39,7 @@ void	matrix_print(char **matrix)
 		printf("matrix[%zu] = \"%s\"\n", i, matrix[i]);
 }
 
-void	token_print(t_token *token)
+void	token_debug(t_token *token)
 {
 	if (!token)
 		return ;
@@ -65,29 +65,19 @@ void	token_print(t_token *token)
 		printf("[ TERM ] -> \"%s\"\n", token->str);
 }
 
-void	print_lexer_args()
+void	lexer_debug()
 {
 	t_list	*node;
 	t_token	*token;
 	int		i;
-	int		j;
 
 	i = 1;
-	j = 0;
 	node = ms()->lexemes;
 	while (node)
 	{
 		token = (t_token *)node->content;
 		printf("[%2d]", i++);
-		token_print(token);
-		// printf("\nargs: \n");
-		// j = 0;
-		// if (token->args)
-		// 	while (token->args[j])
-		// 	{
-		// 		printf("arg %d: %s\n", j, token->args[j]);
-		// 		j++;
-		// 	}
+		token_debug(token);
 		node = node->next;
 	}
 }

@@ -66,7 +66,7 @@ void	ast_print(t_ast *ast, int depth, void (*f)())
 		printf(" ");
 	printf("[DEPTH %d]", depth);
 	(*f)(ast->token);
-	matrix_print(ast->args);
+	matrix_debug(ast->args);
 	ast_print(ast->left, depth + 1, f);
 	ast_print(ast->right, depth + 1, f);
 }

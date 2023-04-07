@@ -6,7 +6,7 @@
 /*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/07 18:55:31 by crypto           ###   ########.fr       */
+/*   Updated: 2023/04/07 18:56:31 by crypto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	handle_input(void)
 	deal_quotes();
 	ms()->ast = parser();
 	#ifdef DEBUG
-		ast_print(ms()->ast, 0, &token_print);
+		ast_print(ms()->ast, 0, &token_debug);
 		printf("\n\n\n\n");
 	#endif
 	tokens = ft_split(ms()->input, ' ');

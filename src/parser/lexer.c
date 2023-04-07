@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 12:10:46 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/04/05 12:06:33 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/04/07 18:56:36 by crypto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_token	*token_new(char *str, t_lex_type type)
 
 char	**matrix_copy(char **matrix)
 {
-	char **dup;
+	char	**dup;
 	size_t	i;
 
 	i = 0;
@@ -44,9 +44,7 @@ char	**matrix_copy(char **matrix)
 t_token	*token_copy(t_token * token)
 {
 	t_token	*dup;
-	size_t	i;
-
-	i = 0;
+	
 	dup = token_new(ft_strdup(token->str), token->type);
 	if (!dup)
 		return (NULL);
