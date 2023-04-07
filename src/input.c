@@ -6,7 +6,7 @@
 /*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/07 18:51:26 by crypto           ###   ########.fr       */
+/*   Updated: 2023/04/07 18:55:08 by crypto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,9 @@ void	handle_input(void)
 	ms()->tokensfreed = 0;
 	if (find_equals())
 		return ;
-	ast_traverse(ms()->ast, &execute_node);
+	ast_postorder_traverse(ms()->ast, &execute_node);
 	ft_lstclear(&ms()->lexemes, &token_destroy);
-	ast_traverse(ms()->ast, &ast_destroy_node);
+	ast_postorder_traverse(ms()->ast, &ast_destroy_node);
 }
 
 void	read_input(void)

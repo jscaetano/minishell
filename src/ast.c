@@ -39,12 +39,12 @@ void	ast_insert_right(t_ast **ast, t_ast *node)
 		*ast = node;
 }
 
-void    ast_traverse(t_ast *ast, void (*f)())
+void    ast_postorder_traverse(t_ast *ast, void (*f)())
 {
 	if (!ast)
 		return ;
-	ast_traverse(ast->left, f);
-	ast_traverse(ast->right, f);
+	ast_postorder_traverse(ast->left, f);
+	ast_postorder_traverse(ast->right, f);
 	(*f)(&ast);
 }
 

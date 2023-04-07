@@ -128,7 +128,7 @@ t_token		*scanner(t_scanner_op op);
 t_ast		*ast_new(t_token *token);
 void		ast_insert_left(t_ast **ast, t_ast *node);
 void		ast_insert_right(t_ast **ast, t_ast *node);
-void		ast_traverse(t_ast *ast, void (*f)());
+void		ast_postorder_traverse(t_ast *ast, void (*f)());
 void    	ast_destroy_node(t_ast ** node);
 void		ast_print(t_ast *ast, int depth, void (*f)());
 
