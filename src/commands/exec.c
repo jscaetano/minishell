@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/07 18:50:48 by crypto           ###   ########.fr       */
+/*   Updated: 2023/04/08 15:55:36 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,26 @@ void	exec_if_exists(char *exe, char **argv)
 	else
 		printf(CLR_RED"minishell: command not found: %s\n"CLR_RST, exe);
 	return ;
+}
+
+void	exec_node(t_ast **node)
+{
+	if (!ft_strcmp((*node)->args[0], "exit"))
+		no_leaks(1);
+	else if (!ft_strcmp((*node)->args[0], "pwd"))
+		printf("%s\n", ms()->cwd);
+	else if (!ft_strcmp((*node)->args[0], "env"))
+		ft_env();
+	else if (!ft_strcmp((*node)->args[0], "echo"))
+		ft_echo((*node)->args);
+	else if (!ft_strcmp((*node)->args[0], "unset"))
+		ft_unset((*node)->args);
+	else if (!ft_strcmp((*node)->args[0], "export"))
+		ft_export((*node)->args);
+	else if (!ft_strcmp((*node)->args[0], "cd"))
+		ft_cd((*node)->args);
+	else if ((!ft_strcmp((*node)->args[0], "ptmp")))
+		printtmp();
+	else
+		exec_if_exists((*node)->args[0], (*node)->args);	
 }

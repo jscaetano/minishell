@@ -6,52 +6,56 @@
 
 #define READ_END 0
 #define WRITE_END 1
+#define PATH "/bin/"
 
-int main(void)
+extern char **environ;
+
+void	run(char *command, char **args, int *inpipe, int *outpipe)
 {
-    int fd[2];
-    pid_t pid;
+	pid_t	pid;
 
-    printf("This is the parent pid: %d\n", getpid());
-    if (pipe(fd) < 0)
+	pid = fork();
+	if (pid < 0)
+		perror("fork()");
+	else if (pid > 0)
+		waitpid(pid, NULL, 0);
+	else
+	{
+		puts(command);
+		if (inpipe)
+		{
+			close(inpipe[WRITE_END]);
+			dup2(inpipe[READ_END], STDIN_FILENO);
+			close(inpipe[READ_END]);
+		}
+		if (outpipe)
+		{
+			close(outpipe[READ_END]);
+			dup2(outpipe[WRITE_END], STDOUT_FILENO);
+			close(outpipe[WRITE_END]);
+		}
+		execve(command, args, environ);
+	}
+}
+
+int main (int argc, char **argv) {
+    int		i;
+	char	*args[2] = {0};
+
+    for(i = 1; i < argc - 1; i++)
     {
-        perror("pipe():");
-        return EXIT_FAILURE;
-    }
-    pid = fork();
-    if (pid < 0)
-    {
-        perror("pid():");
-        return EXIT_FAILURE;
-    }
-    /* Parent */
-    else if (pid > 0)
-    {
-        close(fd[READ_END]);
-        write(fd[WRITE_END], "HELLO", 5);
-        close(fd[WRITE_END]);
+        int pd[2];
+        pipe(pd);
 
-        waitpid(pid, NULL, 0);
-        char buf[200] = {0};
-
-        close(fd[WRITE_END]);
-        read(fd[READ_END], buf, 200);
-        printf("Received from child: %s\n", buf);
-        close(fd[READ_END]);
+        if (!fork()) {
+            dup2(pd[WRITE_END], STDOUT_FILENO); // remap output back to parent
+			args[0] = argv[i];
+			execve(argv[i], args, environ);
+		}
+        // remap output from previous child to input
+        dup2(pd[READ_END], STDIN_FILENO);
+        close(pd[WRITE_END]);
     }
-    /* Child */
-    else
-    {
-        printf("This is the childs pid: %d\n", getpid());
-        char buf[200] = {0};
-
-        close(fd[WRITE_END]);
-        read(fd[READ_END], buf, 200);
-        printf("Received from parent: %s\n", buf);
-
-        close(fd[READ_END]);
-        write(fd[WRITE_END], "WORLD!", 6);
-        close(fd[WRITE_END]);
-    }
-    return 0;
+	args[0] = argv[i];
+	execve(argv[i], args, environ);
 }

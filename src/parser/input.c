@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/07 18:56:31 by crypto           ###   ########.fr       */
+/*   Updated: 2023/04/08 11:22:04 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,30 +53,6 @@ void	deal_quotes()
 	}
 }
 
-void	execute_node(t_ast **node)
-{
-	if ((*node)->token->type != LEX_TERM)
-		printf("Piping: \n");
-	else if (!ft_strcmp((*node)->args[0], "exit"))
-		no_leaks(1);
-	else if (!ft_strcmp((*node)->args[0], "pwd"))
-		printf("%s\n", ms()->cwd);
-	else if (!ft_strcmp((*node)->args[0], "env"))
-		ft_env();
-	else if (!ft_strcmp((*node)->args[0], "echo"))
-		ft_echo((*node)->args);
-	else if (!ft_strcmp((*node)->args[0], "unset"))
-		ft_unset((*node)->args);
-	else if (!ft_strcmp((*node)->args[0], "export"))
-		ft_export((*node)->args);
-	else if (!ft_strcmp((*node)->args[0], "cd"))
-		ft_cd((*node)->args);
-	else if ((!ft_strcmp((*node)->args[0], "ptmp")))
-		printtmp();
-	else
-		exec_if_exists((*node)->args[0], (*node)->args);	
-}
-
 void	handle_input(void)
 {
 	char	**tokens;
@@ -95,7 +71,7 @@ void	handle_input(void)
 	ms()->tokensfreed = 0;
 	if (find_equals())
 		return ;
-	ast_postorder_traverse(ms()->ast, &execute_node);
+	ast_postorder_traverse(ms()->ast, &exec_node);
 	ft_lstclear(&ms()->lexemes, &token_destroy);
 	ast_postorder_traverse(ms()->ast, &ast_destroy_node);
 }

@@ -39,6 +39,8 @@
 # define INPUT_LEN	1000
 # define PROMPT		"\033[38;5;13mft_shell > \033[0m"
 # define SYMBOLS	"<>\'\"| "
+# define READ_END 	0
+# define WRITE_END 	1
 # define DEBUG
 # define HERE		printf("HERE\n");
 
@@ -167,6 +169,7 @@ t_env		*ft_stacknew(void);
 //exec
 void		exec(char *pathtoexe, char **argv);
 void		exec_if_exists(char *exe, char **argv);
+void		exec_node(t_ast **node);
 
 //input
 void		handle_input(void);
