@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/07 18:56:31 by crypto           ###   ########.fr       */
+/*   Updated: 2023/04/12 12:53:24 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	handle_input(void)
 	ms()->tokensfreed = 0;
 	if (find_equals())
 		return ;
-	ast_postorder_traverse(ms()->ast, &execute_node);
+	ast_postorder_traverse(ms()->ast, &exec_node);
 	ft_lstclear(&ms()->lexemes, &token_destroy);
 	ast_postorder_traverse(ms()->ast, &ast_destroy_node);
 }
