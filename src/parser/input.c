@@ -26,9 +26,17 @@ void	double_quotes(t_token *token)
 	{
 		if (str[i] == '$')
 		{
-			env = get_env(ft_substr(&str[i + 1], 0, ft_strlen_sep_alnum(&str[i + 1])));
+			if (str[i + 1] == '?')
+			{
+				i++;
+				env = ft_itoa(ms()->laststatus);
+			}
+			else
+			{
+				env = get_env(ft_substr(&str[i + 1], 0, ft_strlen_sep_alnum(&str[i + 1])));
+				i += ft_strlen_sep_alnum(&str[i + 1]);
+			}
 			cpy = ft_strjoin(cpy, env);
-			i += ft_strlen_sep_alnum(&str[i + 1]);
 		}
 		else
 			cpy = ft_strjoin(cpy, ft_strndup(&str[i], 1));
@@ -74,7 +82,7 @@ void	execute_node(t_ast **node)
 	else if ((!ft_strcmp((*node)->args[0], "ptmp")))
 		printtmp();
 	else
-		exec_if_exists((*node)->args[0], (*node)->args);	
+		exec_if_exists((*node)->args[0], (*node)->args);
 }
 
 void	handle_input(void)

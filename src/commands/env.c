@@ -40,6 +40,7 @@ char	*get_env(char *str)
 	int		len;
 	t_var	*tmp;
 
+
 	if (str[0] == '$')
 		str++;
 	len = ft_strlen(str);

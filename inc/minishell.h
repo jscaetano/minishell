@@ -95,6 +95,7 @@ typedef struct s_env
 typedef struct s_ms
 {
 	char	*cwd;
+	int		laststatus;
 	char	*input;
 	char	**tokens;
 	char	**path;

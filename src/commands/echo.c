@@ -16,6 +16,8 @@ void	ft_echo(char **tokens)
 {
 	int		i;
 
+	if (!tokens[1])
+		return ;
 	i = 1;
 	if (!ft_strcmp(tokens[1], "-n"))
 		i++;

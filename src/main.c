@@ -33,6 +33,7 @@ static void	fill_args(char **envv)
 	ms()->tmp = ft_stacknew();
 	path = ft_split(get_env("PATH"), ':');
 	ms()->path = path;
+	ms()->laststatus = 0;
 	cwd = getcwd(NULL, 4096);
 	ms()->cwd = cwd;
 	ms()->tokensfreed = 1;

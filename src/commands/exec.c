@@ -15,12 +15,16 @@
 void	exec(char *pathtoexe, char **argv)
 {
 	pid_t	pid;
+	int		status;
 
 	pid = fork();
 	if (pid == 0)
 		execve(pathtoexe, argv, ms()->envv);
 	else
-		waitpid(pid, NULL, 0);
+	{
+		waitpid(pid, &status, 0);
+		ms()->laststatus = WEXITSTATUS(status);
+	}
 }
 
 void	exec_if_exists(char *exe, char **argv)
