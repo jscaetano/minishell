@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/12 12:57:28 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/12 12:59:29 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	exec(char *pathtoexe, char **argv)
 {
-	int		status;
+	// int		status;
 
 	// pid = fork();
 	// if (pid == 0)
@@ -102,7 +102,7 @@ void	exec_node(t_ast **node)
 	pid = fork();
 	if (pid == 0)
 	{		
-		if (is_builtin(node))
+		if (is_builtin((*node)->args[0]))
 		{
 			exec_builtin(node);
 		}
