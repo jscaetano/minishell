@@ -78,6 +78,7 @@ typedef struct s_ast
 {
 	t_token			*token;
 	char			**args;
+	int				index;
 	struct s_ast	*left;
 	struct s_ast	*right;
 }t_ast;
@@ -104,6 +105,9 @@ typedef struct s_ms
 	char	**path;
 	char	**envv;
 	int		tokensfreed;
+	int		num_commands;
+	int		inpipe[2];
+	int		outpipe[2];
 	t_env	*env;
 	t_env	*tmp;
 	t_list	*lexemes;
@@ -168,10 +172,11 @@ int			find_equals(void);
 void		ft_stackpush(t_env *env, char *equal);
 t_env		*ft_stacknew(void);
 
-//exec
+//! Exec
 void		exec(char *pathtoexe, char **argv);
 void		exec_if_exists(char *exe, char **argv);
-void		exec_node(t_ast **node);
+void		exec_pipeline(t_ast **node);
+void		exec_command(t_ast **node);
 
 //input
 void		handle_input(void);

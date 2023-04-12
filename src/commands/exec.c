@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/12 14:13:19 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/12 20:56:38 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 void	exec(char *pathtoexe, char **argv)
 {
-	pid_t	pid;
-	int		status;
+	// pid_t	pid;
+	// int		status;
 
-	pid = fork();
-	if (pid == 0)
+	// pid = fork();
+	// if (pid == 0)
 		execve(pathtoexe, argv, ms()->envv);
-	else
-	{
-		waitpid(pid, &status, 0);
-		ms()->laststatus = WEXITSTATUS(status);
-	}
+	// else
+	// {
+	// 	waitpid(pid, &status, 0);
+	// 	ms()->laststatus = WEXITSTATUS(status);
+	// }
 }
 
 void	exec_if_exists(char *exe, char **argv)
@@ -95,12 +95,66 @@ bool	is_builtin(char *command)
 		|| !ft_strcmp(command, "cd") || !ft_strcmp(command, "ptmp"));
 }
 
-void	exec_node(t_ast **node)
+/* void	do_pipe(int *inpipe, int *outpipe)
 {
-	if ((*node)->token->type != LEX_TERM)
-		return ;
-	if (is_builtin((*node)->args[0]))
-		exec_builtin(node);
-	else
-		exec_if_exists((*node)->args[0], (*node)->args);	
+	if (inpipe)
+	{
+		dup2(inpipe[READ_END], STDIN_FILENO);
+		close(inpipe[READ_END]);
+		close(inpipe[WRITE_END]);
+	}
+	if (outpipe)
+	{
+		dup2(outpipe[WRITE_END], STDOUT_FILENO);
+		close(outpipe[WRITE_END]);
+		close(outpipe[READ_END]);
+	}
+} */
+
+void	exec_pipeline(t_ast **node)
+{
+	if ((*node)->token->type == LEX_TERM)
+		exec_command(node);
+	else if ((*node)->token->type == LEX_PIPE)
+	{
+		exec_pipeline(&(*node)->left);
+		exec_pipeline(&(*node)->right);
+	}
+}
+
+void	exec_command(t_ast **node)
+{
+	pid_t	pid;
+	int		status;
+
+	if (!ft_strcmp((*node)->args[0], "exit"))
+		no_leaks(1);
+	pipe(ms()->inpipe);
+	pid = fork();
+	if (pid == 0)
+	{
+		if (ms()->num_commands > 1 && (*node)->index != ms()->num_commands - 1)
+		{
+			close(ms()->inpipe[READ_END]);
+			dup2(ms()->inpipe[WRITE_END], STDOUT_FILENO);			
+		}
+		if (is_builtin((*node)->args[0]))
+		{
+			exec_builtin(node);
+			exit(EXIT_SUCCESS);
+		}
+		else
+			exec_if_exists((*node)->args[0], (*node)->args);			
+		
+	}
+	waitpid(pid, &status, 0);
+	if (ms()->num_commands > 1)
+	{
+		close(ms()->inpipe[WRITE_END]);
+		dup2(ms()->inpipe[READ_END], STDIN_FILENO);
+	}
+	close(ms()->inpipe[READ_END]);
+	close(ms()->inpipe[WRITE_END]);
+	
+	ms()->laststatus = WEXITSTATUS(status);
 }

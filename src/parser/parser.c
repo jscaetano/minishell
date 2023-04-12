@@ -60,6 +60,7 @@ t_ast	*parse_command()
 	if (!root)
 		return (NULL);
 	root->args = ft_calloc(1, sizeof(char *));
+	root->index = ms()->num_commands++;
 	curr = scanner(READ);
 	while (curr->type != LEX_PIPE)
 	{

@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/12 12:54:50 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/12 19:42:35 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	handle_input(void)
 	ms()->tokensfreed = 0;
 	if (find_equals())
 		return ;
-	ast_postorder_traverse(ms()->ast, &exec_node);
+	exec_pipeline(&ms()->ast);
 	ft_lstclear(&ms()->lexemes, &token_destroy);
 	ast_postorder_traverse(ms()->ast, &ast_destroy_node);
 }
