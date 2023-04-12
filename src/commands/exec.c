@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/08 15:55:36 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/12 12:57:28 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,16 @@
 
 void	exec(char *pathtoexe, char **argv)
 {
-	pid_t	pid;
 	int		status;
 
-	pid = fork();
-	if (pid == 0)
+	// pid = fork();
+	// if (pid == 0)
 		execve(pathtoexe, argv, ms()->envv);
-	else
-	{
-		waitpid(pid, &status, 0);
-		ms()->laststatus = WEXITSTATUS(status);
-	}
+	// else
+	// {
+	// 	waitpid(pid, &status, 0);
+	// 	ms()->laststatus = WEXITSTATUS(status);
+	// }
 }
 
 void	exec_if_exists(char *exe, char **argv)
@@ -67,7 +66,7 @@ void	exec_if_exists(char *exe, char **argv)
 	return ;
 }
 
-void	exec_node(t_ast **node)
+void	exec_builtin(t_ast **node)
 {
 	if (!ft_strcmp((*node)->args[0], "exit"))
 		no_leaks(1);
@@ -83,8 +82,33 @@ void	exec_node(t_ast **node)
 		ft_export((*node)->args);
 	else if (!ft_strcmp((*node)->args[0], "cd"))
 		ft_cd((*node)->args);
-	else if ((!ft_strcmp((*node)->args[0], "ptmp")))
-		printtmp();
-	else
-		exec_if_exists((*node)->args[0], (*node)->args);	
+	else if (!ft_strcmp((*node)->args[0], "ptmp"))
+		printtmp();	
+}
+
+bool	is_builtin(char *command)
+{
+	return (!ft_strcmp(command, "exit") || !ft_strcmp(command, "pwd") \
+		|| !ft_strcmp(command, "env") || !ft_strcmp(command, "echo") \
+		|| !ft_strcmp(command, "unset") || !ft_strcmp(command, "export") \
+		|| !ft_strcmp(command, "cd") || !ft_strcmp(command, "ptmp"));
+}
+
+void	exec_node(t_ast **node)
+{
+	pid_t	pid;
+	int		status;
+
+	pid = fork();
+	if (pid == 0)
+	{		
+		if (is_builtin(node))
+		{
+			exec_builtin(node);
+		}
+		else
+			exec_if_exists((*node)->args[0], (*node)->args);	
+	}
+	waitpid(pid, &status, 0);
+	ms()->laststatus = WEXITSTATUS(status);
 }
