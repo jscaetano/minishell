@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/12 12:59:29 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/12 14:13:19 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,17 @@
 
 void	exec(char *pathtoexe, char **argv)
 {
-	// int		status;
+	pid_t	pid;
+	int		status;
 
-	// pid = fork();
-	// if (pid == 0)
+	pid = fork();
+	if (pid == 0)
 		execve(pathtoexe, argv, ms()->envv);
-	// else
-	// {
-	// 	waitpid(pid, &status, 0);
-	// 	ms()->laststatus = WEXITSTATUS(status);
-	// }
+	else
+	{
+		waitpid(pid, &status, 0);
+		ms()->laststatus = WEXITSTATUS(status);
+	}
 }
 
 void	exec_if_exists(char *exe, char **argv)
@@ -96,19 +97,10 @@ bool	is_builtin(char *command)
 
 void	exec_node(t_ast **node)
 {
-	pid_t	pid;
-	int		status;
-
-	pid = fork();
-	if (pid == 0)
-	{		
-		if (is_builtin((*node)->args[0]))
-		{
-			exec_builtin(node);
-		}
-		else
-			exec_if_exists((*node)->args[0], (*node)->args);	
-	}
-	waitpid(pid, &status, 0);
-	ms()->laststatus = WEXITSTATUS(status);
+	if ((*node)->token->type != LEX_TERM)
+		return ;
+	if (is_builtin((*node)->args[0]))
+		exec_builtin(node);
+	else
+		exec_if_exists((*node)->args[0], (*node)->args);	
 }
