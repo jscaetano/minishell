@@ -89,6 +89,7 @@ void	handle_input(void)
 {
 	char	**tokens;
 
+	printf("input: %s\n", ms()->input);
 	if (is_spaces((ms()->input)))
 		return ;
 	lexer(ms());
@@ -101,8 +102,11 @@ void	handle_input(void)
 	tokens = ft_split(ms()->input, ' ');
 	ms()->tokens = tokens;
 	ms()->tokensfreed = 0;
-	if (find_equals())
+	if (find_equals(0))
+	{
+		ft_lstclear(&ms()->lexemes, &token_destroy);
 		return ;
+	}
 	ast_postorder_traverse(ms()->ast, &execute_node);
 	ft_lstclear(&ms()->lexemes, &token_destroy);
 	ast_postorder_traverse(ms()->ast, &ast_destroy_node);

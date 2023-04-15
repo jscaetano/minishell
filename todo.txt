@@ -91,10 +91,10 @@ x	- Run minishell, then run the following command "$> exit".
 	The program must terminate proprely and give back the
 	parent's shell. Run the minishell again.
 
-	- Run a command such as "$> echo "It works"". The message
+x	- Run a command such as "$> echo "It works"". The message
 	must be properly displayed.
 
-	- Run a command such as "$> echo It works" (without the
+x	- Run a command such as "$> echo It works" (without the
 	double quotes). The message must be properly displayed.
 
 x	- Run a command such as "$> cd /absolute/path/of/your/choice",
@@ -113,7 +113,7 @@ x	- Run the following command "$> cd", then run "$> /bin/pwd".
 	/bin/pwd must confirm that the current folder is the
 	folder relative/path/of/your/choice used before.
 
-	- Run the following command "$> cd ~/path/of/your/choice",
+x	- Run the following command "$> cd ~/path/of/your/choice",
 	then run "$> /bin/pwd". "$> /bin/pwd". /bin/pwd must
 	confirm that the current folder was updated.
 

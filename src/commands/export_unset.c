@@ -20,6 +20,8 @@ void	ft_export(char **tokens)
 	t_var	*tmp;
 	t_var	*new;
 
+	if (find_equals(1))
+		tokens[1] = ms()->tmp->top->name;
 	i = 1;
 	new = malloc(sizeof(t_var));
 	tmpenv = ms()->tmp->top;
@@ -51,6 +53,7 @@ void	ft_export(char **tokens)
 		}
 		i++;
 	}
+	ms()->path = ft_split(get_env("PATH"), ':');
 }
 
 //unset (remove a=x expression, if stored in env or in tmp)
@@ -101,31 +104,26 @@ void	ft_unset(char **tokens)
 		}
 		i++;
 	}
+	ms()->path = ft_split(get_env("PATH"), ':');
 }
 
 //if there is a a=x expression, store it in tmp
-int	find_equals(void)
+int	find_equals(int token_to_check)
 {
-	int	i;
 	int	j;
 	int	r;
 
 	r = 0;
-	i = 0;
-	while (ms()->tokens[i])
+	j = 0;
+	while (ms()->tokens[token_to_check][j])
 	{
-		j = 0;
-		while (ms()->tokens[i][j])
+		if (ms()->tokens[token_to_check][j] == '=')
 		{
-			if (ms()->tokens[i][j] == '=')
-			{
-				ft_stackpush(ms()->tmp, ms()->tokens[i]);
-				r = 1;
-				break ;
-			}
-			j++;
+			ft_stackpush(ms()->tmp, ms()->tokens[token_to_check]);
+			r = 1;
+			break ;
 		}
-		i++;
+		j++;
 	}
 	return (r);
 }
