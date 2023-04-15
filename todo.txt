@@ -93,7 +93,7 @@ EVALUATION TESTS:
 		If something crashes, select the "crash" flag.
 		If something doesn't work, select the "incomplete work" flag.
 
-❌echo
+✅echo
 		Execute the echo command with or without arguments, or the -n option.
 		Repeat multiple times with different arguments.
 		If something crashes, select the "crash" flag.
@@ -200,7 +200,7 @@ EVALUATION TESTS:
 		Have fun with that beautiful minishell and enjoy it!
 
 
-❌Environment variables
+✅Environment variables
 		Execute echo with some environment variables (variable) as arguments.
 		Check that $ is interpreted as an environment variable.
 		Check that double quotes interpolate $
