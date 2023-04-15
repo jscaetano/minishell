@@ -31,6 +31,12 @@ void	double_quotes(t_token *token)
 				i++;
 				env = ft_itoa(ms()->laststatus);
 			}
+			else if (ft_strlen(str) == 1)
+			{
+				cpy = ft_strjoin(cpy, "$");
+				i++;
+				continue ;
+			}
 			else
 			{
 				env = get_env(ft_substr(&str[i + 1], 0, ft_strlen_sep_alnum(&str[i + 1])));

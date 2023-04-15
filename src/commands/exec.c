@@ -63,6 +63,9 @@ void	exec_if_exists(char *exe, char **argv)
 		return ;
 	}
 	else
+	{
+		ms()->laststatus = 127;
 		printf(CLR_RED"minishell: command not found: %s\n"CLR_RST, exe);
+	}
 	return ;
 }
