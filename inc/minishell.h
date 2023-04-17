@@ -70,7 +70,6 @@ typedef enum s_scanner_op
 typedef struct s_token
 {
 	char			*str;
-	char			**args;
 	t_lex_type		type;
 }t_token;
 
@@ -112,9 +111,10 @@ typedef struct s_ms
 	t_env	*tmp;
 	t_list	*lexemes;
 	t_ast	*ast;
+	t_list	*cmd_list;
 }t_ms;
 
-// utils
+//! Utils
 char		*ft_strndup(const char *s1, int size);
 char		*ft_strcpy(char *dest, char *src);
 char		*ft_strncpy(char *dest, char *src, int size);
@@ -124,21 +124,14 @@ void		ft_free(void *p);
 int			ft_strlen_sep(const char *s, char *seps);
 int			ft_strlen_sep_alnum(const char *s);
 void		no_leaks(int end);
+int			is_spaces(char *str);
 void		matrix_destroy(void *matrix);
 size_t		matrix_size(char **mat);
 char		**matrix_append(char **m1, char *str);
-int			is_spaces(char *str);
+char		**matrix_copy(char **matrix);
 
 //! Scanner
 t_token		*scanner(t_scanner_op op);
-
-//! Abstract Syntax Tree
-t_ast		*ast_new(t_token *token);
-void		ast_insert_left(t_ast **ast, t_ast *node);
-void		ast_insert_right(t_ast **ast, t_ast *node);
-void		ast_postorder_traverse(t_ast *ast, void (*f)());
-void    	ast_destroy_node(t_ast ** node);
-void		ast_print(t_ast *ast, int depth, void (*f)());
 
 //! Lexer
 t_token		*token_new(char *str, t_lex_type type);
@@ -151,6 +144,16 @@ void		lexer(t_ms *ms);
 t_ast		*parser();
 t_ast		*parse_pipeline();
 t_ast		*parse_command();
+
+//! Abstract Syntax Tree
+t_ast		*ast_new(t_token *token);
+void		ast_insert_left(t_ast **ast, t_ast *node);
+void		ast_insert_right(t_ast **ast, t_ast *node);
+void    	ast_destroy_node(t_ast * node);
+void		ast_clear(t_ast *ast);
+void		ast_print(t_ast *ast, int depth, void (*f)());
+t_list		*ast_to_list(t_ast *ast);
+t_ast		*ast_copy(t_ast *ast);
 
 //cd
 void		ft_cd(char **tokens);
@@ -173,10 +176,9 @@ void		ft_stackpush(t_env *env, char *equal);
 t_env		*ft_stacknew(void);
 
 //! Exec
-void		exec(char *pathtoexe, char **argv);
 void		exec_if_exists(char *exe, char **argv);
-void		exec_pipeline(t_ast **node);
-void		exec_command(t_ast **node);
+void		exec_pipeline(t_ast *node);
+void		exec_node(t_ast *node);
 
 //input
 void		handle_input(void);

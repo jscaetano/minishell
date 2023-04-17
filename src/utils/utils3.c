@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 16:50:12 by crypto            #+#    #+#             */
-/*   Updated: 2023/04/08 11:24:18 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/17 10:41:36 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,23 @@ void	matrix_destroy(void *matrix)
 	while (((char**)matrix)[i])
 		free(((char**)matrix)[i++]);
 	free(matrix);
+}
+
+char	**matrix_copy(char **matrix)
+{
+	char	**dup;
+	size_t	i;
+
+	i = 0;
+	while (matrix[i])
+		i++;
+	dup = ft_calloc(i + 1, sizeof(char *));
+	if (!dup)
+		return (NULL);
+	i = -1;
+	while (matrix[++i])
+		dup[i] = ft_strdup(matrix[i]);
+	return (dup);
 }
 
 int	is_spaces(char *str)

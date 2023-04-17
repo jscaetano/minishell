@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/12 19:42:35 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/17 10:54:57 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,9 @@ void	handle_input(void)
 	lexer(ms());
 	deal_quotes();
 	ms()->ast = parser();
+	ms()->cmd_list = ast_to_list(ms()->ast);
 	#ifdef DEBUG
-		ast_print(ms()->ast, 0, &token_debug);
+		// ast_print(ms()->ast, 0, &token_debug);
 		printf("\n\n\n\n");
 	#endif
 	tokens = ft_split(ms()->input, ' ');
@@ -103,9 +104,9 @@ void	handle_input(void)
 	ms()->tokensfreed = 0;
 	if (find_equals())
 		return ;
-	exec_pipeline(&ms()->ast);
 	ft_lstclear(&ms()->lexemes, &token_destroy);
-	ast_postorder_traverse(ms()->ast, &ast_destroy_node);
+	ft_lstclear(&ms()->cmd_list, &ast_destroy_node);
+	ast_clear(ms()->ast);
 }
 
 void	read_input(void)
