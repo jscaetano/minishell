@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/17 10:54:57 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/17 19:32:33 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,30 +61,6 @@ void	deal_quotes()
 	}
 }
 
-void	execute_node(t_ast **node)
-{
-	if ((*node)->token->type != LEX_TERM)
-		printf("Piping: \n");
-	else if (!ft_strcmp((*node)->args[0], "exit"))
-		no_leaks(1);
-	else if (!ft_strcmp((*node)->args[0], "pwd"))
-		printf("%s\n", ms()->cwd);
-	else if (!ft_strcmp((*node)->args[0], "env"))
-		ft_env();
-	else if (!ft_strcmp((*node)->args[0], "echo"))
-		ft_echo((*node)->args);
-	else if (!ft_strcmp((*node)->args[0], "unset"))
-		ft_unset((*node)->args);
-	else if (!ft_strcmp((*node)->args[0], "export"))
-		ft_export((*node)->args);
-	else if (!ft_strcmp((*node)->args[0], "cd"))
-		ft_cd((*node)->args);
-	else if ((!ft_strcmp((*node)->args[0], "ptmp")))
-		printtmp();
-	else
-		exec_if_exists((*node)->args[0], (*node)->args);
-}
-
 void	handle_input(void)
 {
 	char	**tokens;
@@ -96,7 +72,7 @@ void	handle_input(void)
 	ms()->ast = parser();
 	ms()->cmd_list = ast_to_list(ms()->ast);
 	#ifdef DEBUG
-		// ast_print(ms()->ast, 0, &token_debug);
+		ast_print(ms()->ast, 0, &token_debug);
 		printf("\n\n\n\n");
 	#endif
 	tokens = ft_split(ms()->input, ' ');
@@ -104,9 +80,17 @@ void	handle_input(void)
 	ms()->tokensfreed = 0;
 	if (find_equals())
 		return ;
-	ft_lstclear(&ms()->lexemes, &token_destroy);
-	ft_lstclear(&ms()->cmd_list, &ast_destroy_node);
-	ast_clear(ms()->ast);
+	printf("Num commands: %d\n", ms()->num_commands);
+	if (!ft_strcmp(((t_ast *)ms()->cmd_list->content)->args[0], "exit"))
+		no_leaks(1);
+	// else if (ms()->num_commands == 1)
+	// 	execute_node(ms()->ast);
+	// else
+	execute_command_list(ms()->cmd_list);
+	ft_lstclear(&ms()->lexemes, (void (*)(void *))token_destroy);
+	ft_lstclear(&ms()->cmd_list, (void (*)(void *))ast_destroy_node);
+	// ast_clear(ms()->ast);
+	ms()->num_commands = 0;
 }
 
 void	read_input(void)

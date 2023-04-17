@@ -28,6 +28,7 @@ t_ast	*extend_pipeline(t_ast *ast, t_ast *command)
 	root = ast_new(token_new(ft_strdup("|"), LEX_PIPE));
 	if (!root)
 		return (NULL);
+	root->args = ft_calloc(1, sizeof(char *));
 	ast_insert_left(&root, ast);
 	ast_insert_right(&root, command);
 	return (root);

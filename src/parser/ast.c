@@ -45,10 +45,11 @@ void	ast_clear(t_ast *ast)
 		return ;
 	ast_clear(ast->left);
 	ast_clear(ast->right);
+	token_debug(ast->token);
 	ast_destroy_node(ast);
 }
 
-void    ast_destroy_node(t_ast * node)
+void    ast_destroy_node(t_ast *node)
 {
 	token_destroy(node->token);
 	matrix_destroy(node->args);
@@ -75,6 +76,7 @@ t_ast	*ast_copy(t_ast *ast)
 	if (!dup)
 		return (NULL);
 	dup->args = matrix_copy(ast->args);
+	dup->index = ast->index;
 	return (dup);
 }
 

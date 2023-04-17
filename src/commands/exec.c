@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/17 10:54:20 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/17 19:33:45 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ bool	is_builtin(char *command)
 		|| !ft_strcmp(command, "cd") || !ft_strcmp(command, "ptmp"));
 }
 
-void	exec_if_exists(char *exe, char **argv)
+void	execute_if_exists(char *exe, char **argv)
 {
 	char	*path;
 	char	*pathtoexe;
@@ -60,10 +60,10 @@ void	exec_if_exists(char *exe, char **argv)
 	return ;
 }
 
-void	exec_command(char *command, char **args)
+void	execute_command(char *command, char **args)
 {
 	if (!is_builtin(command))
-		exec_if_exists(command, args);
+		execute_if_exists(command, args);
 	else if (!ft_strcmp(command, "exit"))
 		no_leaks(1);
 	else if (!ft_strcmp(command, "pwd"))
@@ -79,46 +79,91 @@ void	exec_command(char *command, char **args)
 	else if (!ft_strcmp(command, "cd"))
 		ft_cd(args);
 	else if (!ft_strcmp(command, "ptmp"))
-		printtmp();	
-	exit(EXIT_SUCCESS);
+		printtmp();
+	exit(EXIT_SUCCESS);	
 }
 
-void	exec_node(t_ast *node)
+void	create_all_pipes()
 {
-	pid_t	pid;
-	int		status;
+	int	i;
+	
+	ms()->pipes = ft_calloc(ms()->num_commands, sizeof(int *));
+	if (!ms()->pipes)
+		return ;
+	i = -1;
+	while (++i < ms()->num_commands - 1)
+	{
+		ms()->pipes[i] = ft_calloc(2, sizeof(int));
+		pipe(ms()->pipes[i]);
+	}
+}
 
-	status = 0;
-	pipe(ms()->inpipe);
+void	close_all_pipes()
+{
+	int i;
+
+	i = -1;
+	while (++i < ms()->num_commands - 1)
+	{
+		close(ms()->pipes[i][READ_END]);
+		close(ms()->pipes[i][WRITE_END]);
+	}	
+}
+
+void	first_pipeline_command(int node_index)
+{
+	printf("First command index [%d] - Input [-] Output [%d]\n", node_index, ms()->pipes[node_index][WRITE_END]);
+	dup2(ms()->pipes[node_index][WRITE_END], STDOUT_FILENO);
+}
+
+void	last_pipeline_command(int node_index)
+{
+	printf("Last command index [%d] - Input [%d] - Output [-]\n", node_index, ms()->pipes[node_index - 1][READ_END]);
+	dup2(ms()->pipes[node_index - 1][READ_END], STDIN_FILENO);
+}
+
+void	middle_pipeline_command(int node_index)
+{
+	printf("command index [%d] - Input [%d] - Output [%d]\n", node_index, ms()->pipes[node_index - 1][READ_END], ms()->pipes[node_index][WRITE_END]);
+	dup2(ms()->pipes[node_index - 1][READ_END], STDIN_FILENO);
+	dup2(ms()->pipes[node_index][WRITE_END], STDOUT_FILENO);
+}
+
+void	execute_node(t_ast *node)
+{
+	pid_t pid;
+
 	pid = fork();
 	if (pid == 0)
-	{
-		if (node->index != ms()->num_commands - 1)
-		{
-			close(ms()->inpipe[READ_END]);
-			dup2(ms()->inpipe[WRITE_END], STDOUT_FILENO);			
-		}
-		exec_command(node->args[0], node->args);			
+	{	
+		if (ms()->num_commands == 1)
+			execute_command(node->args[0], node->args);			
+		else if (node->index == 0)
+			first_pipeline_command(node->index);
+		else if (node->index == ms()->num_commands - 1)
+			last_pipeline_command(node->index);
+		else
+			middle_pipeline_command(node->index);
+		close_all_pipes();
+		execute_command(node->args[0], node->args);
 	}
-	else
-		waitpid(pid, &status, 0);
-	if (ms()->num_commands > 1)
-	{
-		close(ms()->inpipe[WRITE_END]);
-		dup2(ms()->inpipe[READ_END], STDIN_FILENO);
-	}
-	close(ms()->inpipe[READ_END]);
-	close(ms()->inpipe[WRITE_END]);
-	ms()->laststatus = WEXITSTATUS(status);
+	waitpid(-1, NULL, 0);
+	// printf("pid: %d command: %s\n", pid, node->args[0]);
 }
 
-void	exec_pipeline(t_ast *node)
+void	execute_command_list(t_list *cmd_list)
 {
-	if (node->token->type == LEX_TERM)
-		exec_node(node);
-	else if (node->token->type == LEX_PIPE)
+	t_ast	*command;
+	
+	command = (t_ast *)cmd_list->content;
+	create_all_pipes();
+	while (cmd_list)
 	{
-		exec_pipeline(node->left);
-		exec_pipeline(node->right);
+		command = (t_ast *)cmd_list->content;
+		execute_node(command);
+		wait(NULL);
+		cmd_list = cmd_list->next;
 	}
+	close_all_pipes();
+	matrix_destroy(ms()->pipes);
 }

@@ -42,7 +42,7 @@
 # define SYMBOLS	"<>\'\"| "
 # define READ_END 	0
 # define WRITE_END 	1
-# define DEBUG
+// # define DEBUG
 # define HERE		printf("HERE\n");
 
 typedef enum s_lex_type
@@ -105,8 +105,7 @@ typedef struct s_ms
 	char	**envv;
 	int		tokensfreed;
 	int		num_commands;
-	int		inpipe[2];
-	int		outpipe[2];
+	int		**pipes;
 	t_env	*env;
 	t_env	*tmp;
 	t_list	*lexemes;
@@ -119,7 +118,6 @@ char		*ft_strndup(const char *s1, int size);
 char		*ft_strcpy(char *dest, char *src);
 char		*ft_strncpy(char *dest, char *src, int size);
 int			ft_strcmp(char *s1, char *s2);
-char		*ft_strjoin(char const *s1, char const *s2);
 void		ft_free(void *p);
 int			ft_strlen_sep(const char *s, char *seps);
 int			ft_strlen_sep_alnum(const char *s);
@@ -176,9 +174,9 @@ void		ft_stackpush(t_env *env, char *equal);
 t_env		*ft_stacknew(void);
 
 //! Exec
-void		exec_if_exists(char *exe, char **argv);
-void		exec_pipeline(t_ast *node);
-void		exec_node(t_ast *node);
+void		execute_if_exists(char *exe, char **argv);
+void		execute_command_list(t_list *cmd_list);
+// void		execute_node(t_ast *node);
 
 //input
 void		handle_input(void);
