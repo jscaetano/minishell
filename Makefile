@@ -22,7 +22,7 @@ GNL		= -L ./get_next_line -lgnl
 PRINTF	= -L ./ft_printf -lftprintf
 
 #_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_ FOLDERS _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
-DEPS			= inc 
+DEPS			= inc
 SRCS			= src
 #SRCS_BONUS		= srcs_bonus
 LIBFT_PATH		= libft
@@ -47,13 +47,13 @@ all: $(NAME)
 $(NAME): $(OBJ_DIR) $(TARGET)
 	echo "[$(CYAN)Compiling$(RESET)] $(CFLAGS) $(GREEN)libft/*$(RESET)"
 	make $(MK) -C $(LIBFT_PATH)
-		
+
 	echo "[$(CYAN) Linking $(RESET)] $(GREEN)*$(RESET)"
 	$(CC) $(CFLAGS) $(TARGET) -o $(NAME) -I $(DEPS) -lreadline $(LIBFT)
-	
+
 	echo "$(GREEN)Done.$(RESET)"
-	
-$(OBJ_DIR)/%.o : %.c 
+
+$(OBJ_DIR)/%.o : %.c
 	echo "[$(CYAN)Compiling$(RESET)] $(CFLAGS) $(GREEN)$<$(RESET)"
 	$(CC) $(CFLAGS) -c $< -o $@ -I $(DEPS)
 
@@ -62,15 +62,15 @@ $(OBJ_DIR):
 
 clean:
 	make clean $(MK) -C $(LIBFT_PATH)
-	
+
 	echo "[$(RED) Deleted $(RESET)] $(GREEN)$(OBJ_DIR)$(RESET)"
 	$(RM) $(OBJ_DIR)
 
 fclean: clean
 	make fclean $(MK) -C $(LIBFT_PATH)
-	
+
 	echo "[$(RED) Deleted $(RESET)] $(GREEN)$(NAME)$(RESET)"
-	$(RM) $(NAME) 
+	$(RM) $(NAME)
 
 re: fclean all
 
@@ -80,4 +80,3 @@ r: re
 .SILENT:
 
 .PHONY: libft all bonus clean fclean re r
-

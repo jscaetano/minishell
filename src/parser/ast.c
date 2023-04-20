@@ -39,7 +39,7 @@ void	ast_insert_right(t_ast **ast, t_ast *node)
 		*ast = node;
 }
 
-void    ast_postorder_traverse(t_ast *ast, void (*f)())
+void	ast_postorder_traverse(t_ast *ast, void (*f)())
 {
 	if (!ast)
 		return ;
@@ -48,7 +48,7 @@ void    ast_postorder_traverse(t_ast *ast, void (*f)())
 	(*f)(&ast);
 }
 
-void    ast_destroy_node(t_ast ** node)
+void	ast_destroy_node(t_ast ** node)
 {
 	// #ifdef DEBUG
 	// 	printf("Token: \"%s\" (%zu)\n", (*node)->token->str, ft_strlen((*node)->token->str));

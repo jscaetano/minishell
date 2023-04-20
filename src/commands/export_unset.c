@@ -21,7 +21,10 @@ void	ft_export(char **tokens)
 	t_var	*new;
 
 	if (find_equals(1))
-		tokens[1] = ms()->tmp->top->name;
+	{
+		if (!ft_strcmp(get_env(tokens[1]), ""))
+			tokens[1] = ms()->tmp->top->name;
+	}
 	i = 1;
 	new = malloc(sizeof(t_var));
 	tmpenv = ms()->tmp->top;
@@ -37,7 +40,9 @@ void	ft_export(char **tokens)
 				{
 					if (!ft_strcmp(tmpenv->name, tmp->name))
 					{
-						tmp->content = tmpenv->content;
+						if (tmpenv->content != NULL)
+							tmp->content = tmpenv->content;
+						tmpenv->content = NULL;
 						free (new);
 						return ;
 					}

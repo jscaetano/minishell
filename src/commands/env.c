@@ -34,12 +34,11 @@ t_env	*envlist(char **envv)
 	return (env);
 }
 
-// returns the content of the var in env with the name str or just returns str
+// returns the content of the var in env with the name str or just returns ""
 char	*get_env(char *str)
 {
 	int		len;
 	t_var	*tmp;
-
 
 	if (str[0] == '$')
 		str++;

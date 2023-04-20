@@ -53,8 +53,6 @@ X		◦ exit with no options
 
 	-in the handle_input function, run the parsed arguments and not just the argv
 
-	-"export a=34; export a=37; unset a" fix attempting double-free
-
 	-pipes
 
 	-redirections
@@ -153,7 +151,7 @@ EVALUATION TESTS:
 		Export environment variables, create new ones and replace old ones.
 		Check the result with env.
 
-❌unset
+✅unset
 		Export environment variables, create new ones and replace old ones.
 		Use unset to remove some of them.
 		Check the result with env.
