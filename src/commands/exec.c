@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/25 14:28:46 by marvin           ###   ########.fr       */
+/*   Updated: 2023/04/25 15:57:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,35 +101,41 @@ void	create_all_pipes()
 	}
 }
 
-void	close_all_pipes()
+void	close_all_pipes(int node_index, int end)
 {
 	int i;
+	
+	if (!ms()->pipes[node_index])
+		return ;
 
 	i = -1;
-	while (++i < ms()->num_commands - 1)
-	{
-		close(ms()->pipes[i][READ_END]);
-		close(ms()->pipes[i][WRITE_END]);
-	}	
+	while (++i <= node_index)
+		close(ms()->pipes[i][end]);
 }
 
 void	first_pipeline_command(int node_index)
 {
-	printf("First command index [%d] - Input [-] Output [%d]\n", node_index, ms()->pipes[node_index][WRITE_END]);
+	#ifdef DEBUG
+		printf("First -> Input [-][-] Output [%d][WRITE_END]\n", node_index);
+	#endif
 	dup2(ms()->pipes[node_index][WRITE_END], STDOUT_FILENO);
 }
 
 void	last_pipeline_command(int node_index)
 {
-	printf("Last command index [%d] - Input [%d] - Output [-]\n", node_index, ms()->pipes[node_index - 1][READ_END]);
+	#ifdef DEBUG
+		printf("Last -> Input [%d][READ_END] Output [-][-]\n", node_index - 1);
+	#endif
 	dup2(ms()->pipes[node_index - 1][READ_END], STDIN_FILENO);
 }
 
 void	middle_pipeline_command(int node_index)
 {
-	printf("command index [%d] - Input [%d] - Output [%d]\n", node_index, ms()->pipes[node_index - 1][READ_END], ms()->pipes[node_index][WRITE_END]);
-	dup2(ms()->pipes[node_index - 1][READ_END], STDIN_FILENO);
+	#ifdef DEBUG
+		printf("Input [%d][READ_END] - Output [%d][WRITE_END]\n", node_index - 1, node_index);
+	#endif
 	dup2(ms()->pipes[node_index][WRITE_END], STDOUT_FILENO);
+	dup2(ms()->pipes[node_index - 1][READ_END], STDIN_FILENO);
 }
 
 void	execute_node(t_ast *node)
@@ -147,26 +153,30 @@ void	execute_node(t_ast *node)
 			last_pipeline_command(node->index);
 		else
 			middle_pipeline_command(node->index);
-		close_all_pipes();
+		close_all_pipes(node->index, READ_END);
 		execute_command(node->args[0], node->args);
 	}
-	waitpid(-1, NULL, 0);
-	// printf("pid: %d command: %s\n", pid, node->args[0]);
+	close_all_pipes(node->index, WRITE_END);
 }
 
 void	execute_command_list(t_list *cmd_list)
 {
 	t_ast	*command;
 	
-	command = (t_ast *)cmd_list->content;
 	create_all_pipes();
 	while (cmd_list)
 	{
 		command = (t_ast *)cmd_list->content;
 		execute_node(command);
-		wait(NULL);
 		cmd_list = cmd_list->next;
+	}	
+	while (1)
+	{
+		int pid;
+		pid = waitpid(0, NULL, 0);
+		printf("Waited for: %d\n", pid);
+		if (pid <= 0)
+			break;
 	}
-	close_all_pipes();
 	matrix_destroy(ms()->pipes);
 }

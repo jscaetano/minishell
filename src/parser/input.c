@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/25 14:28:40 by marvin           ###   ########.fr       */
+/*   Updated: 2023/04/25 15:08:25 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	handle_input(void)
 {
 	char	**tokens;
 
-	printf("input: %s\n", ms()->input);
 	if (is_spaces((ms()->input)))
 		return ;
 	lexer(ms());
@@ -79,6 +78,17 @@ void	handle_input(void)
 	ms()->ast = parser();
 	ms()->cmd_list = ast_to_list(ms()->ast);
 	#ifdef DEBUG
+		// t_list *curr;
+		// t_ast *aux;
+		// curr = ms()->cmd_list;
+
+		// while (curr)
+		// {
+		// 	aux = (t_ast *)curr->content;
+		// 	printf("Command[%d]: %s\n", aux->index, aux->args[0]);
+		// 	curr = curr->next;			
+		// }
+		printf("input: %s\n", ms()->input);
 		ast_print(ms()->ast, 0, &token_debug);
 		printf("\n\n\n\n");
 	#endif
@@ -89,16 +99,13 @@ void	handle_input(void)
 	{
 		ft_lstclear(&ms()->lexemes, &token_destroy);
 		return ;
+	}
 	printf("Num commands: %d\n", ms()->num_commands);
 	if (!ft_strcmp(((t_ast *)ms()->cmd_list->content)->args[0], "exit"))
 		no_leaks(1);
-	// else if (ms()->num_commands == 1)
-	// 	execute_node(ms()->ast);
-	// else
 	execute_command_list(ms()->cmd_list);
 	ft_lstclear(&ms()->lexemes, (void (*)(void *))token_destroy);
 	ft_lstclear(&ms()->cmd_list, (void (*)(void *))ast_destroy_node);
-	// ast_clear(ms()->ast);
 	ms()->num_commands = 0;
 }
 
