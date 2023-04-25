@@ -21,12 +21,15 @@ void	ft_echo(char **tokens)
 	i = 1;
 	if (!ft_strcmp(tokens[1], "-n"))
 		i++;
-	while (tokens[i + 1])
+	if ((matrix_size(tokens) > 2 && !ft_strcmp(tokens[1], "-n")) || matrix_size(tokens) > 1)
 	{
+		while (tokens[i + 1])
+		{
+			printf("%s", tokens[i++]);
+			printf(" ");
+		}
 		printf("%s", tokens[i++]);
-		printf(" ");
 	}
-	printf("%s", tokens[i++]);
 	if (ft_strcmp(tokens[1], "-n"))
 		printf("\n");
 }

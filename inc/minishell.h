@@ -167,7 +167,7 @@ t_ms		*ms(void);
 //export unset
 void		ft_export(char **tokens);
 void		ft_unset(char **tokens);
-int			find_equals(void);
+int			find_equals(int token_to_check);
 
 //lists
 void		ft_stackpush(t_env *env, char *equal);

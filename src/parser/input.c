@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/17 19:32:33 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/25 14:28:40 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@ void	double_quotes(t_token *token)
 			{
 				i++;
 				env = ft_itoa(ms()->laststatus);
+			}
+			else if (ft_strlen(str) == 1)
+			{
+				cpy = ft_strjoin(cpy, "$");
+				i++;
+				continue ;
 			}
 			else
 			{
@@ -65,6 +71,7 @@ void	handle_input(void)
 {
 	char	**tokens;
 
+	printf("input: %s\n", ms()->input);
 	if (is_spaces((ms()->input)))
 		return ;
 	lexer(ms());
@@ -78,7 +85,9 @@ void	handle_input(void)
 	tokens = ft_split(ms()->input, ' ');
 	ms()->tokens = tokens;
 	ms()->tokensfreed = 0;
-	if (find_equals())
+	if (find_equals(0))
+	{
+		ft_lstclear(&ms()->lexemes, &token_destroy);
 		return ;
 	printf("Num commands: %d\n", ms()->num_commands);
 	if (!ft_strcmp(((t_ast *)ms()->cmd_list->content)->args[0], "exit"))

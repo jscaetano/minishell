@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/17 19:33:45 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/25 14:28:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ void	execute_if_exists(char *exe, char **argv)
 		return ;
 	}
 	else
+	{
+		ms()->laststatus = 127;
 		printf(CLR_RED"minishell: command not found: %s\n"CLR_RST, exe);
+	}
 	return ;
 }
 
