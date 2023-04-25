@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/25 15:57:30 by marvin           ###   ########.fr       */
+/*   Updated: 2023/04/25 17:06:03 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ void	execute_command(char *command, char **args)
 		ft_cd(args);
 	else if (!ft_strcmp(command, "ptmp"))
 		printtmp();
-	exit(EXIT_SUCCESS);	
 }
 
 void	create_all_pipes()
@@ -138,6 +137,13 @@ void	middle_pipeline_command(int node_index)
 	dup2(ms()->pipes[node_index - 1][READ_END], STDIN_FILENO);
 }
 
+bool	is_forkable(char *command)
+{
+	return (ft_strcmp(command, "cd") != 0 && ft_strcmp(command, "exit") != 0 \
+		&& ft_strcmp(command, "export") != 0 && ft_strcmp(command, "unset") != 0 \
+		&& ft_strcmp(command, "ptmp") != 0 );
+}
+
 void	execute_node(t_ast *node)
 {
 	pid_t pid;
@@ -146,8 +152,11 @@ void	execute_node(t_ast *node)
 	if (pid == 0)
 	{	
 		if (ms()->num_commands == 1)
-			execute_command(node->args[0], node->args);			
-		else if (node->index == 0)
+		{
+			execute_command(node->args[0], node->args);
+			exit(EXIT_SUCCESS);			
+		}
+		if (node->index == 0)
 			first_pipeline_command(node->index);
 		else if (node->index == ms()->num_commands - 1)
 			last_pipeline_command(node->index);
@@ -155,6 +164,7 @@ void	execute_node(t_ast *node)
 			middle_pipeline_command(node->index);
 		close_all_pipes(node->index, READ_END);
 		execute_command(node->args[0], node->args);
+		exit(EXIT_SUCCESS);
 	}
 	close_all_pipes(node->index, WRITE_END);
 }
@@ -167,16 +177,12 @@ void	execute_command_list(t_list *cmd_list)
 	while (cmd_list)
 	{
 		command = (t_ast *)cmd_list->content;
-		execute_node(command);
+		if (is_forkable(command->args[0]))
+			execute_node(command);
+		else
+			execute_command(command->args[0], command->args);			
 		cmd_list = cmd_list->next;
 	}	
-	while (1)
-	{
-		int pid;
-		pid = waitpid(0, NULL, 0);
-		printf("Waited for: %d\n", pid);
-		if (pid <= 0)
-			break;
-	}
+	while (waitpid(0, NULL, 0) > 0);
 	matrix_destroy(ms()->pipes);
 }

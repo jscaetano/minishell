@@ -50,16 +50,21 @@ X		◦ exit with no options
 
 
 ///////////////////////////////////////////
+	-pipes (sequential or parallel)
 
-	-in the handle_input function, run the parsed arguments and not just the argv
-
-	-pipes
+	-ft_exit
 
 	-redirections
 
 	-deal with leaks
 
 	-deal with norm
+
+	-check for forbidden functions
+
+	- user after free in ast_destroy_node
+
+	
 
 ///////////////////////////////////////////
 

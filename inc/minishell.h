@@ -175,8 +175,8 @@ t_env		*ft_stacknew(void);
 
 //! Exec
 void		execute_if_exists(char *exe, char **argv);
+void		execute_node(t_ast *node);
 void		execute_command_list(t_list *cmd_list);
-// void		execute_node(t_ast *node);
 
 //input
 void		handle_input(void);
