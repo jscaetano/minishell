@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/26 08:53:44 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/26 08:59:54 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,11 @@ void	execute_if_exists(char *exe, char **argv)
 	return ;
 }
 
-void	execute_command(char *command, char **args)
+void	execute_command(char **args)
 {
+	char *command;
+
+	command = args[0];
 	if (!is_builtin(command))
 		execute_if_exists(command, args);
 	else if (!ft_strcmp(command, "exit"))
@@ -106,13 +109,15 @@ void	connect_pipeline(int cmd_index)
 		dup2(ms()->pipes[cmd_index][WRITE_END], STDOUT_FILENO);
 	if (cmd_index > 0 && cmd_index <= ms()->num_commands - 1)
 		dup2(ms()->pipes[cmd_index - 1][READ_END], STDIN_FILENO);
+	if (ms()->pipes[cmd_index])
+		close(ms()->pipes[cmd_index][READ_END]);
 }
 
-bool	is_forkable(char *command)
+bool	is_unforkable(char *command)
 {
-	return (ft_strcmp(command, "cd") != 0 && ft_strcmp(command, "exit") != 0 \
-		&& ft_strcmp(command, "export") != 0 && ft_strcmp(command, "unset") != 0 \
-		&& ft_strcmp(command, "ptmp") != 0 );
+	return (!ft_strcmp(command, "cd") || !ft_strcmp(command, "exit") \
+		|| !ft_strcmp(command, "export") || !ft_strcmp(command, "unset") \
+		|| !ft_strcmp(command, "ptmp") );
 }
 
 void	execute_node(t_ast *command)
@@ -123,12 +128,8 @@ void	execute_node(t_ast *command)
 	if (pid == 0)
 	{	
 		if (ms()->num_commands > 1)
-		{
 			connect_pipeline(command->index);
-			if (ms()->pipes[command->index])
-				close(ms()->pipes[command->index][READ_END]);
-		}
-		execute_command(command->args[0], command->args);
+		execute_command(command->args);
 		exit(EXIT_SUCCESS);
 	}
 	if (ms()->pipes[command->index])
@@ -143,10 +144,10 @@ void	execute_command_list(t_list *cmd_list)
 	while (cmd_list)
 	{
 		command = (t_ast *)cmd_list->content;
-		if (is_forkable(command->args[0]))
-			execute_node(command);
+		if (is_unforkable(command->args[0]))
+			execute_command(command->args);			
 		else
-			execute_command(command->args[0], command->args);			
+			execute_node(command);
 		cmd_list = cmd_list->next;
 	}	
 	while (waitpid(0, NULL, 0) > 0);
