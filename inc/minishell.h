@@ -50,17 +50,17 @@
 
 typedef enum s_lex_type
 {
-	LEX_IN_1,				// <
-	LEX_OUT_1,				// >
-	LEX_IN_2,				// <<
-	LEX_OUT_2,				// >>
-	LEX_SINGLE_QUOTES,		// '
-	LEX_DOUBLE_QUOTES,		// "
-	LEX_PIPE,				// |
-	LEX_VARIABLE,			// $
-	LEX_TERM,				// anything else
-	LEX_RIGHT_PAR,			// (
-	LEX_LEFT_PAR,			// )
+	LEX_IN_1,
+	LEX_OUT_1,
+	LEX_IN_2,
+	LEX_OUT_2,
+	LEX_SINGLE_QUOTES,
+	LEX_DOUBLE_QUOTES,
+	LEX_PIPE,
+	LEX_VARIABLE,
+	LEX_TERM,
+	LEX_RIGHT_PAR,
+	LEX_LEFT_PAR,
 }t_lex_type;
 
 typedef enum s_scanner_op
@@ -158,10 +158,10 @@ bool		is_assignment(int token_to_check);
 t_ms		*ms(void);
 
 //! Pipeline
-void	create_all_pipes(void);
-void	connect_pipeline(int cmd_index);
-bool	is_unforkable(char *command);
-bool	is_builtin(char *command);
+void		create_all_pipes(void);
+void		connect_pipeline(int cmd_index);
+bool		is_unforkable(char *command);
+bool		is_builtin(char *command);
 
 //! Lists
 void		ft_stackpush(t_env *env, char *equal);
