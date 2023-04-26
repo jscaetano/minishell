@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-t_ast	*parser()
+t_ast	*parser(void)
 {
 	t_ast	*root;
 
@@ -29,12 +29,12 @@ t_ast	*extend_pipeline(t_ast *ast, t_ast *command)
 	if (!root)
 		return (NULL);
 	root->args = ft_calloc(1, sizeof(char *));
-	ast_insert_left(&root, ast);
-	ast_insert_right(&root, command);
+	ast_insert(&root, ast, true);
+	ast_insert(&root, command, false);
 	return (root);
 }
 
-t_ast	*parse_pipeline()
+t_ast	*parse_pipeline(void)
 {
 	t_ast	*root;
 	t_ast	*command;
@@ -52,7 +52,7 @@ t_ast	*parse_pipeline()
 	return (root);
 }
 
-t_ast	*parse_command()
+t_ast	*parse_command(void)
 {
 	t_ast	*command;
 	t_token	*curr;
@@ -67,7 +67,7 @@ t_ast	*parse_command()
 	{
 		command->args = matrix_append(command->args, ft_strdup(curr->str));
 		if (!scanner(NEXT))
-			break;
+			break ;
 		curr = scanner(READ);
 	}
 	return (command);

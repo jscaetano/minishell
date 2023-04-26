@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:09:10 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/26 09:18:08 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/26 10:41:19 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_export(char **tokens)
 	t_var	*tmp;
 	t_var	*new;
 
-	if (find_equals(1))
+	if (is_assignment(1))
 	{
 		if (!ft_strcmp(get_env(tokens[1]), ""))
 			tokens[1] = ms()->tmp->top->key;
@@ -113,22 +113,19 @@ void	ft_unset(char **tokens)
 }
 
 //if there is a a=x expression, store it in tmp
-int	find_equals(int token_to_check)
+bool	is_assignment(int token_to_check)
 {
 	int	j;
-	int	r;
 
-	r = 0;
 	j = 0;
 	while (ms()->tokens[token_to_check][j])
 	{
 		if (ms()->tokens[token_to_check][j] == '=')
 		{
 			ft_stackpush(ms()->tmp, ms()->tokens[token_to_check]);
-			r = 1;
-			break ;
+			return (true);
 		}
 		j++;
 	}
-	return (r);
+	return (false);
 }

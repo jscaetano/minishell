@@ -42,7 +42,7 @@
 # define SYMBOLS	"<>\'\"| "
 # define READ_END 	0
 # define WRITE_END 	1
-// # define DEBUG
+# define DEBUG
 # define HERE		printf("HERE\n");
 
 typedef enum s_lex_type
@@ -112,6 +112,69 @@ typedef struct s_ms
 	t_list	*cmd_list;
 }t_ms;
 
+//! Lexer
+int			lexer_push_token(char *str, t_lex_type lexeme);
+void		lexer(t_ms *ms);
+
+//! Token
+t_token		*token_new(char *str, t_lex_type type);
+t_token		*token_copy(t_token * token);
+void		token_destroy(void *token);
+
+//! Parser
+t_ast		*parser();
+t_ast		*parse_pipeline();
+t_ast		*parse_command();
+
+//! Scanner
+t_token		*scanner(t_scanner_op op);
+
+//! Abstract Syntax Tree
+t_ast		*ast_new(t_token *token);
+t_ast		*ast_copy(t_ast *ast);
+void		ast_insert(t_ast **ast, t_ast *node, bool left);
+void		ast_clear(t_ast *ast);
+t_list		*ast_to_list(t_ast *ast);
+
+//! CD
+void		ft_cd(char **tokens);
+
+//! ENV
+t_env		*envlist(char **envv);
+char		*get_env(char *str);
+void		ft_env(void);
+
+//! ECHO
+void		ft_echo(char **tokens);
+
+//! EXPORT UNSET
+void		ft_export(char **tokens);
+void		ft_unset(char **tokens);
+bool		is_assignment(int token_to_check);
+
+//! Fake Global
+t_ms		*ms(void);
+
+//! Lists
+void		ft_stackpush(t_env *env, char *equal);
+t_env		*ft_stacknew(void);
+
+//! Exec
+void		execute_if_exists(char *exe, char **argv);
+void		execute_node(t_ast *node);
+void		execute_command_list(t_list *cmd_list);
+
+//! Input
+void		handle_input(void);
+void		read_input(void);
+
+//! Testing
+void		printtmp(void);
+void		lexer_debug();
+void		matrix_debug(char **matrix);
+void		token_debug(t_token *token);
+void		ast_debug(t_ast *ast, int depth, void (*f)());
+
 //! Utils
 char		*ft_strndup(const char *s1, int size);
 char		*ft_strcpy(char *dest, char *src);
@@ -126,68 +189,5 @@ void		matrix_destroy(void *matrix);
 size_t		matrix_size(char **mat);
 char		**matrix_append(char **m1, char *str);
 char		**matrix_copy(char **matrix);
-
-//! Scanner
-t_token		*scanner(t_scanner_op op);
-
-//! Lexer
-t_token		*token_new(char *str, t_lex_type type);
-t_token		*token_copy(t_token * token);
-void		token_destroy(void *token);
-void		token_push(char *str, t_lex_type lexeme);
-void		lexer(t_ms *ms);
-
-//! Parser
-t_ast		*parser();
-t_ast		*parse_pipeline();
-t_ast		*parse_command();
-
-//! Abstract Syntax Tree
-t_ast		*ast_new(t_token *token);
-void		ast_insert_left(t_ast **ast, t_ast *node);
-void		ast_insert_right(t_ast **ast, t_ast *node);
-void    	ast_destroy_node(t_ast * node);
-void		ast_clear(t_ast *ast);
-void		ast_print(t_ast *ast, int depth, void (*f)());
-t_list		*ast_to_list(t_ast *ast);
-t_ast		*ast_copy(t_ast *ast);
-
-//cd
-void		ft_cd(char **tokens);
-
-//env
-t_env		*envlist(char **envv);
-char		*get_env(char *str);
-void		ft_env(void);
-
-//fake global
-t_ms		*ms(void);
-
-//export unset
-void		ft_export(char **tokens);
-void		ft_unset(char **tokens);
-int			find_equals(int token_to_check);
-
-//lists
-void		ft_stackpush(t_env *env, char *equal);
-t_env		*ft_stacknew(void);
-
-//! Exec
-void		execute_if_exists(char *exe, char **argv);
-void		execute_node(t_ast *node);
-void		execute_command_list(t_list *cmd_list);
-
-//input
-void		handle_input(void);
-void		read_input(void);
-
-//echo
-void		ft_echo(char **tokens);
-
-//testing
-void		printtmp(void);
-void		lexer_debug();
-void		matrix_debug(char **matrix);
-void		token_debug(t_token *token);
 
 #endif

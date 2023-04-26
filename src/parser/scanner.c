@@ -12,15 +12,15 @@
 
 #include "minishell.h"
 
-t_token*    scanner(t_scanner_op op)
+t_token	*scanner(t_scanner_op op)
 {
-    static t_list  *current = NULL;
+	static t_list	*current = NULL;
 
 	if (op == READ)
 		return (current->content);
-    else if (op == RESET)
+	else if (op == RESET)
 		current = ms()->lexemes;
-    else if (op == NEXT && current->next)
+	else if (op == NEXT && current->next)
 	{
 		current = current->next;
 		return (current->content);

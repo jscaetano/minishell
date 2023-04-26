@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:10:59 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/26 09:18:08 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/26 11:47:03 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,19 @@ void	lexer_debug()
 		token_debug(token);
 		node = node->next;
 	}
+}
+
+void	ast_debug(t_ast *ast, int depth, void (*f)())
+{
+	int	i;
+
+	i = -1;
+	if (!ast)
+		return ;
+	while (++i < depth)
+		printf(" ");
+	printf("[DEPTH %d][INDEX %d]\n", depth, ast->index);
+	(*f)(ast->token);
+	ast_debug(ast->left, depth + 1, f);
+	ast_debug(ast->right, depth + 1, f);
 }

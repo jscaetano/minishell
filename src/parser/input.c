@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/26 09:32:55 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/26 11:53:20 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,19 +75,9 @@ void	handle_input(void)
 	deal_quotes();
 	ms()->ast = parser();
 	ms()->cmd_list = ast_to_list(ms()->ast);
-	#ifdef DEBUG
-		printf("input: %s\n", ms()->input);
-		printf("Num commands: %d\n", ms()->num_commands);
-		ast_print(ms()->ast, 0, &token_debug);
-		printf("\n\n\n\n");
-	#endif
 	ms()->tokens = ft_split(ms()->input, ' ');
-	if (find_equals(0))
-	{
-		ft_lstclear(&ms()->lexemes, &token_destroy);
-		return ;
-	}
-	execute_command_list(ms()->cmd_list);
+	if (!is_assignment(0))
+		execute_command_list(ms()->cmd_list);
 	sanitize(false);
 }
 

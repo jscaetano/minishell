@@ -23,17 +23,11 @@ t_ast	*ast_new(t_token *token)
 	return (node);
 }
 
-void	ast_insert_left(t_ast **ast, t_ast *node)
+void	ast_insert(t_ast **ast, t_ast *node, bool left)
 {
-	if (*ast)
+	if (*ast && left)
 		(*ast)->left = node;
-	else
-		*ast = node;
-}
-
-void	ast_insert_right(t_ast **ast, t_ast *node)
-{
-	if (*ast)
+	else if (*ast && !left)
 		(*ast)->right = node;
 	else
 		*ast = node;
@@ -45,26 +39,9 @@ void	ast_clear(t_ast *ast)
 		return ;
 	ast_clear(ast->left);
 	ast_clear(ast->right);
-	ast_destroy_node(ast);
-}
-
-void    ast_destroy_node(t_ast *node)
-{
-	token_destroy(node->token);
-	matrix_destroy(node->args);
-	ft_free(node);
-}
-
-void	ast_print(t_ast *ast, int depth, void (*f)())
-{
-	if (!ast)
-		return ;
-	for (int i = 0; i < depth; i++)
-		printf(" ");
-	printf("[DEPTH %d][INDEX %d]\n", depth, ast->index);
-	(*f)(ast->token);
-	ast_print(ast->left, depth + 1, f);
-	ast_print(ast->right, depth + 1, f);
+	token_destroy(ast->token);
+	matrix_destroy(ast->args);
+	ft_free(ast);
 }
 
 t_ast	*ast_copy(t_ast *ast)

@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/26 10:02:21 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/26 11:55:07 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,8 @@ void	execute_command(char **args)
 void	create_all_pipes()
 {
 	int	i;
-	
+	char	**pipes;
+
 	ms()->pipes = ft_calloc(ms()->num_commands, sizeof(int *));
 	if (!ms()->pipes)
 		return ;

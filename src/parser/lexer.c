@@ -6,109 +6,63 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 12:10:46 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/04/26 09:07:30 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/26 11:42:45 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*token_new(char *str, t_lex_type type)
-{
-	t_token	*token;
-
-	token = ft_calloc(1, sizeof(t_token));
-	if (!token)
-		return (NULL);
-	token->str = str;
-	token->type = type;
-	return (token);
-}
-
-t_token	*token_copy(t_token * token)
-{
-	t_token	*dup;
-	
-	dup = token_new(ft_strdup(token->str), token->type);
-	if (!dup)
-		return (NULL);
-	return (dup);
-}
-
-void	token_destroy(void *token)
-{
-	if (!token)
-		return ;
-	ft_free(((t_token *)token)->str);
-	ft_free(token);
-}
-
-void	token_push(char *str, t_lex_type lexeme)
+int	lexer_push_token(char *str, t_lex_type lexeme)
 {
 	t_token	*token;
 
 	token = token_new(str, lexeme);
 	if (!token || !str)
-		sanitize(1);
+		return (0);
 	ft_lstadd_back(&ms()->lexemes, ft_lstnew(token));
+	return (ft_strlen(str));
+}
+
+int	lexer_find_match(char *symbols, char *input)
+{
+	int		token_length;
+	char	*value;
+
+	token_length = ft_strlen_sep(input, symbols);
+	value = ft_substr(input, 0, token_length);
+	if (symbols[0] == '"')
+		lexer_push_token(value, LEX_DOUBLE_QUOTES);
+	else if (symbols[0] == '\'')
+		lexer_push_token(value, LEX_SINGLE_QUOTES);
+	else
+		lexer_push_token(value, LEX_TERM);
+	return (token_length);
 }
 
 void	lexer(t_ms *ms)
 {
 	int	i;
-	int len;
-	int	token_length;
 
 	i = 0;
-	len = ft_strlen(ms->input);
-	while (i < len)
+	while (ms->input[i])
 	{
-		// printf("i : %d\n", i);
 		if (ms->input[i] == ' ')
-			token_length = 1;
+			i++;
 		else if (ms->input[i] == '|')
-		{
-			token_push(ft_strdup("|"), LEX_PIPE);
-			token_length = 1;
-		}
+			i += lexer_push_token(ft_strdup("|"), LEX_PIPE);
+		else if (!ft_strcmp(&ms->input[i], "<<"))
+			i += lexer_push_token(ft_strdup("<<"), LEX_IN_2);
+		else if (!ft_strcmp(&ms->input[i], ">>"))
+			i += lexer_push_token(ft_strdup(">>"), LEX_OUT_2);
 		else if (ms->input[i] == '<')
-		{
-			token_length = 1;
-			if (ms->input[i + 1] == '<')
-			{
-				token_push(ft_strdup("<<"), LEX_IN_2);
-				token_length++;
-			}
-			else
-				token_push(ft_strdup("<"), LEX_IN_1);
-		}
+			i += lexer_push_token(ft_strdup("<"), LEX_IN_1);
 		else if (ms->input[i] == '>')
-		{
-			token_length = 1;
-			if (ms->input[i + 1] == '>')
-			{
-				token_push(ft_strdup(">>"), LEX_OUT_2);
-				token_length++;
-			}
-			else
-				token_push(ft_strdup(">"), LEX_OUT_1);
-		}
+			i += lexer_push_token(ft_strdup(">"), LEX_OUT_1);
 		else if (ms->input[i] == '"')
-		{
-			token_length = ft_strlen_sep(&ms->input[i + 1], "\"") + 2;
-			//((t_token *)ft_lstlast(ms->lexemes)->content)->str = ft_strjoin(((t_token *)ft_lstlast(ms->lexemes)->content)->str, ft_substr(&ms->input[i], 0, token_length));
-			token_push(ft_substr(&ms->input[i + 1], 0, token_length - 2), LEX_DOUBLE_QUOTES);
-		}
+			i += lexer_find_match("\"", &ms->input[i + 1]) + 2;
 		else if (ms->input[i] == '\'')
-		{
-			token_length = ft_strlen_sep(&ms->input[i + 1], "\'") + 2;
-			//((t_token *)ft_lstlast(ms->lexemes)->content)->str = ft_strjoin(((t_token *)ft_lstlast(ms->lexemes)->content)->str, ft_substr(&ms->input[i], 0, token_length));
-			token_push(ft_substr(&ms->input[i + 1], 0, token_length - 2), LEX_SINGLE_QUOTES);
-		}
+			i += lexer_find_match("'", &ms->input[i + 1]) + 2;
 		else
-		{
-			token_length = ft_strlen_sep(&ms->input[i], SYMBOLS);
-			token_push(ft_substr(&ms->input[i], 0, token_length), LEX_TERM);
-		}
-		i += token_length;
+			i += lexer_find_match(SYMBOLS, &ms->input[i]);
 	}
 }
