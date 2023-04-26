@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/26 09:07:30 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/26 10:02:21 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,54 @@ bool	is_builtin(char *command)
 		|| !ft_strcmp(command, "cd") || !ft_strcmp(command, "ptmp"));
 }
 
+char	*get_executable_path(char *exe)
+{
+	char	*tmp;
+	char	*path;
+	int		i;
+
+	i = 0;
+	tmp = ft_strjoin(ms()->cwd, "/");
+	path = ft_strjoin(tmp, exe);
+	free(tmp);
+	if (access(path, F_OK) == 0)
+		return (path);
+	free(path);
+	if (access(exe, F_OK) == 0)
+		return (ft_strdup(exe));
+	while (ms()->path[i])
+	{
+		tmp = ft_strjoin(ms()->path[i], "/");
+		path = ft_strjoin(tmp, exe);
+		free(tmp);
+		if (access(path, F_OK) == 0)
+			return (path);
+		free(path);
+		i++;
+	}
+	return (NULL);
+}
+
 void	execute_if_exists(char *exe, char **argv)
+{
+	char	*path;
+
+	path = get_executable_path(exe);
+	if (path)
+	{
+		execve(path, argv, ms()->envv);
+		free(path);
+		return ;
+	}
+	else
+	{
+		ms()->laststatus = 127;
+		printf(CLR_RED"minishell: command not found: %s\n"CLR_RST, exe);
+	}
+	return ;
+}
+/* 
+void	exec_if_exists(char *exe, char **argv)
 {
 	char	*path;
 	char	*pathtoexe;
@@ -34,7 +81,7 @@ void	execute_if_exists(char *exe, char **argv)
 		free(path);
 		if (access(pathtoexe, F_OK) == 0)
 		{
-			execve(pathtoexe, argv, ms()->envv);
+			exec(pathtoexe, argv);
 			free(pathtoexe);
 			return ;
 		}
@@ -46,13 +93,13 @@ void	execute_if_exists(char *exe, char **argv)
 	free(path);
 	if (access(pathtoexe, F_OK) == 0)
 	{
-		execve(pathtoexe, argv, ms()->envv);
+		exec(pathtoexe, argv);
 		free(pathtoexe);
 		return ;
 	}
 	else if(access(exe, F_OK) == 0)
 	{
-		execve(pathtoexe, argv, ms()->envv);
+		exec(exe, argv);
 		return ;
 	}
 	else
@@ -61,17 +108,17 @@ void	execute_if_exists(char *exe, char **argv)
 		printf(CLR_RED"minishell: command not found: %s\n"CLR_RST, exe);
 	}
 	return ;
-}
+} */
 
 void	execute_command(char **args)
 {
-	char *command;
+	char	*command;
 
 	command = args[0];
 	if (!is_builtin(command))
 		execute_if_exists(command, args);
 	else if (!ft_strcmp(command, "exit"))
-		sanitize(1);
+		sanitize(true);
 	else if (!ft_strcmp(command, "pwd"))
 		printf("%s\n", ms()->cwd);
 	else if (!ft_strcmp(command, "env"))

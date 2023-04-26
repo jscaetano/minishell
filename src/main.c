@@ -36,7 +36,6 @@ static void	fill_args(char **envv)
 	ms()->laststatus = 0;
 	cwd = getcwd(NULL, 4096);
 	ms()->cwd = cwd;
-	ms()->tokensfreed = 1;
 	ms()->lexemes = NULL;
 	return ;
 }

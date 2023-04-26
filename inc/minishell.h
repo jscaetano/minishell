@@ -103,7 +103,6 @@ typedef struct s_ms
 	char	**tokens;
 	char	**path;
 	char	**envv;
-	int		tokensfreed;
 	int		num_commands;
 	int		**pipes;
 	t_env	*env;
