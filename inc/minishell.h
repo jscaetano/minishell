@@ -157,6 +157,12 @@ bool		is_assignment(int token_to_check);
 //! Fake Global
 t_ms		*ms(void);
 
+//! Pipeline
+void	create_all_pipes(void);
+void	connect_pipeline(int cmd_index);
+bool	is_unforkable(char *command);
+bool	is_builtin(char *command);
+
 //! Lists
 void		ft_stackpush(t_env *env, char *equal);
 t_env		*ft_stacknew(void);
@@ -171,7 +177,6 @@ void		expander(void);
 void		expand_variable(t_token *token);
 void		handle_input(void);
 void		read_input(void);
-
 
 //! Testing
 void		printtmp(void);
