@@ -113,7 +113,7 @@ typedef struct s_ms
 
 //! Lexer
 int			lexer_push_token(char *str, t_lex_type lexeme);
-void		lexer(t_ms *ms);
+void		lexer(void);
 
 //! Token
 t_token		*token_new(char *str, t_lex_type type);
@@ -121,9 +121,9 @@ t_token		*token_copy(t_token * token);
 void		token_destroy(void *token);
 
 //! Parser
-t_ast		*parser();
-t_ast		*parse_pipeline();
-t_ast		*parse_command();
+void		parser(void);
+t_ast		*parse_pipeline(void);
+t_ast		*parse_command(void);
 
 //! Scanner
 t_token		*scanner(t_scanner_op op);
@@ -164,19 +164,21 @@ void		execute_node(t_ast *node);
 void		execute_command_list(t_list *cmd_list);
 
 //! Input
+void		expander(void);
+void		expand_variable(t_token *token);
 void		handle_input(void);
 void		read_input(void);
 
+
 //! Testing
 void		printtmp(void);
-void		lexer_debug();
+void		lexer_debug(void);
 void		matrix_debug(char **matrix);
 void		token_debug(t_token *token);
 void		ast_debug(t_ast *ast, int depth, void (*f)());
 
 //! Utils
 char		*ft_strndup(const char *s1, int size);
-char		*ft_strncpy(char *dest, char *src, int size);
 int			ft_strcmp(char *s1, char *s2);
 void		ft_free(void *p);
 int			ft_strlen_sep(const char *s, char *seps);

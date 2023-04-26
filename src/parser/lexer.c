@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 12:10:46 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/04/26 11:42:45 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/26 14:54:19 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,30 +39,30 @@ int	lexer_find_match(char *symbols, char *input)
 	return (token_length);
 }
 
-void	lexer(t_ms *ms)
+void	lexer()
 {
 	int	i;
 
 	i = 0;
-	while (ms->input[i])
+	while (ms()->input[i])
 	{
-		if (ms->input[i] == ' ')
+		if (ms()->input[i] == ' ')
 			i++;
-		else if (ms->input[i] == '|')
+		else if (ms()->input[i] == '|')
 			i += lexer_push_token(ft_strdup("|"), LEX_PIPE);
-		else if (!ft_strcmp(&ms->input[i], "<<"))
+		else if (!ft_strcmp(&ms()->input[i], "<<"))
 			i += lexer_push_token(ft_strdup("<<"), LEX_IN_2);
-		else if (!ft_strcmp(&ms->input[i], ">>"))
+		else if (!ft_strcmp(&ms()->input[i], ">>"))
 			i += lexer_push_token(ft_strdup(">>"), LEX_OUT_2);
-		else if (ms->input[i] == '<')
+		else if (ms()->input[i] == '<')
 			i += lexer_push_token(ft_strdup("<"), LEX_IN_1);
-		else if (ms->input[i] == '>')
+		else if (ms()->input[i] == '>')
 			i += lexer_push_token(ft_strdup(">"), LEX_OUT_1);
-		else if (ms->input[i] == '"')
-			i += lexer_find_match("\"", &ms->input[i + 1]) + 2;
-		else if (ms->input[i] == '\'')
-			i += lexer_find_match("'", &ms->input[i + 1]) + 2;
+		else if (ms()->input[i] == '"')
+			i += lexer_find_match("\"", &ms()->input[i + 1]) + 2;
+		else if (ms()->input[i] == '\'')
+			i += lexer_find_match("'", &ms()->input[i + 1]) + 2;
 		else
-			i += lexer_find_match(SYMBOLS, &ms->input[i]);
+			i += lexer_find_match(SYMBOLS, &ms()->input[i]);
 	}
 }

@@ -6,13 +6,13 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/26 13:19:54 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/26 14:56:58 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	double_quotes(t_token *token)
+void	expand_variable(t_token *token)
 {
 	char	*cpy;
 	int		i;
@@ -52,7 +52,7 @@ void	double_quotes(t_token *token)
 	return ;
 }
 
-void	deal_quotes()
+void	expander()
 {
 	t_list	*tmplist;
 	t_token *tmptoken;
@@ -62,7 +62,7 @@ void	deal_quotes()
 	{
 		tmptoken = ((t_token *)tmplist->content);
 		if (tmptoken->type == LEX_DOUBLE_QUOTES || tmptoken->type == LEX_TERM)
-			double_quotes(tmptoken);
+			expand_variable(tmptoken);
 		tmplist = tmplist->next;
 	}
 }
@@ -71,10 +71,9 @@ void	handle_input(void)
 {
 	if (is_spaces((ms()->input)))
 		return ;
-	lexer(ms());
-	deal_quotes();
-	ms()->ast = parser();
-	ms()->cmd_list = ast_to_list(ms()->ast);
+	lexer();
+	expander();
+	parser();
 	if (!is_assignment(0))
 		execute_command_list(ms()->cmd_list);
 	sanitize(false);

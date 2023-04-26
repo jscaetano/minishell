@@ -12,13 +12,11 @@
 
 #include "minishell.h"
 
-t_ast	*parser(void)
+void	parser(void)
 {
-	t_ast	*root;
-
 	scanner(RESET);
-	root = parse_pipeline();
-	return (root);
+	ms()->ast = parse_pipeline();
+	ms()->cmd_list = ast_to_list(ms()->ast);
 }
 
 t_ast	*extend_pipeline(t_ast *ast, t_ast *command)
