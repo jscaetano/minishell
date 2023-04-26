@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:37:44 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/26 13:29:49 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/26 15:46:45 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ char	**matrix_copy(char **matrix)
 
 size_t	matrix_size(char **mat)
 {
-	if (!mat)
-		return (0);
 	size_t	i;
 
+	if (!mat)
+		return (0);
 	i = 0;
 	while (mat[i])
 		i++;
@@ -55,7 +55,7 @@ size_t	matrix_size(char **mat)
 
 char	**matrix_append(char **m1, char *str)
 {
-	char **res;
+	char	**res;
 	size_t	i;
 
 	i = -1;
@@ -66,4 +66,12 @@ char	**matrix_append(char **m1, char *str)
 		res[i] = ft_strdup(m1[i]);
 	res[i] = str;
 	return (res);
+}
+
+void	message(char *color, char *message, char *param)
+{
+	if (param)
+		printf("%s%s%s%s\n", color, message, param, CLR_RST);
+	else
+		printf("%s%s%s\n", color, message, CLR_RST);
 }

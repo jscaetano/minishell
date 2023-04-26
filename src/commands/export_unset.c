@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:09:10 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/26 13:23:26 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/26 16:16:01 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ void	ft_export(char **tokens)
 				new->key = ft_strdup(tmpenv->key);
 				new->value = ft_strdup(tmpenv->value);
 				new->next = ms()->env->top;
-				ms()->env->top = new;
-				ms()->env->size++;
+				(ms()->env->top) = new;
+				(ms()->env->size++);
 			}
 			tmpenv = tmpenv->next;
 		}
 		i++;
 	}
-	ms()->path = ft_split(get_env("PATH"), ':');
+	(ms()->path) = ft_split(get_env("PATH"), ':');
 }
 
 //unset (remove a=x expression, if stored in env or in tmp)
@@ -79,11 +79,11 @@ void	ft_unset(char **tokens)
 			{
 				ft_free(tmpenv->key);
 				ft_free(tmpenv->value);
-				ms()->tmp->size--;
+				(ms()->tmp->size--);
 				if (prev)
 					prev->next = tmpenv->next;
 				else
-					ms()->tmp->top = tmpenv->next;
+					(ms()->tmp->top) = tmpenv->next;
 			}
 			prev = tmpenv;
 			tmpenv = tmpenv->next;
@@ -99,17 +99,15 @@ void	ft_unset(char **tokens)
 				if (prev)
 					prev->next = tmpenv->next;
 				else
-				{
-					ms()->env->top = tmpenv->next;
-				}
-				ms()->env->size--;
+					(ms()->env->top) = tmpenv->next;
+				(ms()->env->size--);
 			}
 			prev = tmpenv;
 			tmpenv = tmpenv->next;
 		}
 		i++;
 	}
-	ms()->path = ft_split(get_env("PATH"), ':');
+	(ms()->path) = ft_split(get_env("PATH"), ':');
 }
 
 //if there is a a=x expression, store it in tmp
@@ -117,11 +115,11 @@ bool	is_assignment(int token_to_check)
 {
 	int		j;
 	t_token	*token;
-	
+
 	if (token_to_check == 0)
-		token =  (t_token *)ms()->lexemes->content;
+		token = (t_token *)ms()->lexemes->content;
 	else
-		token =  (t_token *)ms()->lexemes->next->content;	
+		token = (t_token *)ms()->lexemes->next->content;
 	j = 0;
 	while (token->str[j])
 	{

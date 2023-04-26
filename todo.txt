@@ -64,6 +64,8 @@ X		◦ exit with no options
 
 	- user after free in ast_destroy_node
 
+	- double prompting on hanging commands
+
 	
 
 ///////////////////////////////////////////

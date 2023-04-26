@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/26 14:56:58 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/26 16:00:02 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	read_input(void)
 	printf(CLR_BLUE"[%s]\n"CLR_RST, ms()->cwd);
 	while (1)
 	{
-		ms()->input = readline(PROMPT);
+		(ms()->input) = readline(PROMPT);
 		if (ms()->input && ft_strlen(ms()->input) != 0)
 			break ;
 		else if (ms()->input)

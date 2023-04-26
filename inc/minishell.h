@@ -37,6 +37,9 @@
 # define CLR_BLACK	"\033[0;30m"
 # define CLR_RST	"\033[0m"
 
+# define ERROR_UNKNOWN_DIR	"cd: no such file or directory: "
+# define ERROR_UNKNOWN_CMD	"minishell: command not found: "
+
 # define INPUT_LEN	1000
 # define PROMPT		"\033[38;5;13mft_shell > \033[0m"
 # define SYMBOLS	"<>\'\"| "
@@ -189,5 +192,6 @@ void		matrix_destroy(void *matrix);
 size_t		matrix_size(char **mat);
 char		**matrix_append(char **m1, char *str);
 char		**matrix_copy(char **matrix);
+void		message(char *color, char *message, char *param);
 
 #endif

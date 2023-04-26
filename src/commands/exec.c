@@ -6,19 +6,11 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/26 13:23:44 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/26 16:12:07 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-bool	is_builtin(char *command)
-{
-	return (!ft_strcmp(command, "exit") || !ft_strcmp(command, "pwd") \
-		|| !ft_strcmp(command, "env") || !ft_strcmp(command, "echo") \
-		|| !ft_strcmp(command, "unset") || !ft_strcmp(command, "export") \
-		|| !ft_strcmp(command, "cd") || !ft_strcmp(command, "ptmp"));
-}
 
 char	*get_executable_path(char *exe)
 {
@@ -54,16 +46,13 @@ void	execute_if_exists(char *exe, char **argv)
 
 	path = get_executable_path(exe);
 	if (path)
-	{
 		execve(path, argv, ms()->envv);
-		free(path);
-		return ;
-	}
 	else
 	{
-		ms()->laststatus = 127;
-		printf(CLR_RED"minishell: command not found: %s\n"CLR_RST, exe);
+		(ms()->laststatus) = 127;
+		message(CLR_RED, ERROR_UNKNOWN_CMD, exe);
 	}
+	free(path);
 	return ;
 }
 /* 
@@ -135,41 +124,9 @@ void	execute_command(char **args)
 		printtmp();
 }
 
-void	create_all_pipes()
-{
-	int	i;
-
-	ms()->pipes = ft_calloc(ms()->num_commands, sizeof(int *));
-	if (!ms()->pipes)
-		return ;
-	i = -1;
-	while (++i < ms()->num_commands - 1)
-	{
-		ms()->pipes[i] = ft_calloc(2, sizeof(int));
-		pipe(ms()->pipes[i]);
-	}
-}
-
-void	connect_pipeline(int cmd_index)
-{
-	if (cmd_index >= 0 && cmd_index < ms()->num_commands - 1)
-		dup2(ms()->pipes[cmd_index][WRITE_END], STDOUT_FILENO);
-	if (cmd_index > 0 && cmd_index <= ms()->num_commands - 1)
-		dup2(ms()->pipes[cmd_index - 1][READ_END], STDIN_FILENO);
-	if (ms()->pipes[cmd_index])
-		close(ms()->pipes[cmd_index][READ_END]);
-}
-
-bool	is_unforkable(char *command)
-{
-	return (!ft_strcmp(command, "cd") || !ft_strcmp(command, "exit") \
-		|| !ft_strcmp(command, "export") || !ft_strcmp(command, "unset") \
-		|| !ft_strcmp(command, "ptmp") );
-}
-
 void	execute_node(t_ast *command)
 {
-	pid_t pid;
+	pid_t	pid;
 
 	pid = fork();
 	if (pid == 0)
@@ -186,16 +143,18 @@ void	execute_node(t_ast *command)
 void	execute_command_list(t_list *cmd_list)
 {
 	t_ast	*command;
-	
+	int		status;
+
 	create_all_pipes();
 	while (cmd_list)
 	{
 		command = (t_ast *)cmd_list->content;
 		if (is_unforkable(command->args[0]))
-			execute_command(command->args);			
+			execute_command(command->args);
 		else
 			execute_node(command);
 		cmd_list = cmd_list->next;
 	}	
-	while (waitpid(0, NULL, 0) > 0);
+	while (waitpid(0, &status, 0) > 0)
+		continue ;
 }

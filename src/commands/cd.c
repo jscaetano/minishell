@@ -28,9 +28,7 @@ void	ft_cd(char **tokens)
 		free(ms()->cwd);
 		cwd = getcwd(NULL, 4096);
 		ms()->cwd = cwd;
-		return ;
 	}
 	else
-		printf(CLR_RED"cd: no such file or directory: %s\n"CLR_RST, \
-			tokens[1]);
+		message(CLR_RED, ERROR_UNKNOWN_DIR, tokens[1]);
 }
