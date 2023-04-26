@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:09:10 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/26 10:41:19 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/26 13:23:26 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,14 +115,19 @@ void	ft_unset(char **tokens)
 //if there is a a=x expression, store it in tmp
 bool	is_assignment(int token_to_check)
 {
-	int	j;
-
+	int		j;
+	t_token	*token;
+	
+	if (token_to_check == 0)
+		token =  (t_token *)ms()->lexemes->content;
+	else
+		token =  (t_token *)ms()->lexemes->next->content;	
 	j = 0;
-	while (ms()->tokens[token_to_check][j])
+	while (token->str[j])
 	{
-		if (ms()->tokens[token_to_check][j] == '=')
+		if (token->str[j] == '=')
 		{
-			ft_stackpush(ms()->tmp, ms()->tokens[token_to_check]);
+			ft_stackpush(ms()->tmp, ft_strdup(token->str));
 			return (true);
 		}
 		j++;

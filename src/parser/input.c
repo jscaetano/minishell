@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/26 11:53:20 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/26 13:19:54 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void	handle_input(void)
 	deal_quotes();
 	ms()->ast = parser();
 	ms()->cmd_list = ast_to_list(ms()->ast);
-	ms()->tokens = ft_split(ms()->input, ' ');
 	if (!is_assignment(0))
 		execute_command_list(ms()->cmd_list);
 	sanitize(false);

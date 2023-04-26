@@ -100,7 +100,6 @@ typedef struct s_ms
 	char	*cwd;
 	int		laststatus;
 	char	*input;
-	char	**tokens;
 	char	**path;
 	char	**envv;
 	int		num_commands;

@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:38:08 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/26 11:46:24 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/26 13:24:50 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	sanitize(bool end)
 	ft_lstclear(&ms()->cmd_list, (void (*)(void *))ast_clear);
 	ast_clear(ms()->ast);
 	matrix_destroy(ms()->pipes);
-	matrix_destroy(ms()->tokens);
 	ft_free(ms()->input);
 	ms()->num_commands = 0;
 	if (end)
