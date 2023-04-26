@@ -45,7 +45,6 @@ void	ast_clear(t_ast *ast)
 		return ;
 	ast_clear(ast->left);
 	ast_clear(ast->right);
-	token_debug(ast->token);
 	ast_destroy_node(ast);
 }
 

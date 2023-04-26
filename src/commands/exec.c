@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/25 17:06:03 by marvin           ###   ########.fr       */
+/*   Updated: 2023/04/26 08:53:44 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,41 +100,12 @@ void	create_all_pipes()
 	}
 }
 
-void	close_all_pipes(int node_index, int end)
+void	connect_pipeline(int cmd_index)
 {
-	int i;
-	
-	if (!ms()->pipes[node_index])
-		return ;
-
-	i = -1;
-	while (++i <= node_index)
-		close(ms()->pipes[i][end]);
-}
-
-void	first_pipeline_command(int node_index)
-{
-	#ifdef DEBUG
-		printf("First -> Input [-][-] Output [%d][WRITE_END]\n", node_index);
-	#endif
-	dup2(ms()->pipes[node_index][WRITE_END], STDOUT_FILENO);
-}
-
-void	last_pipeline_command(int node_index)
-{
-	#ifdef DEBUG
-		printf("Last -> Input [%d][READ_END] Output [-][-]\n", node_index - 1);
-	#endif
-	dup2(ms()->pipes[node_index - 1][READ_END], STDIN_FILENO);
-}
-
-void	middle_pipeline_command(int node_index)
-{
-	#ifdef DEBUG
-		printf("Input [%d][READ_END] - Output [%d][WRITE_END]\n", node_index - 1, node_index);
-	#endif
-	dup2(ms()->pipes[node_index][WRITE_END], STDOUT_FILENO);
-	dup2(ms()->pipes[node_index - 1][READ_END], STDIN_FILENO);
+	if (cmd_index >= 0 && cmd_index < ms()->num_commands - 1)
+		dup2(ms()->pipes[cmd_index][WRITE_END], STDOUT_FILENO);
+	if (cmd_index > 0 && cmd_index <= ms()->num_commands - 1)
+		dup2(ms()->pipes[cmd_index - 1][READ_END], STDIN_FILENO);
 }
 
 bool	is_forkable(char *command)
@@ -144,29 +115,24 @@ bool	is_forkable(char *command)
 		&& ft_strcmp(command, "ptmp") != 0 );
 }
 
-void	execute_node(t_ast *node)
+void	execute_node(t_ast *command)
 {
 	pid_t pid;
 
 	pid = fork();
 	if (pid == 0)
 	{	
-		if (ms()->num_commands == 1)
+		if (ms()->num_commands > 1)
 		{
-			execute_command(node->args[0], node->args);
-			exit(EXIT_SUCCESS);			
+			connect_pipeline(command->index);
+			if (ms()->pipes[command->index])
+				close(ms()->pipes[command->index][READ_END]);
 		}
-		if (node->index == 0)
-			first_pipeline_command(node->index);
-		else if (node->index == ms()->num_commands - 1)
-			last_pipeline_command(node->index);
-		else
-			middle_pipeline_command(node->index);
-		close_all_pipes(node->index, READ_END);
-		execute_command(node->args[0], node->args);
+		execute_command(command->args[0], command->args);
 		exit(EXIT_SUCCESS);
 	}
-	close_all_pipes(node->index, WRITE_END);
+	if (ms()->pipes[command->index])
+		close(ms()->pipes[command->index][WRITE_END]);
 }
 
 void	execute_command_list(t_list *cmd_list)
