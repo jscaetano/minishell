@@ -54,21 +54,21 @@ t_ast	*parse_pipeline()
 
 t_ast	*parse_command()
 {
-	t_ast	*root;
+	t_ast	*command;
 	t_token	*curr;
 
-	root = ast_new(token_copy(scanner(READ)));
-	if (!root)
+	command = ast_new(token_copy(scanner(READ)));
+	if (!command)
 		return (NULL);
-	root->args = ft_calloc(1, sizeof(char *));
-	root->index = ms()->num_commands++;
+	command->args = ft_calloc(1, sizeof(char *));
+	command->index = ms()->num_commands++;
 	curr = scanner(READ);
 	while (curr->type != LEX_PIPE)
 	{
-		root->args = matrix_append(root->args, curr->str);
+		command->args = matrix_append(command->args, ft_strdup(curr->str));
 		if (!scanner(NEXT))
 			break;
 		curr = scanner(READ);
 	}
-	return (root);
+	return (command);
 }

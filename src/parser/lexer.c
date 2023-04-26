@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 12:10:46 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/04/17 10:47:47 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/26 09:07:30 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	token_push(char *str, t_lex_type lexeme)
 
 	token = token_new(str, lexeme);
 	if (!token || !str)
-		no_leaks(1);
+		sanitize(1);
 	ft_lstadd_back(&ms()->lexemes, ft_lstnew(token));
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lists.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:13:12 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/03 19:13:40 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/04/26 09:18:08 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,19 @@ void	ft_stackpush(t_env *env, char *equal)
 	{
 		while (tmp)
 		{
-			if (!ft_strcmp(tmp->name, name))
+			if (!ft_strcmp(tmp->key, name))
 			{
 				i++;
-				tmp->content = ft_strdup(equal + i);
+				tmp->value = ft_strdup(equal + i);
 				return ;
 			}
 			tmp = tmp->next;
 		}
 	}
 	new = malloc(sizeof(t_var));
-	new->name = name;
+	new->key = name;
 	i++;
-	new->content = ft_strdup(equal + i);
+	new->value = ft_strdup(equal + i);
 	new->next = env->top;
 	env->top = new;
 	env->size++;

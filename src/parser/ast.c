@@ -81,7 +81,6 @@ t_ast	*ast_copy(t_ast *ast)
 
 t_list	*ast_to_list(t_ast *ast)
 {
-	token_debug(ast->token);
 	t_list	*cmd_list;
 	t_list	*curr;
 

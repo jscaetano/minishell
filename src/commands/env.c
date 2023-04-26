@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:26:30 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/26 15:30:34 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/26 09:18:08 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ char	*get_env(char *str)
 	tmp = ms()->env->top;
 	while (tmp->next)
 	{
-		if (!ft_strncmp(tmp->name, str, len))
-			return (tmp->content);
+		if (!ft_strncmp(tmp->key, str, len))
+			return (tmp->value);
 		tmp = tmp->next;
 	}
-	if (!ft_strncmp(tmp->name, str, len))
-		return (tmp->content);
+	if (!ft_strncmp(tmp->key, str, len))
+		return (tmp->value);
 	return (ft_strdup(""));
 }
 
@@ -65,8 +65,8 @@ void	ft_env(void)
 		return ;
 	while (tmp->next)
 	{
-		printf("%s=%s\n", tmp->name, tmp->content);
+		printf("%s=%s\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
-	printf("%s=%s\n", tmp->name, tmp->content);
+	printf("%s=%s\n", tmp->key, tmp->value);
 }

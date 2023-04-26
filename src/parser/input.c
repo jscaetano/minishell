@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/25 17:56:48 by marvin           ###   ########.fr       */
+/*   Updated: 2023/04/26 09:08:38 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,7 @@ void	handle_input(void)
 	}
 	printf("Num commands: %d\n", ms()->num_commands);
 	execute_command_list(ms()->cmd_list);
-	ft_lstclear(&ms()->lexemes, (void (*)(void *))token_destroy);
-	// ft_lstclear(&ms()->cmd_list, (void (*)(void *))ast_destroy_node);
-	//ast_clear
-	ms()->num_commands = 0;
+	sanitize(false);
 }
 
 void	read_input(void)
@@ -109,6 +106,6 @@ void	read_input(void)
 		else if (ms()->input)
 			free(ms()->input);
 		else
-			no_leaks(1);
+			sanitize(true);
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_unset.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:09:10 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/25 17:31:10 by marvin           ###   ########.fr       */
+/*   Updated: 2023/04/26 09:18:08 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_export(char **tokens)
 	if (find_equals(1))
 	{
 		if (!ft_strcmp(get_env(tokens[1]), ""))
-			tokens[1] = ms()->tmp->top->name;
+			tokens[1] = ms()->tmp->top->key;
 	}
 	i = 1;
 	new = malloc(sizeof(t_var));
@@ -34,22 +34,22 @@ void	ft_export(char **tokens)
 		tmpenv = ms()->tmp->top;
 		while (tmpenv)
 		{
-			if (!ft_strcmp(tmpenv->name, tokens[i]))
+			if (!ft_strcmp(tmpenv->key, tokens[i]))
 			{
 				while (tmp)
 				{
-					if (!ft_strcmp(tmpenv->name, tmp->name))
+					if (!ft_strcmp(tmpenv->key, tmp->key))
 					{
-						if (tmpenv->content != NULL)
-							tmp->content = tmpenv->content;
-						tmpenv->content = NULL;
+						if (tmpenv->value != NULL)
+							tmp->value = tmpenv->value;
+						tmpenv->value = NULL;
 						free (new);
 						return ;
 					}
 					tmp = tmp->next;
 				}
-				new->name = ft_strdup(tmpenv->name);
-				new->content = ft_strdup(tmpenv->content);
+				new->key = ft_strdup(tmpenv->key);
+				new->value = ft_strdup(tmpenv->value);
 				new->next = ms()->env->top;
 				ms()->env->top = new;
 				ms()->env->size++;
@@ -75,10 +75,10 @@ void	ft_unset(char **tokens)
 		tmpenv = ms()->tmp->top;
 		while (tmpenv)
 		{
-			if (!ft_strcmp(tmpenv->name, tokens[i]))
+			if (!ft_strcmp(tmpenv->key, tokens[i]))
 			{
-				ft_free(tmpenv->name);
-				ft_free(tmpenv->content);
+				ft_free(tmpenv->key);
+				ft_free(tmpenv->value);
 				ms()->tmp->size--;
 				if (prev)
 					prev->next = tmpenv->next;
@@ -92,10 +92,10 @@ void	ft_unset(char **tokens)
 		tmpenv = ms()->env->top;
 		while (tmpenv)
 		{
-			if (!ft_strcmp(tmpenv->name, tokens[i]))
+			if (!ft_strcmp(tmpenv->key, tokens[i]))
 			{
-				ft_free(tmpenv->name);
-				ft_free(tmpenv->content);
+				ft_free(tmpenv->key);
+				ft_free(tmpenv->value);
 				if (prev)
 					prev->next = tmpenv->next;
 				else

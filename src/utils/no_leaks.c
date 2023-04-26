@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   no_leaks.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:38:08 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/03 19:38:41 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/04/26 09:21:57 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,15 @@ void	ft_free(void *p)
 	p = NULL;
 }
 
-void	no_leaks(int end)
+void	sanitize(bool end)
 {
-	int	i;
-
-	i = 0;
+	ft_lstclear(&ms()->lexemes, (void (*)(void *))token_destroy);
+	// ft_lstclear(&ms()->cmd_list, (void (*)(void *))ast_destroy_node);
+	ast_clear(ms()->ast);
+	matrix_destroy(ms()->pipes);
+	matrix_destroy(ms()->tokens);
 	ft_free(ms()->input);
-	if (!ms()->tokensfreed)
-	{
-		while (ms()->tokens[i])
-			ft_free(ms()->tokens[i++]);
-		ft_free(ms()->tokens);
-		ms()->tokensfreed = 1;
-	}
+	ms()->num_commands = 0;
 	printf("\n");
 	if (end)
 	{

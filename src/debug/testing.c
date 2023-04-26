@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   testing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:10:59 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/25 17:50:17 by marvin           ###   ########.fr       */
+/*   Updated: 2023/04/26 09:18:08 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ void	printtmp(void)
 		return ;
 	while (tmp->next)
 	{
-		if (tmp->content)
-			printf("%s=%s\n", tmp->name, tmp->content);
+		if (tmp->value)
+			printf("%s=%s\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
-	if (tmp->content)
-		printf("%s=%s\n", tmp->name, tmp->content);
+	if (tmp->value)
+		printf("%s=%s\n", tmp->key, tmp->value);
 }
 
 void	matrix_debug(char **matrix)

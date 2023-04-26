@@ -84,8 +84,8 @@ typedef struct s_ast
 
 typedef struct s_var
 {
-	char			*name;
-	char			*content;
+	char			*key;
+	char			*value;
 	struct s_var	*next;
 }	t_var;
 
@@ -121,7 +121,7 @@ int			ft_strcmp(char *s1, char *s2);
 void		ft_free(void *p);
 int			ft_strlen_sep(const char *s, char *seps);
 int			ft_strlen_sep_alnum(const char *s);
-void		no_leaks(int end);
+void		sanitize(bool end);
 int			is_spaces(char *str);
 void		matrix_destroy(void *matrix);
 size_t		matrix_size(char **mat);

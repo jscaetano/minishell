@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/26 08:59:54 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/26 09:07:30 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	execute_command(char **args)
 	if (!is_builtin(command))
 		execute_if_exists(command, args);
 	else if (!ft_strcmp(command, "exit"))
-		no_leaks(1);
+		sanitize(1);
 	else if (!ft_strcmp(command, "pwd"))
 		printf("%s\n", ms()->cwd);
 	else if (!ft_strcmp(command, "env"))
@@ -151,5 +151,4 @@ void	execute_command_list(t_list *cmd_list)
 		cmd_list = cmd_list->next;
 	}	
 	while (waitpid(0, NULL, 0) > 0);
-	matrix_destroy(ms()->pipes);
 }
