@@ -22,46 +22,20 @@ int	ft_strcmp(char *s1, char *s2)
 	return (s1[i] - s2[i]);
 }
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int	is_spaces(char *str)
 {
-	while ((*s1 != '\0') && (*s2 != '\0') && (n > 0))
-	{
-		if (*s1 != *s2)
-			break ;
-		s1++;
-		s2++;
-		n--;
-	}
-	if (n == 0)
-		return (0);
-	return (*(unsigned char *)s1 - *(unsigned char *)s2);
-}
-
-size_t	matrix_size(char **mat)
-{
-	if (!mat)
-		return (0);
 	size_t	i;
 
 	i = 0;
-	while (mat[i])
+	while (str[i])
+	{
+		if (str[i] != '\f' && str[i] != '\n'
+		&& str[i] != '\r' && str[i] != '\t'
+		&& str[i] != '\v' && str[i] != ' ')
+			return (0);
 		i++;
-	return (i);
-}
-
-char	**matrix_append(char **m1, char *str)
-{
-	char **res;
-	size_t	i;
-
-	i = -1;
-	res = ft_calloc(matrix_size(m1) + 2, sizeof(char *));
-	if (!res)
-		return (NULL);
-	while(m1[++i])
-		res[i] = ft_strdup(m1[i]);
-	res[i] = str;
-	return (res);
+	}
+	return (1);
 }
 
 int		ft_strlen_sep(const char *s, char *seps)
@@ -82,4 +56,21 @@ int		ft_strlen_sep_alnum(const char *s)
 	while (ft_isalnum(s[i]))
 		i++;
 	return (i);
+}
+
+char	*ft_strndup(const char *s1, int size)
+{
+	char	*dest;
+	int		srcsize;
+	char	*str;
+	int		tmpsize;
+
+	tmpsize = size;
+	str = (char *)s1;
+	srcsize = 0;
+	while (s1[srcsize] != '\0' && tmpsize--)
+		srcsize++;
+	dest = malloc((srcsize + 1));
+	ft_strlcpy(dest, str, size + 1);
+	return (dest);
 }

@@ -3,71 +3,67 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:37:44 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/03/21 09:22:58 by crypto           ###   ########.fr       */
+/*   Updated: 2023/04/26 13:29:49 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_strcpy(char *dest, char *src)
+void	matrix_destroy(void *matrix)
 {
-	int	i;
+	size_t i;
+
+	if (!matrix)
+		return ;
+	i = 0;
+	while (((char**)matrix)[i])
+		free(((char**)matrix)[i++]);
+	free(matrix);
+}
+
+char	**matrix_copy(char **matrix)
+{
+	char	**dup;
+	size_t	i;
 
 	i = 0;
-	while (src[i] != '\0')
-	{
-		dest[i] = src[i];
+	while (matrix[i])
 		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
+	dup = ft_calloc(i + 1, sizeof(char *));
+	if (!dup)
+		return (NULL);
+	i = -1;
+	while (matrix[++i])
+		dup[i] = ft_strdup(matrix[i]);
+	return (dup);
 }
 
-char	*ft_strncpy(char *dest, char *src, int size)
+size_t	matrix_size(char **mat)
 {
-	int	i;
+	if (!mat)
+		return (0);
+	size_t	i;
 
 	i = 0;
-	while (src[i] != '\0' && size--)
-	{
-		dest[i] = src[i];
+	while (mat[i])
 		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
+	return (i);
 }
 
-char	*ft_strdup(const char *s1)
+char	**matrix_append(char **m1, char *str)
 {
-	char	*dest;
-	int		srcsize;
-	char	*str;
+	char **res;
+	size_t	i;
 
-	str = (char *)s1;
-	srcsize = 0;
-	while (s1[srcsize] != '\0')
-		srcsize++;
-	dest = malloc((srcsize + 1));
-	ft_strcpy(dest, str);
-	return (dest);
-}
-
-char	*ft_strndup(const char *s1, int size)
-{
-	char	*dest;
-	int		srcsize;
-	char	*str;
-	int		tmpsize;
-
-	tmpsize = size;
-	str = (char *)s1;
-	srcsize = 0;
-	while (s1[srcsize] != '\0' && tmpsize--)
-		srcsize++;
-	dest = malloc((srcsize + 1));
-	ft_strncpy(dest, str, size);
-	return (dest);
+	i = -1;
+	res = ft_calloc(matrix_size(m1) + 2, sizeof(char *));
+	if (!res)
+		return (NULL);
+	while(m1[++i])
+		res[i] = ft_strdup(m1[i]);
+	res[i] = str;
+	return (res);
 }

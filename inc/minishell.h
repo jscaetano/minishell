@@ -176,7 +176,6 @@ void		ast_debug(t_ast *ast, int depth, void (*f)());
 
 //! Utils
 char		*ft_strndup(const char *s1, int size);
-char		*ft_strcpy(char *dest, char *src);
 char		*ft_strncpy(char *dest, char *src, int size);
 int			ft_strcmp(char *s1, char *s2);
 void		ft_free(void *p);
