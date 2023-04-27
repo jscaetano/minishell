@@ -6,11 +6,26 @@
 /*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/27 19:00:46 by crypto           ###   ########.fr       */
+/*   Updated: 2023/04/27 21:13:15 by crypto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	expander()
+{
+	t_list	*tmplist;
+	t_token *tmptoken;
+
+	tmplist = ms()->lexemes;
+	while (tmplist)
+	{
+		tmptoken = ((t_token *)tmplist->content);
+		if (tmptoken->type == LEX_DOUBLE_QUOTES || tmptoken->type == LEX_TERM)
+			expand_variable(tmptoken);
+		tmplist = tmplist->next;
+	}
+}
 
 void	expand_variable(t_token *token)
 {
@@ -50,21 +65,6 @@ void	expand_variable(t_token *token)
 	}
 	token->str = cpy;
 	return ;
-}
-
-void	expander()
-{
-	t_list	*tmplist;
-	t_token *tmptoken;
-
-	tmplist = ms()->lexemes;
-	while (tmplist)
-	{
-		tmptoken = ((t_token *)tmplist->content);
-		if (tmptoken->type == LEX_DOUBLE_QUOTES || tmptoken->type == LEX_TERM)
-			expand_variable(tmptoken);
-		tmplist = tmplist->next;
-	}
 }
 
 void	handle_input(void)

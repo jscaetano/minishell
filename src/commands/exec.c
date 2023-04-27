@@ -6,11 +6,84 @@
 /*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/27 21:01:19 by crypto           ###   ########.fr       */
+/*   Updated: 2023/04/27 21:14:08 by crypto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	execute_command_list(t_list *cmd_list)
+{
+	t_ast	*command;
+	int		status;
+
+	create_all_pipes();
+	while (cmd_list)
+	{
+		command = (t_ast *)cmd_list->content;
+		if (is_unforkable(command->args[0]))
+			execute_command(command->args);
+		else
+			execute_forkable(command);
+		cmd_list = cmd_list->next;
+	}	
+	while (waitpid(0, &status, 0) > 0)
+		continue ;
+}
+
+void	execute_forkable(t_ast *command)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == 0)
+	{	
+		if (ms()->num_commands > 1)
+			connect_pipeline(command->index);
+		execute_command(command->args);
+		exit(EXIT_SUCCESS);
+	}
+	if (ms()->pipes[command->index])
+		close(ms()->pipes[command->index][WRITE_END]);
+}
+
+void	execute_command(char **args)
+{
+	if (!is_builtin(args[0]))
+		execute_if_exists(args[0], args);
+	else if (!ft_strcmp(args[0], "exit"))
+		sanitize(true);
+	else if (!ft_strcmp(args[0], "pwd"))
+		printf("%s\n", ms()->cwd);
+	else if (!ft_strcmp(args[0], "env"))
+		ft_env();
+	else if (!ft_strcmp(args[0], "echo"))
+		ft_echo(args);
+	else if (!ft_strcmp(args[0], "unset"))
+		ft_unset(args);
+	else if (!ft_strcmp(args[0], "export"))
+		ft_export(args);
+	else if (!ft_strcmp(args[0], "cd"))
+		ft_cd(args);
+	else if (!ft_strcmp(args[0], "ptmp"))
+		printtmp();
+}
+
+void	execute_if_exists(char *exe, char **argv)
+{
+	char	*path;
+
+	path = get_executable_path(exe);
+	if (path)
+		execve(path, argv, ms()->envv);
+	else
+	{
+		(ms()->laststatus) = 127;
+		message(CLR_RED, ERROR_UNKNOWN_CMD, exe);
+	}
+	free(path);
+	return ;
+}
 
 char	*get_executable_path(char *exe)
 {
@@ -37,22 +110,6 @@ char	*get_executable_path(char *exe)
 	if (access(exe, F_OK) == 0)
 		return (ft_strdup(exe));
 	return (NULL);
-}
-
-void	execute_if_exists(char *exe, char **argv)
-{
-	char	*path;
-
-	path = get_executable_path(exe);
-	if (path)
-		execve(path, argv, ms()->envv);
-	else
-	{
-		(ms()->laststatus) = 127;
-		message(CLR_RED, ERROR_UNKNOWN_CMD, exe);
-	}
-	free(path);
-	return ;
 }
 /* 
 void	exec_if_exists(char *exe, char **argv)
@@ -97,60 +154,3 @@ void	exec_if_exists(char *exe, char **argv)
 	}
 	return ;
 } */
-
-void	execute_command(char **args)
-{
-	if (!is_builtin(args[0]))
-		execute_if_exists(args[0], args);
-	else if (!ft_strcmp(args[0], "exit"))
-		sanitize(true);
-	else if (!ft_strcmp(args[0], "pwd"))
-		printf("%s\n", ms()->cwd);
-	else if (!ft_strcmp(args[0], "env"))
-		ft_env();
-	else if (!ft_strcmp(args[0], "echo"))
-		ft_echo(args);
-	else if (!ft_strcmp(args[0], "unset"))
-		ft_unset(args);
-	else if (!ft_strcmp(args[0], "export"))
-		ft_export(args);
-	else if (!ft_strcmp(args[0], "cd"))
-		ft_cd(args);
-	else if (!ft_strcmp(args[0], "ptmp"))
-		printtmp();
-}
-
-void	execute_forkable(t_ast *command)
-{
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == 0)
-	{	
-		if (ms()->num_commands > 1)
-			connect_pipeline(command->index);
-		execute_command(command->args);
-		exit(EXIT_SUCCESS);
-	}
-	if (ms()->pipes[command->index])
-		close(ms()->pipes[command->index][WRITE_END]);
-}
-
-void	execute_command_list(t_list *cmd_list)
-{
-	t_ast	*command;
-	int		status;
-
-	create_all_pipes();
-	while (cmd_list)
-	{
-		command = (t_ast *)cmd_list->content;
-		if (is_unforkable(command->args[0]))
-			execute_command(command->args);
-		else
-			execute_forkable(command);
-		cmd_list = cmd_list->next;
-	}	
-	while (waitpid(0, &status, 0) > 0)
-		continue ;
-}

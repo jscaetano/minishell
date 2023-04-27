@@ -125,6 +125,7 @@ typedef struct s_ms
 
 //! Lexer
 int			lexer_push_token(char *str, t_lex_type lexeme);
+int			lexer_find_match(char *symbols, char *input);
 void		lexer(void);
 
 //! Token
@@ -136,6 +137,7 @@ void		token_destroy(void *token);
 void		parser(void);
 t_ast		*parse_pipeline(void);
 t_ast		*parse_command(void);
+t_ast		*extend_pipeline(t_ast *ast, t_ast *command);
 
 //! Scanner
 t_token		*scanner(t_scanner_op op);
@@ -151,9 +153,9 @@ t_list		*ast_to_list(t_ast *ast);
 void		ft_cd(char **tokens);
 
 //! ENV
+void		ft_env(void);
 t_env		*envlist(char **envv);
 char		*get_env(char *str);
-void		ft_env(void);
 
 //! ECHO
 void		ft_echo(char **tokens);
@@ -177,9 +179,11 @@ void		ft_stackpush(t_env *env, char *equal);
 t_env		*ft_stacknew(void);
 
 //! Exec
-void		execute_if_exists(char *exe, char **argv);
-void		execute_node(t_ast *node);
 void		execute_command_list(t_list *cmd_list);
+void		execute_forkable(t_ast *node);
+void		execute_command(char **args);
+void		execute_if_exists(char *exe, char **argv);
+char		*get_executable_path(char *exe);
 
 //! Input
 void		expander(void);

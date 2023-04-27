@@ -24,6 +24,18 @@ t_ast	*ast_new(t_token *token)
 	return (node);
 }
 
+t_ast	*ast_copy(t_ast *ast)
+{
+	t_ast	*dup;
+
+	dup = ast_new(token_copy(ast->token));
+	if (!dup)
+		return (NULL);
+	dup->args = matrix_copy(ast->args);
+	dup->index = ast->index;
+	return (dup);
+}
+
 void	ast_insert(t_ast **ast, t_ast *node, bool left)
 {
 	if (*ast && left)
@@ -43,18 +55,6 @@ void	ast_clear(t_ast *ast)
 	token_destroy(ast->token);
 	matrix_destroy(ast->args);
 	ft_free(ast);
-}
-
-t_ast	*ast_copy(t_ast *ast)
-{
-	t_ast	*dup;
-
-	dup = ast_new(token_copy(ast->token));
-	if (!dup)
-		return (NULL);
-	dup->args = matrix_copy(ast->args);
-	dup->index = ast->index;
-	return (dup);
 }
 
 t_list	*ast_to_list(t_ast *ast)
