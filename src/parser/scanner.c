@@ -16,14 +16,11 @@ t_token	*scanner(t_scanner_op op)
 {
 	static t_list	*current = NULL;
 
-	if (op == READ)
+	if (op == READ && current)
 		return (current->content);
 	else if (op == RESET)
 		current = ms()->lexemes;
-	else if (op == NEXT && current->next)
-	{
+	else if (op == NEXT)
 		current = current->next;
-		return (current->content);
-	}
 	return (NULL);
 }

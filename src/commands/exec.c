@@ -6,7 +6,7 @@
 /*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/27 18:04:17 by crypto           ###   ########.fr       */
+/*   Updated: 2023/04/27 18:23:07 by crypto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void	execute_command(char **args)
 		printtmp();
 }
 
-void	execute_node(t_ast *command)
+void	execute_forkable(t_ast *command)
 {
 	pid_t	pid;
 
@@ -151,7 +151,7 @@ void	execute_command_list(t_list *cmd_list)
 		if (is_unforkable(command->args[0]))
 			execute_command(command->args);
 		else
-			execute_node(command);
+			execute_forkable(command);
 		cmd_list = cmd_list->next;
 	}	
 	while (waitpid(0, &status, 0) > 0)

@@ -20,6 +20,7 @@ t_ast	*ast_new(t_token *token)
 	if (!node)
 		return (NULL);
 	node->token = token;
+	node->args = ft_calloc(1, sizeof(char *));
 	return (node);
 }
 

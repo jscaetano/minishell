@@ -62,9 +62,9 @@ X		◦ exit with no options
 
 	-check for forbidden functions
 
-	- user after free in ast_destroy_node
-
 	- double prompting on hanging commands
+
+	- use after free when CTRL-D in ast_clear
 
 	
 
