@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/26 16:12:07 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/27 18:04:17 by crypto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,16 @@ char	*get_executable_path(char *exe)
 	char	*path;
 	int		i;
 
-	i = 0;
+	i = -1;
+	while (ms()->path[++i])
+	{
+		tmp = ft_strjoin(ms()->path[i], "/");
+		path = ft_strjoin(tmp, exe);
+		free(tmp);
+		if (access(path, F_OK) == 0)
+			return (path);
+		free(path);
+	}
 	tmp = ft_strjoin(ms()->cwd, "/");
 	path = ft_strjoin(tmp, exe);
 	free(tmp);
@@ -27,16 +36,6 @@ char	*get_executable_path(char *exe)
 	free(path);
 	if (access(exe, F_OK) == 0)
 		return (ft_strdup(exe));
-	while (ms()->path[i])
-	{
-		tmp = ft_strjoin(ms()->path[i], "/");
-		path = ft_strjoin(tmp, exe);
-		free(tmp);
-		if (access(path, F_OK) == 0)
-			return (path);
-		free(path);
-		i++;
-	}
 	return (NULL);
 }
 
