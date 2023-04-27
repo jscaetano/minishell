@@ -6,7 +6,7 @@
 /*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/27 18:23:07 by crypto           ###   ########.fr       */
+/*   Updated: 2023/04/27 21:01:19 by crypto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,26 +100,23 @@ void	exec_if_exists(char *exe, char **argv)
 
 void	execute_command(char **args)
 {
-	char	*command;
-
-	command = args[0];
-	if (!is_builtin(command))
-		execute_if_exists(command, args);
-	else if (!ft_strcmp(command, "exit"))
+	if (!is_builtin(args[0]))
+		execute_if_exists(args[0], args);
+	else if (!ft_strcmp(args[0], "exit"))
 		sanitize(true);
-	else if (!ft_strcmp(command, "pwd"))
+	else if (!ft_strcmp(args[0], "pwd"))
 		printf("%s\n", ms()->cwd);
-	else if (!ft_strcmp(command, "env"))
+	else if (!ft_strcmp(args[0], "env"))
 		ft_env();
-	else if (!ft_strcmp(command, "echo"))
+	else if (!ft_strcmp(args[0], "echo"))
 		ft_echo(args);
-	else if (!ft_strcmp(command, "unset"))
+	else if (!ft_strcmp(args[0], "unset"))
 		ft_unset(args);
-	else if (!ft_strcmp(command, "export"))
+	else if (!ft_strcmp(args[0], "export"))
 		ft_export(args);
-	else if (!ft_strcmp(command, "cd"))
+	else if (!ft_strcmp(args[0], "cd"))
 		ft_cd(args);
-	else if (!ft_strcmp(command, "ptmp"))
+	else if (!ft_strcmp(args[0], "ptmp"))
 		printtmp();
 }
 

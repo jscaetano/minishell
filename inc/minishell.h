@@ -48,7 +48,16 @@
 # define DEBUG
 # define HERE		printf("HERE\n");
 
-typedef enum s_lex_type
+typedef enum e_exit_status
+{
+	EXIT_OK = 0,
+	EXIT_FAIL = 1,
+	EXIT_INCORRECT_USAGE = 2,
+	EXIT_UNKNOWN_COMMAND = 127,
+	EXIT_SIGINT = 130
+}t_exit_status;
+
+typedef enum e_lex_type
 {
 	LEX_IN_1,
 	LEX_OUT_1,
@@ -63,7 +72,7 @@ typedef enum s_lex_type
 	LEX_LEFT_PAR,
 }t_lex_type;
 
-typedef enum s_scanner_op
+typedef enum e_scanner_op
 {
 	READ,
 	NEXT,

@@ -50,23 +50,25 @@ X		◦ exit with no options
 
 
 ///////////////////////////////////////////
-	-pipes (sequential or parallel)
+	- ft_exit
 
-	-ft_exit
+	- redirections
 
-	-redirections
+	- deal with leaks
 
-	-deal with leaks
+	- deal with norm
 
-	-deal with norm
-
-	-check for forbidden functions
+	- check for forbidden functions
 
 	- double prompting on hanging commands
 
 	- use after free when CTRL-D in ast_clear
 
-	
+	- print envs with no arguments on export
+
+	- print error messages on builtin commands in the stderr
+
+	- export variables depending on other variables (?)	
 
 ///////////////////////////////////////////
 
@@ -104,7 +106,7 @@ EVALUATION TESTS:
 		If something crashes, select the "crash" flag.
 		If something doesn't work, select the "incomplete work" flag.
 
-✅exit
+❌exit
 		Execute exit command with or without arguments.
 		Repeat multiple times with different arguments.
 		Don't forget to relaunch the minishell
@@ -121,7 +123,7 @@ EVALUATION TESTS:
 		If something crashes, select the "crash" flag.
 		If something doesn't work, select the "incomplete work" flag.
 
-✅Signals
+❌Signals
 		ctrl-C in an empty prompt should display a new line with a new prompt.
 		ctrl-\ in an empty prompt should not do anything.
 		ctrI-D in an empty prompt should quit minishell --> RELAUNCH!
