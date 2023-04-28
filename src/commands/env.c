@@ -6,31 +6,24 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:26:30 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/26 09:18:08 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/28 11:26:50 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // creates and fills the env list with var (including name and content)
-t_env	*envlist(char **envv)
+t_env	*envlist(char **envp)
 {
 	t_env	*env;
-	int		size;
 	int		i;
 
-	i = 0;
-	size = 0;
-	while (envv[i++])
-		size++;
-	i = size - 1;
-	env = malloc(sizeof(t_env));
+	i = matrix_size(envp);
+	env = ft_calloc(1, sizeof(t_env));
 	if (!env)
 		return (NULL);
-	env->size = 0;
-	env->top = NULL;
-	while (i >= 0)
-		ft_stackpush(env, envv[i--]);
+	while (--i >= 0)
+		ft_stackpush(env, envp[i]);
 	return (env);
 }
 
@@ -44,14 +37,12 @@ char	*get_env(char *str)
 		str++;
 	len = ft_strlen(str);
 	tmp = ms()->env->top;
-	while (tmp->next)
+	while (tmp)
 	{
 		if (!ft_strncmp(tmp->key, str, len))
-			return (tmp->value);
+			return (ft_strdup(tmp->value));
 		tmp = tmp->next;
 	}
-	if (!ft_strncmp(tmp->key, str, len))
-		return (tmp->value);
 	return (ft_strdup(""));
 }
 
@@ -63,10 +54,9 @@ void	ft_env(void)
 	tmp = ms()->env->top;
 	if (!tmp)
 		return ;
-	while (tmp->next)
+	while (tmp)
 	{
 		printf("%s=%s\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
-	printf("%s=%s\n", tmp->key, tmp->value);
 }

@@ -175,6 +175,9 @@ bool		is_unforkable(char *command);
 bool		is_builtin(char *command);
 
 //! Lists
+t_var		*var_new(char *key, char *value);
+t_var		*var_copy(t_var	*var);
+t_var		*find_env(t_env *env, char *key);
 void		ft_stackpush(t_env *env, char *equal);
 t_env		*ft_stacknew(void);
 

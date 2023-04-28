@@ -6,18 +6,27 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:09:10 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/26 16:16:01 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/28 14:00:33 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// if (!ft_strcmp(tmp->key, env->key))
+// {
+// 	if (tmp->value != NULL)
+// 		env->value = tmp->value;
+// 	tmp->value = NULL;
+// 	free (new);
+// 	return ;
+// }
+
 //export (add a=x expression, if previously stored in tmp to env)
-void	ft_export(char **tokens)
+/* void	ft_export(char **tokens)
 {
 	int		i;
-	t_var	*tmpenv;
 	t_var	*tmp;
+	t_var	*env;
 	t_var	*new;
 
 	if (is_assignment(1))
@@ -25,40 +34,93 @@ void	ft_export(char **tokens)
 		if (!ft_strcmp(get_env(tokens[1]), ""))
 			tokens[1] = ms()->tmp->top->key;
 	}
-	i = 1;
-	new = malloc(sizeof(t_var));
-	tmpenv = ms()->tmp->top;
-	tmp = ms()->env->top;
-	while (tokens[i])
+	i = 0;
+	// For each variable in the export command
+	while (tokens[++i])
 	{
-		tmpenv = ms()->tmp->top;
-		while (tmpenv)
+		tmp = ms()->tmp->top;
+		// For each variable in the temporary variables list
+		while (tmp)
 		{
-			if (!ft_strcmp(tmpenv->key, tokens[i]))
+			// If I find the name of the variable Im trying to export
+			if (!ft_strcmp(tmp->key, tokens[i]))
 			{
-				while (tmp)
+				env = get_var_node(tokens[i]);
+				if (env)
 				{
-					if (!ft_strcmp(tmpenv->key, tmp->key))
+					if (tmp->value)
 					{
-						if (tmpenv->value != NULL)
-							tmp->value = tmpenv->value;
-						tmpenv->value = NULL;
-						free (new);
-						return ;
+						ft_free(env->value);
+						env->value = ft_strdup(tmp->value);
 					}
-					tmp = tmp->next;
 				}
-				new->key = ft_strdup(tmpenv->key);
-				new->value = ft_strdup(tmpenv->value);
-				new->next = ms()->env->top;
-				(ms()->env->top) = new;
-				(ms()->env->size++);
+				// Otherwise append it
+				else
+				{
+					new = var_new(ft_strdup(tmp->key), ft_strdup(tmp->value));
+					new->next = ms()->env->top;
+					(ms()->env->top) = new;
+					(ms()->env->size++);					
+				}
 			}
-			tmpenv = tmpenv->next;
+			tmp = tmp->next;
 		}
-		i++;
 	}
 	(ms()->path) = ft_split(get_env("PATH"), ':');
+} */
+
+void	export_directly_to_env(char *assignment)
+{
+	t_var	*var;
+	char	*name;
+	char	*value;
+	int		i;
+	
+	i = ft_strlen_sep(assignment, "=");
+	name = ft_strndup(assignment, i);
+	value = ft_strdup(assignment + i + 1);
+	var = find_env(ms()->env, name);
+	// If the variable exists in env
+	if (var)
+	{
+		ft_free(name);
+		ft_free(var->value);
+		var->value = value;
+	}
+	// Else create a new one and append it
+	else
+	{
+		var = var_new(name, value);
+		var->next = ms()->env->top;
+		(ms()->env->top) = var;
+	}
+}
+
+void	export_from_temp_list(char *variable)
+{
+	t_var	*var;
+	t_var	*new;
+	
+	var = find_env(ms()->tmp, variable);
+	if (!var)
+		return ;
+	new = var_copy(var);
+	new->next = ms()->env->top;
+	(ms()->env->top) = new;
+}
+
+void	ft_export (char **vars)
+{
+	int	i;
+
+	i = 0;
+	while (vars[++i])
+	{
+		if (is_assignment(1))
+			export_directly_to_env(vars[i]);
+		else	
+			export_from_temp_list(vars[i]);	
+	}
 }
 
 //unset (remove a=x expression, if stored in env or in tmp)

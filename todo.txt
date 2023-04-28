@@ -70,6 +70,8 @@ X		◦ exit with no options
 
 	- export variables depending on other variables (?)	
 
+	- change is_assignment function to check several variables instead of only the first one
+
 ///////////////////////////////////////////
 
 

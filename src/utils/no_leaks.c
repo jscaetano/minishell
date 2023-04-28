@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:38:08 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/26 13:24:50 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/28 14:07:35 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	sanitize(bool end)
 	ast_clear(ms()->ast);
 	matrix_destroy(ms()->pipes);
 	ft_free(ms()->input);
+	ms()->pipes = NULL;
 	ms()->num_commands = 0;
 	if (end)
 	{
