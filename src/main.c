@@ -28,9 +28,9 @@ static void	fill_args(char **envv)
 
 	if (ms()->cwd)
 		free(ms()->cwd);
+	ft_bzero(ms(), sizeof(t_ms));
 	ms()->envv = envv;
-	ms()->env = envlist(envv);
-	ms()->tmp = ft_stacknew();
+	ms()->new_env = envlist(envv);
 	path = ft_split(get_env("PATH"), ':');
 	ms()->path = path;
 	ms()->laststatus = 0;

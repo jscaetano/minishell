@@ -99,12 +99,6 @@ typedef struct s_var
 	char			*key;
 	char			*value;
 	struct s_var	*next;
-}	t_var;
-
-typedef struct s_env
-{
-	int				size;
-	struct s_var	*top;
 }	t_env;
 
 typedef struct s_ms
@@ -116,8 +110,8 @@ typedef struct s_ms
 	char	**envv;
 	int		num_commands;
 	int		**pipes;
-	t_env	*env;
-	t_env	*tmp;
+	t_list	*new_env;
+	t_list	*new_tmp;
 	t_list	*lexemes;
 	t_ast	*ast;
 	t_list	*cmd_list;
@@ -154,15 +148,18 @@ void		ft_cd(char **tokens);
 
 //! ENV
 void		ft_env(void);
-t_env		*envlist(char **envv);
 char		*get_env(char *str);
+t_list		*envlist(char **envp);
 
 //! ECHO
 void		ft_echo(char **tokens);
 
 //! EXPORT UNSET
+void		export_directly(t_list **envlist, char *assignment);
+void		export_from_temp_list(char *name);
 void		ft_export(char **tokens);
 void		ft_unset(char **tokens);
+// void		unset_from_envlist(t_list *envlist, char *key);
 bool		is_assignment(int token_to_check);
 
 //! Fake Global
@@ -175,11 +172,11 @@ bool		is_unforkable(char *command);
 bool		is_builtin(char *command);
 
 //! Lists
-t_var		*var_new(char *key, char *value);
-t_var		*var_copy(t_var	*var);
-t_var		*find_env(t_env *env, char *key);
-void		ft_stackpush(t_env *env, char *equal);
-t_env		*ft_stacknew(void);
+t_env		*env_new(char *key, char *value);
+t_env		*env_copy(t_env	*env);
+t_env		*find_env(t_list *envlist, char *key);
+bool 		env_compare(t_env *env, char *key);
+void		env_destroy(t_env *env);
 
 //! Exec
 void		execute_command_list(t_list *cmd_list);

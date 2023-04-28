@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/27 21:14:08 by crypto           ###   ########.fr       */
+/*   Updated: 2023/04/28 15:06:57 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ void	execute_command(char **args)
 	else if (!ft_strcmp(args[0], "echo"))
 		ft_echo(args);
 	else if (!ft_strcmp(args[0], "unset"))
-		ft_unset(args);
+		ft_unset(args + 1);
 	else if (!ft_strcmp(args[0], "export"))
-		ft_export(args);
+		ft_export(args + 1);
 	else if (!ft_strcmp(args[0], "cd"))
 		ft_cd(args);
 	else if (!ft_strcmp(args[0], "ptmp"))

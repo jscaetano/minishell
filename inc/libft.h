@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 18:50:44 by crypto            #+#    #+#             */
-/*   Updated: 2022/11/17 14:47:35 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/28 15:57:52 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <limits.h>
 # include <unistd.h>
 # include <ctype.h>
+# include <stdbool.h>
 
 typedef struct s_list
 {
@@ -111,5 +112,8 @@ void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+
+void	ft_list_remove_if(t_list **begin_list, void *data_ref, \
+	bool (*cmp)(), void (*free_fct)());
 
 #endif

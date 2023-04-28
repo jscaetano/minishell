@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:10:59 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/26 11:47:03 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/28 16:31:10 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,17 @@
 // for testing purposes, print tmp list
 void	printtmp(void)
 {
-	t_var	*tmp;
+	t_list	*curr;
+	t_env	*tmp;
 
-	tmp = ms()->tmp->top;
-	if (!tmp)
-		return ;
-	while (tmp->next)
+	curr = ms()->new_tmp;
+	while (curr)
 	{
+		tmp = (t_env *)curr->content;
 		if (tmp->value)
 			printf("%s=%s\n", tmp->key, tmp->value);
-		tmp = tmp->next;
+		curr = curr->next;
 	}
-	if (tmp->value)
-		printf("%s=%s\n", tmp->key, tmp->value);
 }
 
 void	matrix_debug(char **matrix)

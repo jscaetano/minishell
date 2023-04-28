@@ -6,42 +6,40 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:26:30 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/28 11:26:50 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/28 16:44:46 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// creates and fills the env list with var (including name and content)
-t_env	*envlist(char **envp)
+// creates and fills the env list with env (including name and content)
+t_list	*envlist(char **envp)
 {
-	t_env	*env;
+	t_list	*envlist;
 	int		i;
 
 	i = matrix_size(envp);
-	env = ft_calloc(1, sizeof(t_env));
-	if (!env)
-		return (NULL);
+	envlist = NULL;
 	while (--i >= 0)
-		ft_stackpush(env, envp[i]);
-	return (env);
+		export_directly(&envlist, envp[i]);
+	return (envlist);
 }
 
-// returns the content of the var in env with the name str or just returns ""
+// returns the content of the env in env with the name str or just returns ""
 char	*get_env(char *str)
 {
-	int		len;
-	t_var	*tmp;
+	t_env	*tmp;
+	t_list	*curr;
 
 	if (str[0] == '$')
 		str++;
-	len = ft_strlen(str);
-	tmp = ms()->env->top;
-	while (tmp)
+	curr = ms()->new_env;
+	while (curr)
 	{
-		if (!ft_strncmp(tmp->key, str, len))
+		tmp = (t_env *)curr->content;
+		if (!ft_strcmp(tmp->key, str))
 			return (ft_strdup(tmp->value));
-		tmp = tmp->next;
+		curr = curr->next;
 	}
 	return (ft_strdup(""));
 }
@@ -49,14 +47,14 @@ char	*get_env(char *str)
 // env builtin, prints all env
 void	ft_env(void)
 {
-	t_var	*tmp;
+	t_list	*curr;
+	t_env	*tmp;
 
-	tmp = ms()->env->top;
-	if (!tmp)
-		return ;
-	while (tmp)
+	curr = ms()->new_env;
+	while (curr)
 	{
+		tmp = (t_env *)curr->content;
 		printf("%s=%s\n", tmp->key, tmp->value);
-		tmp = tmp->next;
+		curr = curr->next;
 	}
 }
