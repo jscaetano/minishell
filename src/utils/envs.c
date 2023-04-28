@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lists.c                                            :+:      :+:    :+:   */
+/*   envs.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:13:12 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/28 16:45:43 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/28 18:15:31 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_env	*env_copy(t_env	*env)
 	return (copy);
 }
 
-t_env	*find_env(t_list *envs, char *key)
+t_env	*env_find(t_list *envs, char *key)
 {
 	t_list	*curr;
 	t_env	*env;
@@ -52,9 +52,9 @@ t_env	*find_env(t_list *envs, char *key)
 	return (NULL);
 }
 
-bool env_compare(t_env *env, char *key)
+bool	env_key_compare(t_env *env, char *key)
 {
-	return (ft_strcmp(env->key, key) != 0);
+	return (ft_strcmp(env->key, key) == 0);
 }
 
 void	env_destroy(t_env *env)

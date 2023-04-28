@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 15:41:49 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/04/28 15:58:24 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/28 18:08:58 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_list	*ft_list_remove_if_aux(t_list *node, void *ref, \
 
 		if (!node)
 			return (NULL);
-		if (!(*cmp)(node->content, ref))
+		if ((*cmp)(node->content, ref))
 		{
 			ret = ft_list_remove_if_aux(node->next, ref, cmp, f);
 			if (*f)

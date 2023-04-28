@@ -159,7 +159,6 @@ void		export_directly(t_list **envlist, char *assignment);
 void		export_from_temp_list(char *name);
 void		ft_export(char **tokens);
 void		ft_unset(char **tokens);
-// void		unset_from_envlist(t_list *envlist, char *key);
 bool		is_assignment(int token_to_check);
 
 //! Fake Global
@@ -174,8 +173,8 @@ bool		is_builtin(char *command);
 //! Lists
 t_env		*env_new(char *key, char *value);
 t_env		*env_copy(t_env	*env);
-t_env		*find_env(t_list *envlist, char *key);
-bool 		env_compare(t_env *env, char *key);
+t_env		*env_find(t_list *envlist, char *key);
+bool 		env_key_compare(t_env *env, char *key);
 void		env_destroy(t_env *env);
 
 //! Exec

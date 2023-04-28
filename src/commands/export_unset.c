@@ -6,13 +6,13 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:09:10 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/28 18:01:28 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/28 18:08:51 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// pushes to tmp, if new name, else changes content to the new one
+// Pushed a new variable to an envlist either tmp or env
 void	export_directly(t_list **envlist, char *assignment)
 {
 	int		i;
@@ -23,7 +23,7 @@ void	export_directly(t_list **envlist, char *assignment)
 	i = ft_strlen_sep(assignment, "=");
 	name = ft_strndup(assignment, i);
 	value = ft_strdup(assignment + i + 1);
-	env = find_env(*envlist, name);
+	env = env_find(*envlist, name);
 	if (env)
 	{
 		free(name);
@@ -39,10 +39,10 @@ void	export_from_temp_list(char *name)
 	t_env	*tmp;
 	t_env	*env;
 	
-	env = find_env(ms()->new_tmp, name);
+	env = env_find(ms()->new_tmp, name);
 	if (!env)
 		return ;
-	tmp = find_env(ms()->new_env, name);
+	tmp = env_find(ms()->new_env, name);
 	if (tmp)
 	{
 		ft_free(tmp->value);
@@ -73,14 +73,14 @@ void	ft_unset(char **names)
 	i = -1;
 	while (names[++i])
 	{
-		ft_list_remove_if(&ms()->new_env, names[i], env_compare, env_destroy);
-		ft_list_remove_if(&ms()->new_tmp, names[i], env_compare, env_destroy);
+		ft_list_remove_if(&ms()->new_env, names[i], env_key_compare, env_destroy);
+		ft_list_remove_if(&ms()->new_tmp, names[i], env_key_compare, env_destroy);
 	}
 	// Isn't this necessary in export as well?
 	(ms()->path) = ft_split(get_env("PATH"), ':');
 }
 
-//if there is a a=x expression, store it in tmp
+//if there is a a=x expression, store it in tmp (old find_equals)
 bool	is_assignment(int token_to_check)
 {
 	int		j;
