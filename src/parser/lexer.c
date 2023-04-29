@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 12:10:46 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/04/26 14:54:19 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/29 11:25:57 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ void	lexer()
 			i++;
 		else if (ms()->input[i] == '|')
 			i += lexer_push_token(ft_strdup("|"), LEX_PIPE);
-		else if (!ft_strcmp(&ms()->input[i], "<<"))
+		else if (!ft_strncmp(&ms()->input[i], "<<", 2))
 			i += lexer_push_token(ft_strdup("<<"), LEX_IN_2);
-		else if (!ft_strcmp(&ms()->input[i], ">>"))
+		else if (!ft_strncmp(&ms()->input[i], ">>", 2))
 			i += lexer_push_token(ft_strdup(">>"), LEX_OUT_2);
 		else if (ms()->input[i] == '<')
 			i += lexer_push_token(ft_strdup("<"), LEX_IN_1);

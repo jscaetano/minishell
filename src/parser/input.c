@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/29 11:18:04 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/04/29 11:24:20 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,13 @@ void	handle_input(void)
 	lexer();
 	expander();
 	parser();
+	#ifdef DEBUG
+		printf("\n\t -------- LEXER --------\n\n");
+		lexer_debug();
+		printf("\n\t --------- AST ---------\n\n");
+		ast_debug(ms()->ast, 0, token_debug); 
+	#endif
+	return ;
 	if (!is_assignment(0))
 		execute_command_list(ms()->cmd_list);
 	sanitize(false);
