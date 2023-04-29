@@ -41,7 +41,7 @@
 # define ERROR_UNKNOWN_CMD	"minishell: command not found: "
 
 # define INPUT_LEN	1000
-# define PROMPT		"\033[38;5;13mft_shell > \033[0m"
+# define PROMPT		"\033[38;5;13mminishell > \033[0m"
 # define SYMBOLS	"<>\'\"| "
 # define READ_END 	0
 # define WRITE_END 	1
@@ -55,7 +55,7 @@ typedef enum e_exit_status
 	EXIT_INCORRECT_USAGE = 2,
 	EXIT_UNKNOWN_COMMAND = 127,
 	EXIT_SIGINT = 130
-}t_exit_status;
+}	t_exit_status;
 
 typedef enum e_lex_type
 {
@@ -70,20 +70,20 @@ typedef enum e_lex_type
 	LEX_TERM,
 	LEX_RIGHT_PAR,
 	LEX_LEFT_PAR,
-}t_lex_type;
+}	t_lex_type;
 
 typedef enum e_scanner_op
 {
 	READ,
 	NEXT,
 	RESET
-} t_scanner_op;
+}	t_scanner_op;
 
 typedef struct s_token
 {
 	char			*str;
 	t_lex_type		type;
-}t_token;
+}	t_token;
 
 typedef struct s_ast
 {
@@ -92,7 +92,7 @@ typedef struct s_ast
 	int				index;
 	struct s_ast	*left;
 	struct s_ast	*right;
-}t_ast;
+}	t_ast;
 
 typedef struct s_var
 {
@@ -115,7 +115,7 @@ typedef struct s_ms
 	t_list	*lexemes;
 	t_ast	*ast;
 	t_list	*cmd_list;
-}t_ms;
+}	t_ms;
 
 //! Lexer
 int			lexer_push_token(char *str, t_lex_type lexeme);
@@ -189,6 +189,10 @@ void		expander(void);
 void		expand_variable(t_token *token);
 void		handle_input(void);
 void		read_input(void);
+
+//! Prompt
+
+char		*update_prompt();
 
 //! Testing
 void		printtmp(void);

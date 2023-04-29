@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/27 21:13:15 by crypto           ###   ########.fr       */
+/*   Updated: 2023/04/29 11:18:04 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,15 +81,18 @@ void	handle_input(void)
 
 void	read_input(void)
 {
-	printf(CLR_BLUE"[%s]\n"CLR_RST, ms()->cwd);
+	char 	*prompt;
+	// printf(CLR_BLUE"[%s]\n"CLR_RST, ms()->cwd);
 	while (1)
 	{
-		(ms()->input) = readline(PROMPT);
+		prompt = update_prompt();
+		(ms()->input) = readline(prompt);
 		if (ms()->input && ft_strlen(ms()->input) != 0)
 			break ;
 		else if (ms()->input)
 			free(ms()->input);
 		else
 			sanitize(true);
+		free(prompt);
 	}
 }
