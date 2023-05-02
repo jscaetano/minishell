@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 18:50:44 by crypto            #+#    #+#             */
-/*   Updated: 2023/04/28 15:57:52 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/02 19:09:13 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ typedef struct s_list
 }	t_list;
 
 void	*ft_memset(void *s, int c, size_t n);
+
+unsigned long long	ft_atoull(const char *nptr);
 
 void	ft_bzero(void *s, size_t n);
 

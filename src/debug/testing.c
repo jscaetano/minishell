@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:10:59 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/02 16:06:04 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/02 19:19:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,6 @@ void	token_debug(t_token *token)
 		printf(CLR_GREEN "[ SQUOTES ] -> " CLR_RST "\"%s\"\n", token->str);
 	else if (token->type == LEX_DOUBLE_QUOTES)
 		printf(CLR_GREEN "[ DQUOTES ] -> " CLR_RST "\"%s\"\n", token->str);
-	else if (token->type == LEX_RIGHT_PAR)
-		printf("[ LPAR ] -> \"%s\"\n", token->str);
-	else if (token->type == LEX_LEFT_PAR)
-		printf("[ RPAR ] -> \"%s\"\n", token->str);
 	else if (token->type == LEX_PIPE)
 		printf(CLR_RED "[ PIPE ] -> " CLR_RST "\"%s\"\n", token->str);
 	else if (token->type == LEX_TERM)

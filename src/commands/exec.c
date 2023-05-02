@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/02 18:43:47 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/02 19:01:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	execute_command(char **args)
 	if (!is_builtin(args[0]))
 		execute_if_exists(args[0], args);
 	else if (!ft_strcmp(args[0], "exit"))
-		sanitize(true);
+		ft_exit(args + 1);
 	else if (!ft_strcmp(args[0], "pwd"))
 		printf("%s\n", ms()->cwd);
 	else if (!ft_strcmp(args[0], "env"))

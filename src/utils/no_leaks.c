@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   no_leaks.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:38:08 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/28 14:07:35 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/02 19:26:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	sanitize(bool end)
 	if (end)
 	{
 		ft_free(ms()->cwd);
-		exit(EXIT_SUCCESS);
+		printf("Exit status: %d\n", ms()->exit_status);
+		exit(ms()->exit_status);
 	}
 }

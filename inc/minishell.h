@@ -37,8 +37,10 @@
 # define CLR_BLACK	"\033[0;30m"
 # define CLR_RST	"\033[0m"
 
-# define ERROR_UNKNOWN_DIR	"cd: no such file or directory: "
-# define ERROR_UNKNOWN_CMD	"minishell: command not found: "
+# define ERROR_UNKNOWN_DIR		"cd: no such file or directory: "
+# define ERROR_UNKNOWN_CMD		"minishell: command not found: "
+# define ERROR_EXIT_NO_NUM		"exit: numeric argument required"
+# define ERROR_EXIT_MANY_ARG	"exit: too many arguments"
 
 # define INPUT_LEN	1000
 # define PROMPT		"\033[38;5;13mminishell > \033[0m"
@@ -66,10 +68,7 @@ typedef enum e_lex_type
 	LEX_SINGLE_QUOTES,
 	LEX_DOUBLE_QUOTES,
 	LEX_PIPE,
-	LEX_VARIABLE,
 	LEX_TERM,
-	LEX_RIGHT_PAR,
-	LEX_LEFT_PAR,
 }	t_lex_type;
 
 typedef enum e_scanner_op
@@ -141,6 +140,9 @@ t_ast		*ast_copy(t_ast *ast);
 void		ast_insert(t_ast **ast, t_ast *node, bool left);
 void		ast_clear(t_ast *ast);
 t_list		*ast_to_list(t_ast *ast);
+
+//! EXIT
+void		ft_exit(char **args);
 
 //! CD
 void		ft_cd(char **tokens);
