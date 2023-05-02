@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/02 17:14:28 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/02 18:18:16 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	handle_input(void)
 		printf("\n\t -------- LEXER --------\n\n");
 		lexer_debug();
 		printf("\n\t --------- AST ---------\n\n");
-		ast_debug(ms()->ast, 0, token_debug); 
+		ast_debug(ms()->ast, 0, token_debug);
 	#endif
 	// return ;
 	if (!is_assignment(0))
@@ -88,18 +88,40 @@ void	handle_input(void)
 
 void	read_input(void)
 {
-	// char 	*prompt;
+	signals();
 	while (1)
 	{
-		// prompt = update_prompt();
-		// HERE;
 		(ms()->input) = readline(PROMPT);
-		if (ms()->input && ft_strlen(ms()->input) != 0)
-			break ;
-		else if (ms()->input)
-			free(ms()->input);
-		else
-			sanitize(true);
-		// free(prompt);
+		if (!(ms()->input))
+		{
+			printf("exit\n");
+			exit(0);
+		}
+		if (!ft_strlen((ms()->input)))
+		{
+			free((ms()->input));
+			continue ;
+		}
+		add_history(ms()->input);
+		handle_input();
 	}
+	rl_clear_history();
 }
+
+// void	read_input(void)
+// {
+// 	// char 	*prompt;
+// 	while (1)
+// 	{
+// 		// prompt = update_prompt();
+// 		// HERE;
+// 		(ms()->input) = readline(PROMPT);
+// 		if (ms()->input && ft_strlen(ms()->input) != 0)
+// 			break ;
+// 		else if (ms()->input)
+// 			free(ms()->input);
+// 		else
+// 			sanitize(true);
+// 		// free(prompt);
+// 	}
+// }

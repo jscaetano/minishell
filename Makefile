@@ -15,7 +15,7 @@ RM = rm -rf
 AR = ar -rcs
 
 #_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_ FLAGS _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
-CFLAGS	= -Wall -Wextra -Werror -g #-fsanitize=address 
+CFLAGS	= -Wall -Wextra -Werror -g #-fsanitize=address
 MK		= --no-print-directory
 LIBFT	= -L ./libft -lft
 GNL		= -L ./get_next_line -lgnl
@@ -36,7 +36,7 @@ OBJ_DIR			= objs
 #_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_ FILES _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
 NAME			= minishell
 _FILES			= ast cd echo env envs exec export_unset fake_global input lexer no_leaks \
-					main parser pipeline prompt scanner testing token utils utils2
+					main parser pipeline prompt scanner testing token utils utils2 signals
 OBJS			= $(_FILES:%=%.o)
 TARGET			= $(addprefix $(OBJ_DIR)/, $(OBJS))
 

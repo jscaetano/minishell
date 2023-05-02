@@ -200,6 +200,13 @@ void		matrix_debug(char **matrix);
 void		token_debug(t_token *token);
 void		ast_debug(t_ast *ast, int depth, void (*f)());
 
+//! Signals
+void		signals(void);
+void		signals_child(void);
+void		signals_heredoc(void);
+void		handler_sigint(int signum);
+void		handler_child(int signum);
+
 //! Utils
 char		*ft_strndup(const char *s1, int size);
 int			ft_strcmp(char *s1, char *s2);

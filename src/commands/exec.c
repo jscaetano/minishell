@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/02 17:29:33 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/02 18:15:22 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	execute_command_list(t_list *cmd_list)
 		else
 			execute_forkable(command);
 		cmd_list = cmd_list->next;
-	}	
+	}
 	while (waitpid(0, &ms()->laststatus, 0) > 0)
 		continue ;
 	if (WIFEXITED(ms()->laststatus))
@@ -44,15 +44,17 @@ void	execute_forkable(t_ast *command)
 {
 	pid_t	pid;
 
+	signals_child();
 	pid = fork();
 	if (pid == 0)
-	{	
+	{
 		if (ms()->num_commands > 1)
 			connect_pipeline(command->index);
-		signal(SIGINT, childs);
 		execute_command(command->args);
 		exit(ms()->laststatus);
 	}
+	waitpid(0, &ms()->laststatus, 0);
+	signals();
 	if (ms()->pipes[command->index])
 		close(ms()->pipes[command->index][WRITE_END]);
 }
@@ -121,4 +123,3 @@ char	*get_executable_path(char *exe)
 		return (ft_strdup(exe));
 	return (NULL);
 }
-

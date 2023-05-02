@@ -12,17 +12,17 @@
 
 #include "minishell.h"
 
-static void	sigint_action(int signal)
-{
-	if (signal == SIGINT)
-	{
-		printf("\n");
-		printf(CLR_BLUE"[%s]\n"CLR_RST, ms()->cwd);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-} 
+// static void	sigint_action(int signal)
+// {
+// 	if (signal == SIGINT)
+// 	{
+// 		printf("\n");
+// 		printf(CLR_BLUE"[%s]\n"CLR_RST, ms()->cwd);
+// 		rl_replace_line("", 0);
+// 		rl_on_new_line();
+// 		rl_redisplay();
+// 	}
+// }
 
 static void	fill_args(char **envv)
 {
@@ -48,14 +48,8 @@ int	main(int argc, char **argv, char **envv)
 {
 	(void)argc;
 	(void)argv;
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, sigint_action);
 	fill_args(envv);
-	while (1)
-	{
-		read_input();
-		add_history(ms()->input);
-		handle_input();
-	}
+	signals();
+	read_input();
 	return (0);
 }
