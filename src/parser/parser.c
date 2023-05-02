@@ -31,16 +31,8 @@ t_ast	*extend_pipeline(t_ast *ast, t_ast *command)
 	return (root);
 }
 
-// t_ast	*extend_redirect(t_ast *ast, t_ast *redirection)
-// {
-// 	t_ast	*root;
-
-// 	root = ast_new(token_new(ft_strdup()))
-// }
-
 t_ast	*parse_pipeline(void)
 {
-	// t_ast	*root;
 	t_ast	*ast;
 	t_ast	*command;
 
@@ -59,41 +51,37 @@ t_ast	*parse_pipeline(void)
 
 t_ast	*parse_command(void)
 {
+	t_ast	*cmd;
+
+	cmd = ast_new(token_copy(scanner(READ)));
+	if (!cmd)
+		return (NULL);
+	cmd->index = ms()->num_commands++;
+	while (scanner(READ) && scanner(READ)->type != LEX_PIPE)
+	{
+		// if (scanner(READ)->type >= LEX_IN_1 && scanner(READ)->type <= LEX_OUT_2)
+		// 	cmd = extend_command(cmd, redirect);
+		// else
+		cmd->args = matrix_append(cmd->args, ft_strdup(scanner(READ)->str));
+		scanner(NEXT);
+	}
+	return (cmd);
+}
+
+t_ast	*extend_command(t_ast *command)
+{
 	t_ast	*root;
-	// t_ast	*redirect;
-	t_token	*curr;
+	t_ast	*redirect;
 
 	root = ast_new(token_copy(scanner(READ)));
 	if (!root)
 		return (NULL);
-	root->index = ms()->num_commands++;
-	curr = scanner(READ);
-	while (curr && curr->type != LEX_PIPE)
-	{
-		// if (curr->type >= LEX_IN_1 && curr->type <= LEX_OUT_2)
-		// {
-		// 	scanner(NEXT);
-		// 	redirect = parse_redirection();
-		// 	root = extend_command(root, redirect);
-		// }
-		// if (!scanner(NEXT))
-		// 	break ;
-		root->args = matrix_append(root->args, ft_strdup(curr->str));
-		scanner(NEXT);
-		curr = scanner(READ);
-	}
+	ast_insert(&root, command, true);
+	scanner(NEXT);
+	redirect = ast_new(token_copy(scanner(READ)));
+	if (!redirect)
+		return (NULL);
+	ast_insert(&root, redirect, false);
+	scanner(NEXT);
 	return (root);
 }
-
-// t_ast	*parse_redirection(void)
-// {
-// 	t_ast	*redirect;
-// 	t_token	*curr;
-
-// 	redirect = ast_new(token_copy(scanner(READ)));
-// 	if (!redirect)
-// 		return (NULL);
-// 	curr = scanner(READ);
-// 	redirect->args = matrix_append(redirect->args, ft_strdup(curr->str));
-// 	return (redirect);
-// }

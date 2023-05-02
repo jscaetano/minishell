@@ -45,7 +45,7 @@
 # define SYMBOLS	"<>\'\"| "
 # define READ_END 	0
 # define WRITE_END 	1
-# define DEBUG
+// # define DEBUG
 # define HERE		printf("HERE\n");
 
 typedef enum e_exit_status
@@ -94,11 +94,10 @@ typedef struct s_ast
 	struct s_ast	*right;
 }	t_ast;
 
-typedef struct s_var
+typedef struct s_env
 {
 	char			*key;
 	char			*value;
-	struct s_var	*next;
 }	t_env;
 
 typedef struct s_ms
@@ -110,8 +109,8 @@ typedef struct s_ms
 	char	**envv;
 	int		num_commands;
 	int		**pipes;
-	t_list	*new_env;
-	t_list	*new_tmp;
+	t_list	*env;
+	t_list	*tmp;
 	t_list	*lexemes;
 	t_ast	*ast;
 	t_list	*cmd_list;

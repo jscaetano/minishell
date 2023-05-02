@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/28 15:06:57 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/02 17:29:33 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	execute_command_list(t_list *cmd_list)
 {
 	t_ast	*command;
-	int		status;
 
 	create_all_pipes();
 	while (cmd_list)
@@ -27,8 +26,18 @@ void	execute_command_list(t_list *cmd_list)
 			execute_forkable(command);
 		cmd_list = cmd_list->next;
 	}	
-	while (waitpid(0, &status, 0) > 0)
+	while (waitpid(0, &ms()->laststatus, 0) > 0)
 		continue ;
+	if (WIFEXITED(ms()->laststatus))
+		ms()->laststatus = WEXITSTATUS(ms()->laststatus);
+}
+
+void	childs(int signum)
+{
+	(void)signum;
+	printf("\n");
+	printf(CLR_RED"[%s]\n"CLR_RST, ms()->cwd);
+	exit(1);
 }
 
 void	execute_forkable(t_ast *command)
@@ -40,8 +49,9 @@ void	execute_forkable(t_ast *command)
 	{	
 		if (ms()->num_commands > 1)
 			connect_pipeline(command->index);
+		signal(SIGINT, childs);
 		execute_command(command->args);
-		exit(EXIT_SUCCESS);
+		exit(ms()->laststatus);
 	}
 	if (ms()->pipes[command->index])
 		close(ms()->pipes[command->index][WRITE_END]);
@@ -111,46 +121,4 @@ char	*get_executable_path(char *exe)
 		return (ft_strdup(exe));
 	return (NULL);
 }
-/* 
-void	exec_if_exists(char *exe, char **argv)
-{
-	char	*path;
-	char	*pathtoexe;
-	int		i;
 
-	i = 0;
-	while (ms()->path[i])
-	{
-		path = ft_strjoin(ms()->path[i], "/");
-		pathtoexe = ft_strjoin(path, exe);
-		free(path);
-		if (access(pathtoexe, F_OK) == 0)
-		{
-			exec(pathtoexe, argv);
-			free(pathtoexe);
-			return ;
-		}
-		free(pathtoexe);
-		i++;
-	}
-	path = ft_strjoin(ms()->cwd, "/");
-	pathtoexe = ft_strjoin(path, exe);
-	free(path);
-	if (access(pathtoexe, F_OK) == 0)
-	{
-		exec(pathtoexe, argv);
-		free(pathtoexe);
-		return ;
-	}
-	else if(access(exe, F_OK) == 0)
-	{
-		exec(exe, argv);
-		return ;
-	}
-	else
-	{
-		ms()->laststatus = 127;
-		printf(CLR_RED"minishell: command not found: %s\n"CLR_RST, exe);
-	}
-	return ;
-} */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   testing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:10:59 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/29 11:32:21 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/02 16:06:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	printtmp(void)
 	t_list	*curr;
 	t_env	*tmp;
 
-	curr = ms()->new_tmp;
+	curr = ms()->tmp;
 	while (curr)
 	{
 		tmp = (t_env *)curr->content;
@@ -89,10 +89,10 @@ void	ast_debug(t_ast *ast, int depth, void (*f)())
 	i = -1;
 	if (!ast)
 		return ;
-	ast_debug(ast->left, depth + 1, f);
+	ast_debug(ast->right, depth + 1, f);
 	while (++i < 5 * depth)
 		printf(" ");
+	printf("[%d]", depth);
 	(*f)(ast->token);
-	ast_debug(ast->right, depth + 1, f);
-	// printf("[DEPTH %d][INDEX %d]\n", depth, ast->index);
+	ast_debug(ast->left, depth + 1, f);
 }

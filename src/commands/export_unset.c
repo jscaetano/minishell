@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_unset.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:09:10 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/28 18:08:51 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/02 16:08:23 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,17 @@ void	export_from_temp_list(char *name)
 	t_env	*tmp;
 	t_env	*env;
 	
-	env = env_find(ms()->new_tmp, name);
+	env = env_find(ms()->tmp, name);
 	if (!env)
 		return ;
-	tmp = env_find(ms()->new_env, name);
+	tmp = env_find(ms()->env, name);
 	if (tmp)
 	{
 		ft_free(tmp->value);
 		tmp->value = ft_strdup(env->value);
 	}
 	else
-		ft_lstadd_front(&ms()->new_env, ft_lstnew(env_copy(env)));
+		ft_lstadd_front(&ms()->env, ft_lstnew(env_copy(env)));
 }
 
 void	ft_export(char **vars)
@@ -60,7 +60,7 @@ void	ft_export(char **vars)
 	while (vars[++i])
 	{
 		if (is_assignment(1))
-			export_directly(&ms()->new_env, vars[i]);
+			export_directly(&ms()->env, vars[i]);
 		else	
 			export_from_temp_list(vars[i]);	
 	}
@@ -73,15 +73,15 @@ void	ft_unset(char **names)
 	i = -1;
 	while (names[++i])
 	{
-		ft_list_remove_if(&ms()->new_env, names[i], env_key_compare, env_destroy);
-		ft_list_remove_if(&ms()->new_tmp, names[i], env_key_compare, env_destroy);
+		ft_list_remove_if(&ms()->env, names[i], env_key_compare, env_destroy);
+		ft_list_remove_if(&ms()->tmp, names[i], env_key_compare, env_destroy);
 	}
 	// Isn't this necessary in export as well?
 	(ms()->path) = ft_split(get_env("PATH"), ':');
 }
 
 //if there is a a=x expression, store it in tmp (old find_equals)
-bool	is_assignment(int token_to_check)
+bool is_assignment(int token_to_check)
 {
 	int		j;
 	t_token	*token;
@@ -95,7 +95,7 @@ bool	is_assignment(int token_to_check)
 	{
 		if (token->str[j] == '=')
 		{
-			export_directly(&ms()->new_tmp, ft_strdup(token->str));
+			export_directly(&ms()->tmp, ft_strdup(token->str));
 			return (true);
 		}
 	}

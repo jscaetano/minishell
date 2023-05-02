@@ -14,12 +14,15 @@
 
 static void	sigint_action(int signal)
 {
-	rl_replace_line("", signal);
-	printf("\n");
-	printf(CLR_BLUE"[%s]\n"CLR_RST, ms()->cwd);
-	rl_on_new_line();
-	rl_redisplay();
-}
+	if (signal == SIGINT)
+	{
+		printf("\n");
+		printf(CLR_BLUE"[%s]\n"CLR_RST, ms()->cwd);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+} 
 
 static void	fill_args(char **envv)
 {
@@ -30,7 +33,7 @@ static void	fill_args(char **envv)
 		free(ms()->cwd);
 	ft_bzero(ms(), sizeof(t_ms));
 	ms()->envv = envv;
-	ms()->new_env = envlist(envv);
+	ms()->env = envlist(envv);
 	path = ft_split(get_env("PATH"), ':');
 	ms()->path = path;
 	ms()->laststatus = 0;

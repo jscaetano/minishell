@@ -73,6 +73,7 @@ X		◦ exit with no options
 	- change is_assignment function to check several variables instead of only the first one
 
 	- use the env list instead of the original env
+
 ///////////////////////////////////////////
 
 
@@ -127,16 +128,16 @@ EVALUATION TESTS:
 		If something doesn't work, select the "incomplete work" flag.
 
 ❌Signals
-		ctrl-C in an empty prompt should display a new line with a new prompt.
-		ctrl-\ in an empty prompt should not do anything.
-		ctrI-D in an empty prompt should quit minishell --> RELAUNCH!
-		ctrI-C in a prompt after you wrote some stuff should display a new line with a new prompt.
-		The buffer should be clean too. Press "Enter" to make sure nothing from the previous line is executed.
-		ctrl-D in a prompt after you wrote some stuff should not do anything.
-		ctrl-\ in a prompt after you wrote some stuff should not do anything.
-		Try ctrl-C after running a blocking command like cat without arguments or grep "something'
-		Try ctrl-\ after running a blocking command like cat without arguments or grep "something".
-		Try ctrl-D after running a blocking command like cat without arguments or grep "something'
+		✅ctrl-C in an empty prompt should display a new line with a new prompt.
+		✅ctrl-\ in an empty prompt should not do anything.
+		✅ctrI-D in an empty prompt should quit minishell --> RELAUNCH!
+		✅ctrI-C in a prompt after you wrote some stuff should display a new line with a new prompt.
+			The buffer should be clean too. Press "Enter" to make sure nothing from the previous line is executed.
+		✅ctrl-D in a prompt after you wrote some stuff should not do anything.
+		✅ctrl-\ in a prompt after you wrote some stuff should not do anything.
+		❌Try ctrl-C after running a blocking command like cat without arguments or grep "something'
+		❌Try ctrl-\ after running a blocking command like cat without arguments or grep "something".
+		✅Try ctrl-D after running a blocking command like cat without arguments or grep "something'
 		Repeat multiple times using different commands.
 		If something crashes, select the "crash" flag.
 		If something doesn't work, select the "incomplete work" flag.
@@ -169,7 +170,7 @@ EVALUATION TESTS:
 		Check the result with env.
 
 ✅cd
-		Use the command ed to move the working directory and check if you are in the right directory with / bin/ Is
+		Use the command cd to move the working directory and check if you are in the right directory with / bin/ Is
 		Repeat multiple times with working and not working cd
 		Also, try '" and '.' as arguments.
 

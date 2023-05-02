@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:26:30 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/28 16:44:46 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/02 16:06:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*get_env(char *str)
 
 	if (str[0] == '$')
 		str++;
-	curr = ms()->new_env;
+	curr = ms()->env;
 	while (curr)
 	{
 		tmp = (t_env *)curr->content;
@@ -50,7 +50,7 @@ void	ft_env(void)
 	t_list	*curr;
 	t_env	*tmp;
 
-	curr = ms()->new_env;
+	curr = ms()->env;
 	while (curr)
 	{
 		tmp = (t_env *)curr->content;

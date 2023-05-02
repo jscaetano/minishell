@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/29 11:24:20 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/02 17:14:28 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	handle_input(void)
 		printf("\n\t --------- AST ---------\n\n");
 		ast_debug(ms()->ast, 0, token_debug); 
 	#endif
-	return ;
+	// return ;
 	if (!is_assignment(0))
 		execute_command_list(ms()->cmd_list);
 	sanitize(false);
@@ -88,18 +88,18 @@ void	handle_input(void)
 
 void	read_input(void)
 {
-	char 	*prompt;
-	// printf(CLR_BLUE"[%s]\n"CLR_RST, ms()->cwd);
+	// char 	*prompt;
 	while (1)
 	{
-		prompt = update_prompt();
-		(ms()->input) = readline(prompt);
+		// prompt = update_prompt();
+		// HERE;
+		(ms()->input) = readline(PROMPT);
 		if (ms()->input && ft_strlen(ms()->input) != 0)
 			break ;
 		else if (ms()->input)
 			free(ms()->input);
 		else
 			sanitize(true);
-		free(prompt);
+		// free(prompt);
 	}
 }
