@@ -135,7 +135,7 @@ EVALUATION TESTS:
 			The buffer should be clean too. Press "Enter" to make sure nothing from the previous line is executed.
 		✅ctrl-D in a prompt after you wrote some stuff should not do anything.
 		✅ctrl-\ in a prompt after you wrote some stuff should not do anything.
-		❌Try ctrl-C after running a blocking command like cat without arguments or grep "something'
+		✅Try ctrl-C after running a blocking command like cat without arguments or grep "something'
 		❌Try ctrl-\ after running a blocking command like cat without arguments or grep "something".
 		✅Try ctrl-D after running a blocking command like cat without arguments or grep "something'
 		Repeat multiple times using different commands.
@@ -195,12 +195,12 @@ EVALUATION TESTS:
 		Test << redirection (it doesn't have to update the history).
 
 ❌Pipes
-		Execute commands with pipes like 'cat file | grep bla | more'
-		Repeat multiple times with different commands and arguments.
-		Try some wrong commands like 'ls filethatdoesntexist | grep bla | more'
-		Try to mix pipes and redirections.
+		✅Execute commands with pipes like 'cat file | grep bla | more'
+		✅Repeat multiple times with different commands and arguments.
+		✅Try some wrong commands like 'ls filethatdoesntexist | grep bla | more'
+		❌Try to mix pipes and redirections.
 
-❌Go Crazy and history
+✅Go Crazy and history
 		Type a command line, then use ctrI-C and press "Enter". The buffer should be clean and there should be
 	nothing left to execute.
 		Can we navigate through history using Up and Down? Can we retry some command?

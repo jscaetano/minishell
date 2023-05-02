@@ -45,7 +45,7 @@
 # define SYMBOLS	"<>\'\"| "
 # define READ_END 	0
 # define WRITE_END 	1
-// # define DEBUG
+# define DEBUG
 # define HERE		printf("HERE\n");
 
 typedef enum e_exit_status
@@ -103,7 +103,7 @@ typedef struct s_env
 typedef struct s_ms
 {
 	char	*cwd;
-	int		laststatus;
+	int		exit_status;
 	char	*input;
 	char	**path;
 	char	**envv;

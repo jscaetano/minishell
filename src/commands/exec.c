@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/02 18:15:22 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/05/02 18:43:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	execute_command_list(t_list *cmd_list)
 {
 	t_ast	*command;
+	int		status;
 
 	create_all_pipes();
 	while (cmd_list)
@@ -26,18 +27,11 @@ void	execute_command_list(t_list *cmd_list)
 			execute_forkable(command);
 		cmd_list = cmd_list->next;
 	}
-	while (waitpid(0, &ms()->laststatus, 0) > 0)
+	while (waitpid(0, &status, 0) > 0)
 		continue ;
-	if (WIFEXITED(ms()->laststatus))
-		ms()->laststatus = WEXITSTATUS(ms()->laststatus);
-}
-
-void	childs(int signum)
-{
-	(void)signum;
-	printf("\n");
-	printf(CLR_RED"[%s]\n"CLR_RST, ms()->cwd);
-	exit(1);
+	signals();
+	if (WIFEXITED(status))
+		ms()->exit_status = WEXITSTATUS(status);
 }
 
 void	execute_forkable(t_ast *command)
@@ -51,10 +45,8 @@ void	execute_forkable(t_ast *command)
 		if (ms()->num_commands > 1)
 			connect_pipeline(command->index);
 		execute_command(command->args);
-		exit(ms()->laststatus);
+		exit(ms()->exit_status);
 	}
-	waitpid(0, &ms()->laststatus, 0);
-	signals();
 	if (ms()->pipes[command->index])
 		close(ms()->pipes[command->index][WRITE_END]);
 }
@@ -88,11 +80,8 @@ void	execute_if_exists(char *exe, char **argv)
 	path = get_executable_path(exe);
 	if (path)
 		execve(path, argv, ms()->envv);
-	else
-	{
-		(ms()->laststatus) = 127;
-		message(CLR_RED, ERROR_UNKNOWN_CMD, exe);
-	}
+	(ms()->exit_status) = EXIT_UNKNOWN_COMMAND;
+	message(CLR_RED, ERROR_UNKNOWN_CMD, exe);
 	free(path);
 	return ;
 }

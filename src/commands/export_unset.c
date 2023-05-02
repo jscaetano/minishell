@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:09:10 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/02 16:08:23 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/02 18:35:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	ft_unset(char **names)
 }
 
 //if there is a a=x expression, store it in tmp (old find_equals)
-bool is_assignment(int token_to_check)
+bool	is_assignment(int token_to_check)
 {
 	int		j;
 	t_token	*token;

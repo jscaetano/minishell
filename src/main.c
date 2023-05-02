@@ -29,14 +29,12 @@ static void	fill_args(char **envv)
 	char	**path;
 	char	*cwd;
 
-	if (ms()->cwd)
-		free(ms()->cwd);
 	ft_bzero(ms(), sizeof(t_ms));
 	ms()->envv = envv;
 	ms()->env = envlist(envv);
 	path = ft_split(get_env("PATH"), ':');
 	ms()->path = path;
-	ms()->laststatus = 0;
+	ms()->exit_status = 0;
 	cwd = getcwd(NULL, 4096);
 	ms()->cwd = cwd;
 	ms()->lexemes = NULL;

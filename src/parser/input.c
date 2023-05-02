@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/02 18:18:16 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/05/02 18:39:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	expand_variable(t_token *token)
 			if (str[i + 1] == '?')
 			{
 				i++;
-				env = ft_itoa(ms()->laststatus);
+				env = ft_itoa(ms()->exit_status);
 			}
 			else if (ft_strlen(str) == 1)
 			{
@@ -79,6 +79,13 @@ void	handle_input(void)
 		lexer_debug();
 		printf("\n\t --------- AST ---------\n\n");
 		ast_debug(ms()->ast, 0, token_debug);
+		printf("\n\t --------- CMD ---------\n\n");
+		t_list	*curr = ms()->cmd_list;
+		while (curr)
+		{
+			ast_debug(curr->content, 0, token_debug);
+			curr = curr->next;
+		}
 	#endif
 	// return ;
 	if (!is_assignment(0))

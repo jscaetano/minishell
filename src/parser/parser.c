@@ -49,26 +49,20 @@ t_ast	*parse_pipeline(void)
 	return (ast);
 }
 
-t_ast	*parse_command(void)
+t_ast	*extend_command(t_ast *command, t_ast *redirection)
 {
-	t_ast	*cmd;
-
-	cmd = ast_new(token_copy(scanner(READ)));
-	if (!cmd)
+	if (!command)
 		return (NULL);
-	cmd->index = ms()->num_commands++;
-	while (scanner(READ) && scanner(READ)->type != LEX_PIPE)
+	if (!command->left)
 	{
-		// if (scanner(READ)->type >= LEX_IN_1 && scanner(READ)->type <= LEX_OUT_2)
-		// 	cmd = extend_command(cmd, redirect);
-		// else
-		cmd->args = matrix_append(cmd->args, ft_strdup(scanner(READ)->str));
-		scanner(NEXT);
+		ast_insert(&command, redirection, true);
+		return (command);
 	}
-	return (cmd);
+	extend_command(command->left, redirection);
+	return (command);
 }
 
-t_ast	*extend_command(t_ast *command)
+t_ast	*parse_redirection(void)
 {
 	t_ast	*root;
 	t_ast	*redirect;
@@ -76,12 +70,31 @@ t_ast	*extend_command(t_ast *command)
 	root = ast_new(token_copy(scanner(READ)));
 	if (!root)
 		return (NULL);
-	ast_insert(&root, command, true);
 	scanner(NEXT);
 	redirect = ast_new(token_copy(scanner(READ)));
-	if (!redirect)
-		return (NULL);
 	ast_insert(&root, redirect, false);
-	scanner(NEXT);
 	return (root);
+}
+
+t_ast	*parse_command(void)
+{
+	t_ast	*cmd;
+	t_ast	*redirection;
+
+	cmd = ast_new(token_copy(scanner(READ)));
+	if (!cmd)
+		return (NULL);
+	cmd->index = ms()->num_commands++;
+	while (scanner(READ) && scanner(READ)->type != LEX_PIPE)
+	{
+		if (scanner(READ)->type >= LEX_IN_1 && scanner(READ)->type <= LEX_OUT_2)
+		{
+			redirection = parse_redirection();
+			cmd = extend_command(cmd, redirection);
+		}	
+		else
+			cmd->args = matrix_append(cmd->args, ft_strdup(scanner(READ)->str));
+		scanner(NEXT);
+	}
+	return (cmd);
 }
