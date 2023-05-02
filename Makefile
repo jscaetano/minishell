@@ -30,7 +30,7 @@ GNL_PATH		= get_next_line
 PRINTF_PATH		= ft_printf
 _SUBFOLDERS		= commands debug parser utils
 VPATH			= $(SRCS) $(addprefix $(SRCS)/, $(_SUBFOLDERS))
-OBJ_DIR			= objs
+OBJ_DIR			= bin
 #OBJ_DIR_BONUS	= objs_bonus
 
 #_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_ FILES _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_

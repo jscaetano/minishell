@@ -22,7 +22,6 @@ void	change_dir(char *path)
 void	ft_cd(char **tokens)
 {
 	struct stat	stats;
-	char		*home;
 
 	(ms()->exit_status) = 0;
 	if (matrix_size(tokens) > 1)
