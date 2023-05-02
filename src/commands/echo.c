@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:33:06 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/26 16:15:24 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/02 21:44:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,14 @@ void	ft_echo(char **tokens)
 {
 	int		i;
 
-	if (!tokens[1])
+	if (!tokens[0])
 		return ;
-	i = 1;
-	if (!ft_strcmp(tokens[1], "-n"))
+	i = 0;
+	ms()->exit_status = 0;
+	if (!ft_strcmp(tokens[0], "-n"))
 		i++;
-	if ((matrix_size(tokens) > 2 && !ft_strcmp(tokens[1], "-n")) \
-		|| matrix_size(tokens) > 1)
+	if ((matrix_size(tokens) > 1 && !ft_strcmp(tokens[0], "-n")) \
+		|| matrix_size(tokens) > 0)
 	{
 		while (tokens[i + 1])
 		{
@@ -31,6 +32,6 @@ void	ft_echo(char **tokens)
 		}
 		printf("%s", tokens[i++]);
 	}
-	if (ft_strcmp(tokens[1], "-n"))
+	if (ft_strcmp(tokens[0], "-n"))
 		printf("\n");
 }

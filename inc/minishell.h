@@ -50,15 +50,6 @@
 # define DEBUG
 # define HERE		printf("HERE\n");
 
-typedef enum e_exit_status
-{
-	EXIT_OK = 0,
-	EXIT_FAIL = 1,
-	EXIT_INCORRECT_USAGE = 2,
-	EXIT_UNKNOWN_COMMAND = 127,
-	EXIT_SIGINT = 130
-}	t_exit_status;
-
 typedef enum e_lex_type
 {
 	LEX_IN_1,
@@ -148,7 +139,7 @@ void		ft_exit(char **args);
 void		ft_cd(char **tokens);
 
 //! ENV
-void		ft_env(void);
+void		ft_env(char **tokens);
 char		*get_env(char *str);
 t_list		*envlist(char **envp);
 

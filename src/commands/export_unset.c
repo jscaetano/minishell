@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:09:10 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/02 18:35:55 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/02 21:44:57 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	ft_export(char **vars)
 		else	
 			export_from_temp_list(vars[i]);	
 	}
+	(ms()->path) = ft_split(get_env("PATH"), ':');
+	(ms()->exit_status) = 0;
 }
 
 void	ft_unset(char **names)
@@ -76,7 +78,7 @@ void	ft_unset(char **names)
 		ft_list_remove_if(&ms()->env, names[i], env_key_compare, env_destroy);
 		ft_list_remove_if(&ms()->tmp, names[i], env_key_compare, env_destroy);
 	}
-	// Isn't this necessary in export as well?
+	(ms()->exit_status) = 0;
 	(ms()->path) = ft_split(get_env("PATH"), ':');
 }
 

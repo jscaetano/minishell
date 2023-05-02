@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/02 20:49:22 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/02 21:36:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,15 @@ void	execute_command(char **args)
 	else if (!ft_strcmp(args[0], "pwd"))
 		printf("%s\n", ms()->cwd);
 	else if (!ft_strcmp(args[0], "env"))
-		ft_env();
+		ft_env(args + 1);
 	else if (!ft_strcmp(args[0], "echo"))
-		ft_echo(args);
+		ft_echo(args + 1);
 	else if (!ft_strcmp(args[0], "unset"))
 		ft_unset(args + 1);
 	else if (!ft_strcmp(args[0], "export"))
 		ft_export(args + 1);
 	else if (!ft_strcmp(args[0], "cd"))
-		ft_cd(args);
+		ft_cd(args + 1);
 	else if (!ft_strcmp(args[0], "ptmp"))
 		printtmp();
 }
@@ -82,7 +82,7 @@ void	execute_if_exists(char *exe, char **argv)
 		execve(path, argv, ms()->envv);
 	else
 	{
-		(ms()->exit_status) = EXIT_UNKNOWN_COMMAND;
+		(ms()->exit_status) = 127;
 		message(CLR_RED, ERROR_UNKNOWN_CMD, exe);		
 	}
 	free(path);
