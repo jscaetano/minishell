@@ -74,3 +74,17 @@ char	*ft_strndup(const char *s1, int size)
 	ft_strlcpy(dest, str, size + 1);
 	return (dest);
 }
+
+bool	ft_isnum(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] == '-')
+		i++;
+	while (str[i])
+		if (!ft_isdigit(str[i++]))
+			return (false);
+	return (true);
+}
+

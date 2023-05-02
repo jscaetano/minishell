@@ -12,38 +12,26 @@
 
 #include "minishell.h"
 
-void	exit_error(char *arg)
-{
-	if (arg)
-		printf("exit: %s: numeric argument required", arg);
-	else
-		printf("exit: too many arguments");
-	sanitize(true);
-}
-
 void	ft_exit(char **args)
 {
-	char	*arg;
-	int		i;
+	char	*status;
 
-	i = 0;
-	arg = args[0];
-	ms()->exit_status = 0;
-	if (matrix_size(args) == 0)
-		sanitize(true);
 	if (matrix_size(args) > 1)
-		exit_error(NULL);
-	if (arg)
 	{
-		// if (ft_atoull(arg) > LLONG_MAX)
-		// 	exit_error(arg);
-		while (arg[i])
-		{
-			if (!ft_isdigit(arg[i]))
-				exit_error(arg);
-			i++;
-		}
+		message(CLR_RED, ERROR_EXIT_MANY_ARGS, NULL);
+		return ;
 	}
-	(ms()->exit_status) = (unsigned char)ft_atoi(arg);
+	ms()->exit_status = 0;
+	status = args[0];
+	if (status)
+	{
+		if (!ft_isnum(status) || ft_strcmp(status, "9223372036854775807") > 0)
+		{
+			message(CLR_RED, ERROR_EXIT_NO_NUM, NULL);
+			ms()->exit_status = 2;
+		}
+		else
+			ms()->exit_status = (unsigned char) ft_atoull(status);
+	}	
 	sanitize(true);
 }

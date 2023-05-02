@@ -40,7 +40,7 @@
 # define ERROR_UNKNOWN_DIR		"cd: no such file or directory: "
 # define ERROR_UNKNOWN_CMD		"minishell: command not found: "
 # define ERROR_EXIT_NO_NUM		"exit: numeric argument required"
-# define ERROR_EXIT_MANY_ARG	"exit: too many arguments"
+# define ERROR_EXIT_MANY_ARGS	"exit: too many arguments"
 
 # define INPUT_LEN	1000
 # define PROMPT		"\033[38;5;13mminishell > \033[0m"
@@ -222,5 +222,6 @@ size_t		matrix_size(char **mat);
 char		**matrix_append(char **m1, char *str);
 char		**matrix_copy(char **matrix);
 void		message(char *color, char *message, char *param);
+bool		ft_isnum(char *str);
 
 #endif

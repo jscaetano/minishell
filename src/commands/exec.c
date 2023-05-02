@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/02 19:01:30 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/02 20:49:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,11 @@ void	execute_if_exists(char *exe, char **argv)
 	path = get_executable_path(exe);
 	if (path)
 		execve(path, argv, ms()->envv);
-	(ms()->exit_status) = EXIT_UNKNOWN_COMMAND;
-	message(CLR_RED, ERROR_UNKNOWN_CMD, exe);
+	else
+	{
+		(ms()->exit_status) = EXIT_UNKNOWN_COMMAND;
+		message(CLR_RED, ERROR_UNKNOWN_CMD, exe);		
+	}
 	free(path);
 	return ;
 }
