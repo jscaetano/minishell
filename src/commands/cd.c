@@ -27,7 +27,7 @@ void	ft_cd(char **tokens)
 	if (matrix_size(tokens) > 1)
 	{
 		(ms()->exit_status) = 1;
-		message(CLR_RED, ERROR_EXIT_MANY_ARGS, NULL);
+		message(CLR_RED, ERROR_CD_MANY_ARGS, NULL);
 		return ;
 	}
 	if (!tokens[0] || !ft_strcmp(tokens[0], "~"))
@@ -43,6 +43,6 @@ void	ft_cd(char **tokens)
 	else
 	{
 		(ms()->exit_status) = 127;
-		message(CLR_RED, ERROR_UNKNOWN_DIR, tokens[0]);
+		message(CLR_RED, ERROR_CD_WRONG_DIR, tokens[0]);
 	}
 }

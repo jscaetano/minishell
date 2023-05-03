@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_unset.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:09:10 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/02 21:44:57 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/03 18:31:27 by crypto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,20 +66,6 @@ void	ft_export(char **vars)
 	}
 	(ms()->path) = ft_split(get_env("PATH"), ':');
 	(ms()->exit_status) = 0;
-}
-
-void	ft_unset(char **names)
-{
-	int	i;
-	
-	i = -1;
-	while (names[++i])
-	{
-		ft_list_remove_if(&ms()->env, names[i], env_key_compare, env_destroy);
-		ft_list_remove_if(&ms()->tmp, names[i], env_key_compare, env_destroy);
-	}
-	(ms()->exit_status) = 0;
-	(ms()->path) = ft_split(get_env("PATH"), ':');
 }
 
 //if there is a a=x expression, store it in tmp (old find_equals)

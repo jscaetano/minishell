@@ -27,6 +27,7 @@
 
 # include "libft.h"
 
+//! Colors
 # define CLR_RED	"\033[38;5;1m"
 # define CLR_GREEN	"\033[38;5;47m"
 # define CLR_BLUE	"\033[0;34m"
@@ -37,8 +38,14 @@
 # define CLR_BLACK	"\033[0;30m"
 # define CLR_RST	"\033[0m"
 
-# define ERROR_UNKNOWN_DIR		"cd: no such file or directory: "
+//! minishell errors
 # define ERROR_UNKNOWN_CMD		"minishell: command not found: "
+
+//! cd errors
+# define ERROR_CD_WRONG_DIR		"cd: no such file or directory: "
+# define ERROR_CD_MANY_ARGS		"exit: too many arguments"
+
+//! exit errors
 # define ERROR_EXIT_NO_NUM		"exit: numeric argument required"
 # define ERROR_EXIT_MANY_ARGS	"exit: too many arguments"
 

@@ -15,11 +15,12 @@ RM = rm -rf
 AR = ar -rcs
 
 #_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_ FLAGS _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
-CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS	= -Wall -Wextra -Werror -g #-fsanitize=address
 MK		= --no-print-directory
 LIBFT	= -L ./libft -lft
 GNL		= -L ./get_next_line -lgnl
 PRINTF	= -L ./ft_printf -lftprintf
+DEBUG	= false
 
 #_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_ FOLDERS _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
 DEPS			= inc
@@ -35,8 +36,8 @@ OBJ_DIR			= bin
 
 #_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_ FILES _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
 NAME			= minishell
-_FILES			= ast cd echo env envs exec exit export_unset fake_global input lexer no_leaks \
-					main parser pipeline prompt scanner testing token utils utils2 signals
+_FILES			= ast cd echo env envs exec exit export fake_global input lexer no_leaks \
+					main parser pipeline prompt scanner testing token utils utils2 unset signals
 OBJS			= $(_FILES:%=%.o)
 TARGET			= $(addprefix $(OBJ_DIR)/, $(OBJS))
 
