@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export_unset.c                                     :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:09:10 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/03 18:31:27 by crypto           ###   ########.fr       */
+/*   Updated: 2023/05/03 23:39:22 by crypto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,34 +54,32 @@ void	export_from_temp_list(char *name)
 
 void	ft_export(char **vars)
 {
-	int	i;
+	int		i;
+	t_list	*lexeme;
 
 	i = -1;
+	lexeme = ms()->lexemes->next;
 	while (vars[++i])
 	{
-		if (is_assignment(1))
+		if (is_assignment(lexeme->content))
 			export_directly(&ms()->env, vars[i]);
 		else	
-			export_from_temp_list(vars[i]);	
+			export_from_temp_list(vars[i]);
+		lexeme = lexeme->next;	
 	}
-	(ms()->path) = ft_split(get_env("PATH"), ':');
 	(ms()->exit_status) = 0;
+	(ms()->path) = ft_split(get_env("PATH"), ':');
 }
 
 //if there is a a=x expression, store it in tmp (old find_equals)
-bool	is_assignment(int token_to_check)
+bool	is_assignment(t_token *token)
 {
-	int		j;
-	t_token	*token;
-
-	if (token_to_check == 0)
-		token = (t_token *)ms()->lexemes->content;
-	else
-		token = (t_token *)ms()->lexemes->next->content;
-	j = -1;
-	while (token->str[++j])
+	int	i;
+	
+	i = -1;
+	while (token->str[++i])
 	{
-		if (token->str[j] == '=')
+		if (token->str[i] == '=')
 		{
 			export_directly(&ms()->tmp, ft_strdup(token->str));
 			return (true);

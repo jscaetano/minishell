@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/02 20:49:22 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/03 18:40:13 by crypto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	handle_input(void)
 		}
 	#endif
 	// return ;
-	if (!is_assignment(0))
+	if (!is_assignment(ms()->lexemes->content))
 		execute_command_list(ms()->cmd_list);
 	sanitize(false);
 }

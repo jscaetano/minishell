@@ -153,12 +153,14 @@ t_list		*envlist(char **envp);
 //! ECHO
 void		ft_echo(char **tokens);
 
-//! EXPORT UNSET
+//! EXPORT
 void		export_directly(t_list **envlist, char *assignment);
 void		export_from_temp_list(char *name);
 void		ft_export(char **tokens);
+bool		is_assignment(t_token *token);
+
+//! UNSET
 void		ft_unset(char **tokens);
-bool		is_assignment(int token_to_check);
 
 //! Fake Global
 t_ms		*ms(void);
