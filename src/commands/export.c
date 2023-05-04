@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:09:10 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/03 23:39:22 by crypto           ###   ########.fr       */
+/*   Updated: 2023/05/04 09:56:39 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,13 @@ void	export_directly(t_list **envlist, char *assignment)
 	else
 		ft_lstadd_front(envlist, ft_lstnew(env_new(name, value)));
 }
+
 // Exports the variable from the temporary list
 void	export_from_temp_list(char *name)
 {
 	t_env	*tmp;
 	t_env	*env;
-	
+
 	env = env_find(ms()->tmp, name);
 	if (!env)
 		return ;
@@ -63,9 +64,9 @@ void	ft_export(char **vars)
 	{
 		if (is_assignment(lexeme->content))
 			export_directly(&ms()->env, vars[i]);
-		else	
+		else
 			export_from_temp_list(vars[i]);
-		lexeme = lexeme->next;	
+		lexeme = lexeme->next;
 	}
 	(ms()->exit_status) = 0;
 	(ms()->path) = ft_split(get_env("PATH"), ':');
@@ -75,7 +76,7 @@ void	ft_export(char **vars)
 bool	is_assignment(t_token *token)
 {
 	int	i;
-	
+
 	i = -1;
 	while (token->str[++i])
 	{

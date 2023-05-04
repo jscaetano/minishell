@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:56:43 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/05/02 15:50:15 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/04 10:03:45 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*update_prompt()
+char	*update_prompt(void)
 {
 	char	*tmp1;
 	char	*tmp2;

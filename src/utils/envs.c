@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:13:12 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/04/28 18:15:31 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/04 10:04:11 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_env	*env_new(char *key, char *value)
 {
 	t_env	*new;
-	
+
 	new = ft_calloc(1, sizeof(t_env));
 	if (!new)
 		return (NULL);
@@ -63,4 +63,3 @@ void	env_destroy(t_env *env)
 	ft_free(env->value);
 	ft_free(env);
 }
-

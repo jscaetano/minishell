@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 12:10:46 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/04/29 11:25:57 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/04 09:59:01 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	lexer_find_match(char *symbols, char *input)
 	return (token_length);
 }
 
-void	lexer()
+void	lexer(void)
 {
 	int	i;
 

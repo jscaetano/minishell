@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:37:44 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/03 18:05:35 by crypto           ###   ########.fr       */
+/*   Updated: 2023/05/04 10:01:59 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,15 @@
 
 void	matrix_destroy(void *matrix)
 {
-	size_t i;
+	size_t	i;
+	char	**mat;
 
 	if (!matrix)
 		return ;
 	i = 0;
-	while (((char**)matrix)[i])
-		free(((char**)matrix)[i++]);
+	mat = (char **)matrix;
+	while (mat[i])
+		free(mat[i++]);
 	free(matrix);
 }
 
@@ -62,7 +64,7 @@ char	**matrix_append(char **m1, char *str)
 	res = ft_calloc(matrix_size(m1) + 2, sizeof(char *));
 	if (!res)
 		return (NULL);
-	while(m1[++i])
+	while (m1[++i])
 		res[i] = ft_strdup(m1[i]);
 	res[i] = str;
 	return (res);

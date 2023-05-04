@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/03 18:40:13 by crypto           ###   ########.fr       */
+/*   Updated: 2023/05/04 09:58:48 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	expander()
+void	expander(void)
 {
 	t_list	*tmplist;
-	t_token *tmptoken;
+	t_token	*tmptoken;
 
 	tmplist = ms()->lexemes;
 	while (tmplist)
@@ -74,24 +74,25 @@ void	handle_input(void)
 	lexer();
 	expander();
 	parser();
-	#ifdef DEBUG
-		printf("\n\t -------- LEXER --------\n\n");
-		lexer_debug();
-		printf("\n\t --------- AST ---------\n\n");
-		ast_debug(ms()->ast, 0, token_debug);
-		printf("\n\t --------- CMD ---------\n\n");
-		t_list	*curr = ms()->cmd_list;
-		while (curr)
-		{
-			ast_debug(curr->content, 0, token_debug);
-			curr = curr->next;
-		}
-	#endif
-	// return ;
 	if (!is_assignment(ms()->lexemes->content))
 		execute_command_list(ms()->cmd_list);
 	sanitize(false);
 }
+
+// #ifdef DEBUG
+// 	printf("\n\t -------- LEXER --------\n\n");
+// 	lexer_debug();
+// 	printf("\n\t --------- AST ---------\n\n");
+// 	ast_debug(ms()->ast, 0, token_debug);
+// 	printf("\n\t --------- CMD ---------\n\n");
+// 	t_list	*curr = ms()->cmd_list;
+// 	while (curr)
+// 	{
+// 		ast_debug(curr->content, 0, token_debug);
+// 		curr = curr->next;
+// 	}
+// #endif
+// return ;
 
 void	read_input(void)
 {
@@ -114,21 +115,3 @@ void	read_input(void)
 	}
 	rl_clear_history();
 }
-
-// void	read_input(void)
-// {
-// 	// char 	*prompt;
-// 	while (1)
-// 	{
-// 		// prompt = update_prompt();
-// 		// HERE;
-// 		(ms()->input) = readline(PROMPT);
-// 		if (ms()->input && ft_strlen(ms()->input) != 0)
-// 			break ;
-// 		else if (ms()->input)
-// 			free(ms()->input);
-// 		else
-// 			sanitize(true);
-// 		// free(prompt);
-// 	}
-// }

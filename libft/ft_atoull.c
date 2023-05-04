@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "libft.h"
 
 static int	ft_isspace(char c)
@@ -41,17 +40,3 @@ unsigned long long	ft_atoull(const char *nptr)
 		res = res * 10 + nptr[i++] - '0';
 	return (signal * res);
 }
-/*
-int main(int argc, char **argv)
-{
-	(void) argc;
-
-	printf("\n\t>>> USING ft_atoi() <<<\n\n");
-	printf("Sending str = \'%s\'\n", argv[1]);
-	printf("Resulting in: %d\n", ft_atoi(argv[1]));
-
-	printf("\n\t>>> USING atoi() <<<\n\n");
-	printf("Sending str = \'%s\'\n", argv[1]);
-	printf("Resulting in: %d\n", atoi(argv[1]));
-}
- */

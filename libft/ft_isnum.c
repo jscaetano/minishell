@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   ft_isnum.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/03 18:31:44 by crypto            #+#    #+#             */
-/*   Updated: 2023/05/04 09:56:50 by ncarvalh         ###   ########.fr       */
+/*   Created: 2023/05/04 10:02:56 by ncarvalh          #+#    #+#             */
+/*   Updated: 2023/05/04 10:04:33 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	ft_unset(char **names)
+bool	ft_isnum(char *str)
 {
 	int	i;
 
-	i = -1;
-	while (names[++i])
-	{
-		ft_list_remove_if(&ms()->env, names[i], env_key_compare, env_destroy);
-		ft_list_remove_if(&ms()->tmp, names[i], env_key_compare, env_destroy);
-	}
-	(ms()->exit_status) = 0;
-	(ms()->path) = ft_split(get_env("PATH"), ':');
+	i = 0;
+	if (str[i] == '-')
+		i++;
+	while (str[i])
+		if (!ft_isdigit(str[i++]))
+			return (false);
+	return (true);
 }

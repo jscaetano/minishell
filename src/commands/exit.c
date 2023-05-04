@@ -16,7 +16,7 @@ static bool	is_longlong(char *num)
 {
 	return (ft_isnum(num) \
 		&& ft_strcmp(num, "-9223372036854775808") >= 0 \
-		&& ft_strcmp(num, "9223372036854775807") <= 0 );
+		&& ft_strcmp(num, "9223372036854775807") <= 0);
 }
 
 void	ft_exit(char **args)

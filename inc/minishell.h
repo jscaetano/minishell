@@ -55,7 +55,7 @@
 # define READ_END 	0
 # define WRITE_END 	1
 # define DEBUG
-# define HERE		printf("HERE\n");
+// # define HERE		printf("HERE\n");
 
 typedef enum e_lex_type
 {
@@ -120,7 +120,7 @@ void		lexer(void);
 
 //! Token
 t_token		*token_new(char *str, t_lex_type type);
-t_token		*token_copy(t_token * token);
+t_token		*token_copy(t_token *token);
 void		token_destroy(void *token);
 
 //! Parser
@@ -175,7 +175,7 @@ bool		is_builtin(char *command);
 t_env		*env_new(char *key, char *value);
 t_env		*env_copy(t_env	*env);
 t_env		*env_find(t_list *envlist, char *key);
-bool 		env_key_compare(t_env *env, char *key);
+bool		env_key_compare(t_env *env, char *key);
 void		env_destroy(t_env *env);
 
 //! Exec
@@ -193,7 +193,7 @@ void		read_input(void);
 
 //! Prompt
 
-char		*update_prompt();
+char		*update_prompt(void);
 
 //! Testing
 void		printtmp(void);

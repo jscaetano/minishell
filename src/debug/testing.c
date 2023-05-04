@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   testing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:10:59 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/02 19:19:17 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/04 09:57:35 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ void	printtmp(void)
 
 void	matrix_debug(char **matrix)
 {
-	if (!matrix)
-		return ;
 	size_t	i;
 
+	if (!matrix)
+		return ;
 	i = -1;
 	while (matrix[++i])
 		printf("matrix[%zu] = \"%s\"\n", i, matrix[i]);
@@ -61,7 +61,7 @@ void	token_debug(t_token *token)
 		printf("[ TERM ] -> \"%s\"\n", token->str);
 }
 
-void	lexer_debug()
+void	lexer_debug(void)
 {
 	t_list	*node;
 	t_token	*token;

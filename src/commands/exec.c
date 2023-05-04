@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/02 21:36:58 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/04 09:55:16 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	execute_if_exists(char *exe, char **argv)
 	else
 	{
 		(ms()->exit_status) = 127;
-		message(CLR_RED, ERROR_UNKNOWN_CMD, exe);		
+		message(CLR_RED, ERROR_UNKNOWN_CMD, exe);
 	}
 	free(path);
 	return ;

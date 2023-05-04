@@ -29,16 +29,16 @@ int	is_spaces(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] != '\f' && str[i] != '\n'
-		&& str[i] != '\r' && str[i] != '\t'
-		&& str[i] != '\v' && str[i] != ' ')
+		if (str[i] != '\f' && str[i] != '\n' \
+			&& str[i] != '\r' && str[i] != '\t' \
+			&& str[i] != '\v' && str[i] != ' ')
 			return (0);
 		i++;
 	}
 	return (1);
 }
 
-int		ft_strlen_sep(const char *s, char *seps)
+int	ft_strlen_sep(const char *s, char *seps)
 {
 	int	i;
 
@@ -48,7 +48,7 @@ int		ft_strlen_sep(const char *s, char *seps)
 	return (i);
 }
 
-int		ft_strlen_sep_alnum(const char *s)
+int	ft_strlen_sep_alnum(const char *s)
 {
 	int	i;
 
@@ -74,17 +74,3 @@ char	*ft_strndup(const char *s1, int size)
 	ft_strlcpy(dest, str, size + 1);
 	return (dest);
 }
-
-bool	ft_isnum(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str[i] == '-')
-		i++;
-	while (str[i])
-		if (!ft_isdigit(str[i++]))
-			return (false);
-	return (true);
-}
-
