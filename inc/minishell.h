@@ -41,6 +41,7 @@
 
 //! minishell errors
 # define ERROR_UNKNOWN_CMD		"minishell: command not found: "
+# define ERROR_UNKNOWN_FILE		"minishell: no such file or directory: "
 
 //! cd errors
 # define ERROR_CD_WRONG_DIR		"cd: no such file or directory: "

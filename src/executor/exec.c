@@ -6,77 +6,52 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/06 20:41:59 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/06 21:54:37 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	heredoc(char *term)
+int	heredoc(char *term)
 {
 	char	*input;
 	int		fd;
 	int		n;
 	
 	fd = open(HEREDOC, O_WRONLY | O_CREAT | O_APPEND, 0600);
-	if (fd == -1) {
-		// error
-		return;
-	}
-
 	while (1)
 	{
 		input = readline("heredoc > ");
-		if (input == NULL)
-		{
-			printf("\n");
+		if (!input || !ft_strcmp(input, term))
 			break ;
-		}
-		if (!ft_strcmp(input, term))
-		{
-			ft_free(input);
-			break;
-		}
 		n = ft_strlen(input);
 		input[n] = '\n';
 		if (write(fd, input, n + 1) == -1)
 		{
 			ft_free(input);
 			close(fd);
-			return ;
+			return (-1);
 		}
-		free(input);
+		ft_free(input);
 	}
+	if (!input)
+		printf("\n");
 	close(fd);
-	ms()->in_fd = open(HEREDOC, O_RDONLY);
+	return (open(HEREDOC, O_RDONLY));
 }
 
-bool	execute_redirection(t_lex_type type, char *filename)
+void	execute_redirection(t_lex_type type, char *filename)
 {
-	int	fd;
-	
-	if (type == LEX_IN_1)
-	{
-		fd = open(filename, O_RDONLY);
-		if (fd == -1)
-			return false;
-		ms()->in_fd = fd;
-	}
 	if (type == LEX_OUT_1)
-	{
-		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-		ms()->out_fd = fd;
-	}
+		(ms()->out_fd) = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (type == LEX_OUT_2)
-	{
-		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0777);
-		ms()->out_fd = fd;
-	}
+		(ms()->out_fd) = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0777);
+	if (type == LEX_IN_1)
+		(ms()->in_fd) = open(filename, O_RDONLY);
 	if (type == LEX_IN_2)
-	{
-		heredoc(filename);
-	}
-	return true;
+		(ms()->in_fd) = heredoc(filename);
+	if (ms()->in_fd == -1 || ms()->out_fd == -1)
+		error(CLR_RED, ERROR_UNKNOWN_FILE, filename, 1);
 }
 
 void	execute_pipeline(t_ast *node)
@@ -91,8 +66,6 @@ void	execute_pipeline(t_ast *node)
 			execute_command(node->args);
 		else
 			execute_forkable(node);
-		ms()->in_fd = STDIN_FILENO;
-		ms()->out_fd = STDOUT_FILENO;
 	}
 	else if (node->token->type >= LEX_IN_1 && node->token->type <= LEX_OUT_2)
 		execute_redirection(node->token->type, node->args[0]);
@@ -123,12 +96,14 @@ void	execute_forkable(t_ast *command)
 		connect_pipeline(command->index);
 		connect_io();
 		execute_command(command->args);
-		sanitize(true);
+		sanitize(true);			
 	}
 	if (ms()->out_fd != STDOUT_FILENO)
 		close(ms()->out_fd);
 	if (ms()->pipes[command->index])
 		close(ms()->pipes[command->index][WRITE_END]);
+	ms()->in_fd = STDIN_FILENO;
+	ms()->out_fd = STDOUT_FILENO;
 }
 
 void	execute_command(char **args)

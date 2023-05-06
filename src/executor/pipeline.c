@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:12:35 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/05/06 18:20:29 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/06 21:48:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,10 @@ void	connect_pipeline(int cmd_index)
 
 void	connect_io(void)
 {
-	dup2(ms()->in_fd, STDIN_FILENO);
-	dup2(ms()->out_fd, STDOUT_FILENO);
+	if (ms()->in_fd >= STDIN_FILENO)
+		dup2(ms()->in_fd, STDIN_FILENO);
+	if (ms()->out_fd >= STDOUT_FILENO)
+		dup2(ms()->out_fd, STDOUT_FILENO);
 }
 
 bool	is_unforkable(char *command)
