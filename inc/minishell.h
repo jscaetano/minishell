@@ -44,7 +44,7 @@
 
 //! cd errors
 # define ERROR_CD_WRONG_DIR		"cd: no such file or directory: "
-# define ERROR_CD_MANY_ARGS		"exit: too many arguments"
+# define ERROR_CD_MANY_ARGS		"cd: too many arguments"
 
 //! exit errors
 # define ERROR_EXIT_NO_NUM		"exit: numeric argument required"
@@ -162,7 +162,7 @@ void		export_directly(t_list **envlist, char *assignment);
 void		export_from_temp_list(char *name);
 void		ft_export(char **tokens);
 bool		is_assignment(t_token *token);
-char	**envlist_to_matrix(t_list *envlist);
+char		**envlist_to_matrix(t_list *envlist);
 
 //! UNSET
 void		ft_unset(char **tokens);
@@ -228,7 +228,7 @@ void		matrix_destroy(void *matrix);
 size_t		matrix_size(char **mat);
 char		**matrix_append(char **m1, char *str);
 char		**matrix_copy(char **matrix);
-void		message(char *color, char *message, char *param);
+void		error(char *color, char *message, char *param, int status);
 bool		ft_isnum(char *str);
 
 #endif

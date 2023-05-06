@@ -23,22 +23,19 @@ void	ft_exit(char **args)
 {
 	char	*status;
 
+	(ms()->exit_status) = 0;
 	if (matrix_size(args) > 1)
 	{
-		message(CLR_RED, ERROR_EXIT_MANY_ARGS, NULL);
+		error(CLR_RED, ERROR_EXIT_MANY_ARGS, NULL, 1);
 		return ;
 	}
-	ms()->exit_status = 0;
 	status = args[0];
 	if (status)
 	{
 		if (!is_longlong(status))
-		{
-			message(CLR_RED, ERROR_EXIT_NO_NUM, NULL);
-			ms()->exit_status = 2;
-		}
+			error(CLR_RED, ERROR_EXIT_NO_NUM, NULL, 2);
 		else
-			ms()->exit_status = (unsigned char) ft_atoull(status);
+			(ms()->exit_status) = (unsigned char) ft_atoull(status);
 	}	
 	sanitize(true);
 }

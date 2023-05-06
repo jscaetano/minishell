@@ -52,6 +52,8 @@ X		◦ exit with no options
 ///////////////////////////////////////////
 	- test inputs with missing fields (unclosed pipes, redirections without names...)
 	
+	- use error 128 for signal terminated commands
+	
 	- deal with leaks
 
 	- deal with norm

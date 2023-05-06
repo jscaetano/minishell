@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:09:10 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/06 18:16:23 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/06 20:34:57 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,18 @@ void	export_directly(t_list **envlist, char *assignment)
 // Exports the variable from the temporary list
 void	export_from_temp_list(char *name)
 {
-	t_env	*tmp;
 	t_env	*env;
+	t_env	*temp;
 
-	env = env_find(ms()->envtmp, name);
-	if (!env)
-		return ;
-	tmp = env_find(ms()->envlist, name);
-	if (tmp)
+	temp = env_find(ms()->envtmp, name);
+	env = env_find(ms()->envlist, name);
+	if (env && temp)
 	{
-		ft_free(tmp->value);
-		tmp->value = ft_strdup(env->value);
+		ft_free(env->value);
+		env->value = ft_strdup(temp->value);
 	}
 	else
-		ft_lstadd_front(&ms()->envlist, ft_lstnew(env_copy(env)));
+		ft_lstadd_front(&ms()->envlist, ft_lstnew(env_copy(temp)));
 }
 
 void	ft_export(char **vars)
@@ -59,6 +57,7 @@ void	ft_export(char **vars)
 	t_list	*lexeme;
 
 	i = -1;
+	(ms()->exit_status) = 0;
 	lexeme = ms()->lexemes->next;
 	while (vars[++i])
 	{
@@ -68,7 +67,7 @@ void	ft_export(char **vars)
 			export_from_temp_list(vars[i]);
 		lexeme = lexeme->next;
 	}
-	(ms()->exit_status) = 0;
+	
 }
 
 //if there is a a=x expression, store it in tmp (old find_equals)
@@ -81,7 +80,7 @@ bool	is_assignment(t_token *token)
 	{
 		if (token->str[i] == '=')
 		{
-			export_directly(&ms()->envtmp, ft_strdup(token->str));
+			export_directly(&ms()->envtmp, token->str);
 			return (true);
 		}
 	}
@@ -90,10 +89,10 @@ bool	is_assignment(t_token *token)
 
 char	**envlist_to_matrix(t_list *envlist)
 {
-	char 	**matrix;
 	t_env	*env;
 	char	*tmp1;
 	char	*tmp2;
+	char 	**matrix;
 	
 	matrix = ft_calloc(1, sizeof(char *));
 	if (!matrix)

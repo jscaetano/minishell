@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/06 18:20:54 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/06 20:41:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void	execute(t_ast *ast)
 {
 	int		status;
 
+	status = 0;
 	create_all_pipes();
 	execute_pipeline(ast);
 	while (waitpid(0, &status, 0) > 0)
@@ -122,7 +123,7 @@ void	execute_forkable(t_ast *command)
 		connect_pipeline(command->index);
 		connect_io();
 		execute_command(command->args);
-		exit(ms()->exit_status);
+		sanitize(true);
 	}
 	if (ms()->out_fd != STDOUT_FILENO)
 		close(ms()->out_fd);
@@ -160,10 +161,7 @@ void	execute_if_exists(char *exe, char **argv)
 	if (path)
 		execve(path, argv, ms()->envp);
 	else
-	{
-		(ms()->exit_status) = 127;
-		message(CLR_RED, ERROR_UNKNOWN_CMD, exe);
-	}
+		error(CLR_RED, ERROR_UNKNOWN_CMD, exe, 127);
 	free(path);
 	return ;
 }

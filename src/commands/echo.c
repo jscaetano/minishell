@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:33:06 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/02 21:44:38 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/06 19:35:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,6 @@ void	ft_echo(char **tokens)
 		}
 		printf("%s", tokens[i++]);
 	}
-	if (ft_strcmp(tokens[0], "-n"))
+	if (ft_strcmp(tokens[0], "-n") != 0)
 		printf("\n");
 }
