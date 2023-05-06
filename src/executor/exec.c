@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/06 17:41:03 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/06 18:20:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ void	heredoc(char *term)
 		input[n] = '\n';
 		if (write(fd, input, n + 1) == -1)
 		{
-			free(input);
+			ft_free(input);
 			close(fd);
 			return ;
 		}
 		free(input);
 	}
 	close(fd);
-	ms()->in = open(HEREDOC, O_RDONLY);
+	ms()->in_fd = open(HEREDOC, O_RDONLY);
 }
 
 bool	execute_redirection(t_lex_type type, char *filename)
@@ -60,17 +60,17 @@ bool	execute_redirection(t_lex_type type, char *filename)
 		fd = open(filename, O_RDONLY);
 		if (fd == -1)
 			return false;
-		ms()->in = fd;
+		ms()->in_fd = fd;
 	}
 	if (type == LEX_OUT_1)
 	{
 		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-		ms()->out = fd;
+		ms()->out_fd = fd;
 	}
 	if (type == LEX_OUT_2)
 	{
 		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0777);
-		ms()->out = fd;
+		ms()->out_fd = fd;
 	}
 	if (type == LEX_IN_2)
 	{
@@ -91,8 +91,8 @@ void	execute_pipeline(t_ast *node)
 			execute_command(node->args);
 		else
 			execute_forkable(node);
-		ms()->in = STDIN_FILENO;
-		ms()->out = STDOUT_FILENO;
+		ms()->in_fd = STDIN_FILENO;
+		ms()->out_fd = STDOUT_FILENO;
 	}
 	else if (node->token->type >= LEX_IN_1 && node->token->type <= LEX_OUT_2)
 		execute_redirection(node->token->type, node->args[0]);
@@ -124,8 +124,8 @@ void	execute_forkable(t_ast *command)
 		execute_command(command->args);
 		exit(ms()->exit_status);
 	}
-	if (ms()->out != STDOUT_FILENO)
-		close(ms()->out);
+	if (ms()->out_fd != STDOUT_FILENO)
+		close(ms()->out_fd);
 	if (ms()->pipes[command->index])
 		close(ms()->pipes[command->index][WRITE_END]);
 }

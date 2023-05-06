@@ -101,15 +101,15 @@ typedef struct s_env
 
 typedef struct s_ms
 {
-	char	*cwd;
+	int 	in_fd;
+	int 	out_fd;
 	int		exit_status;
+	int		num_commands;
+	char	*cwd;
 	char	*input;
 	char	**path;
 	char	**envp;
-	int		num_commands;
 	int		**pipes;
-	int 	in;
-	int 	out;
 	t_list	*envlist;
 	t_list	*envtmp;
 	t_list	*lexemes;
@@ -142,7 +142,6 @@ t_ast		*ast_new(t_token *token);
 t_ast		*ast_copy(t_ast *ast);
 void		ast_insert(t_ast **ast, t_ast *node, bool left);
 void		ast_clear(t_ast *ast);
-t_list		*ast_to_list(t_ast *ast);
 
 //! EXIT
 void		ft_exit(char **args);

@@ -19,8 +19,8 @@ static void	fill_args(char **envv)
 	update_envs();
 	(ms()->exit_status) = 0;
 	(ms()->cwd) = getcwd(NULL, 4096);
-	(ms()->in) = STDIN_FILENO;
-	(ms()->out) = STDOUT_FILENO;
+	(ms()->in_fd) = STDIN_FILENO;
+	(ms()->out_fd) = STDOUT_FILENO;
 	return ;
 }
 

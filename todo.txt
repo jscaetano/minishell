@@ -50,6 +50,8 @@ X		◦ exit with no options
 
 
 ///////////////////////////////////////////
+	- test inputs with missing fields (unclosed pipes, redirections without names...)
+	
 	- deal with leaks
 
 	- deal with norm
@@ -94,7 +96,7 @@ EVALUATION TESTS:
 		If something crashes, select the "crash" flag.
 		If something doesn't work, select the "incomplete work" flag.
 
-❌exit
+✅exit
 		Execute exit command with or without arguments.
 		Repeat multiple times with different arguments.
 		Don't forget to relaunch the minishell
@@ -172,17 +174,17 @@ EVALUATION TESTS:
 ?		Set the $PATH to a multiple directory value (directory 1 :directory 2) and ensure that directories are checked in
 	order from left to right.
 
-❌Redirection
+✅Redirection
 		Execute commands with redirections < and/or >
 		Repeat multiple times with different commands and arguments and sometimes change > with >>
 		Check if multiple tries of the same redirections fail.
 		Test << redirection (it doesn't have to update the history).
 
-❌Pipes
+✅Pipes
 		✅Execute commands with pipes like 'cat file | grep bla | more'
 		✅Repeat multiple times with different commands and arguments.
 		✅Try some wrong commands like 'ls filethatdoesntexist | grep bla | more'
-		❌Try to mix pipes and redirections.
+		✅Try to mix pipes and redirections.
 
 ✅Go Crazy and history
 		Type a command line, then use ctrI-C and press "Enter". The buffer should be clean and there should be
