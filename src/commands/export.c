@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:09:10 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/04 09:56:39 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/06 17:42:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,17 @@ void	export_from_temp_list(char *name)
 	t_env	*tmp;
 	t_env	*env;
 
-	env = env_find(ms()->tmp, name);
+	env = env_find(ms()->envtmp, name);
 	if (!env)
 		return ;
-	tmp = env_find(ms()->env, name);
+	tmp = env_find(ms()->envlist, name);
 	if (tmp)
 	{
 		ft_free(tmp->value);
 		tmp->value = ft_strdup(env->value);
 	}
 	else
-		ft_lstadd_front(&ms()->env, ft_lstnew(env_copy(env)));
+		ft_lstadd_front(&ms()->envlist, ft_lstnew(env_copy(env)));
 }
 
 void	ft_export(char **vars)
@@ -63,7 +63,7 @@ void	ft_export(char **vars)
 	while (vars[++i])
 	{
 		if (is_assignment(lexeme->content))
-			export_directly(&ms()->env, vars[i]);
+			export_directly(&ms()->envlist, vars[i]);
 		else
 			export_from_temp_list(vars[i]);
 		lexeme = lexeme->next;
@@ -82,9 +82,32 @@ bool	is_assignment(t_token *token)
 	{
 		if (token->str[i] == '=')
 		{
-			export_directly(&ms()->tmp, ft_strdup(token->str));
+			export_directly(&ms()->envtmp, ft_strdup(token->str));
 			return (true);
 		}
 	}
 	return (false);
+}
+
+char	**envlist_to_matrix(t_list *envlist)
+{
+	char 	**matrix;
+	t_env	*env;
+	char	*tmp1;
+	char	*tmp2;
+	
+	matrix = ft_calloc(1, sizeof(char *));
+	if (!matrix)
+		return (NULL);
+	while (envlist)
+	{
+		env = (t_env *)envlist->content;
+		tmp1 = ft_strjoin(env->key, "=");
+		tmp2 = ft_strjoin(tmp1, env->value);
+		matrix = matrix_append(matrix, ft_strdup(tmp2));
+		free(tmp1);
+		free(tmp2);
+		envlist = envlist->next;
+	}
+	return (matrix);
 }

@@ -3,30 +3,107 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/04 09:55:16 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/06 17:41:03 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	execute_command_list(t_list *cmd_list)
+void	heredoc(char *term)
 {
-	t_ast	*command;
+	char	*input;
+	int		fd;
+	int		n;
+	
+	fd = open(HEREDOC, O_WRONLY | O_CREAT | O_APPEND, 0600);
+	if (fd == -1) {
+		// error
+		return;
+	}
+
+	while (1)
+	{
+		input = readline("heredoc > ");
+		if (input == NULL)
+		{
+			printf("\n");
+			break ;
+		}
+		if (!ft_strcmp(input, term))
+		{
+			ft_free(input);
+			break;
+		}
+		n = ft_strlen(input);
+		input[n] = '\n';
+		if (write(fd, input, n + 1) == -1)
+		{
+			free(input);
+			close(fd);
+			return ;
+		}
+		free(input);
+	}
+	close(fd);
+	ms()->in = open(HEREDOC, O_RDONLY);
+}
+
+bool	execute_redirection(t_lex_type type, char *filename)
+{
+	int	fd;
+	
+	if (type == LEX_IN_1)
+	{
+		fd = open(filename, O_RDONLY);
+		if (fd == -1)
+			return false;
+		ms()->in = fd;
+	}
+	if (type == LEX_OUT_1)
+	{
+		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		ms()->out = fd;
+	}
+	if (type == LEX_OUT_2)
+	{
+		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0777);
+		ms()->out = fd;
+	}
+	if (type == LEX_IN_2)
+	{
+		heredoc(filename);
+	}
+	return true;
+}
+
+void	execute_pipeline(t_ast *node)
+{
+	if (!node)
+		return ;
+	execute_pipeline(node->left);
+	execute_pipeline(node->right);
+	if (node->token->type == LEX_TERM)
+	{
+		if (is_unforkable(node->args[0]))
+			execute_command(node->args);
+		else
+			execute_forkable(node);
+		ms()->in = STDIN_FILENO;
+		ms()->out = STDOUT_FILENO;
+	}
+	else if (node->token->type >= LEX_IN_1 && node->token->type <= LEX_OUT_2)
+		execute_redirection(node->token->type, node->args[0]);
+}
+
+void	execute(t_ast *ast)
+{
 	int		status;
 
 	create_all_pipes();
-	while (cmd_list)
-	{
-		command = (t_ast *)cmd_list->content;
-		if (is_unforkable(command->args[0]))
-			execute_command(command->args);
-		else
-			execute_forkable(command);
-		cmd_list = cmd_list->next;
-	}
+	execute_pipeline(ast);
 	while (waitpid(0, &status, 0) > 0)
 		continue ;
 	signals();
@@ -42,11 +119,13 @@ void	execute_forkable(t_ast *command)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (ms()->num_commands > 1)
-			connect_pipeline(command->index);
+		connect_pipeline(command->index);
+		connect_io();
 		execute_command(command->args);
 		exit(ms()->exit_status);
 	}
+	if (ms()->out != STDOUT_FILENO)
+		close(ms()->out);
 	if (ms()->pipes[command->index])
 		close(ms()->pipes[command->index][WRITE_END]);
 }
@@ -79,7 +158,7 @@ void	execute_if_exists(char *exe, char **argv)
 
 	path = get_executable_path(exe);
 	if (path)
-		execve(path, argv, ms()->envv);
+		execve(path, argv, ms()->envp);
 	else
 	{
 		(ms()->exit_status) = 127;

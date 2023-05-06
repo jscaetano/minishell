@@ -16,7 +16,6 @@ void	parser(void)
 {
 	scanner(RESET);
 	ms()->ast = parse_pipeline();
-	ms()->cmd_list = ast_to_list(ms()->ast);
 }
 
 t_ast	*extend_pipeline(t_ast *ast, t_ast *command)
@@ -53,9 +52,10 @@ t_ast	*extend_command(t_ast *command, t_ast *redirection)
 {
 	if (!command)
 		return (NULL);
-	if (!command->left)
+	if (!command->left || (command->left->token->type >= LEX_IN_1 && command->left->token->type <= LEX_OUT_2))
 	{
-		ast_insert(&command, redirection, true);
+		redirection->left = command->left;
+		command->left = redirection;
 		return (command);
 	}
 	extend_command(command->left, redirection);
@@ -64,16 +64,14 @@ t_ast	*extend_command(t_ast *command, t_ast *redirection)
 
 t_ast	*parse_redirection(void)
 {
-	t_ast	*root;
 	t_ast	*redirect;
 
-	root = ast_new(token_copy(scanner(READ)));
-	if (!root)
+	redirect = ast_new(token_copy(scanner(READ)));
+	if (!redirect)
 		return (NULL);
 	scanner(NEXT);
-	redirect = ast_new(token_copy(scanner(READ)));
-	ast_insert(&root, redirect, false);
-	return (root);
+	redirect->args = matrix_append(redirect->args, ft_strdup(scanner(READ)->str));
+	return (redirect);
 }
 
 t_ast	*parse_command(void)

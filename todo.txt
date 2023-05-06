@@ -50,17 +50,11 @@ X		◦ exit with no options
 
 
 ///////////////////////////////////////////
-	- redirections
-
 	- deal with leaks
 
 	- deal with norm
 
 	- check for forbidden functions
-
-	- use after free when CTRL-D in ast_clear
-
-	- print error messages on builtin commands in the stderr
 
 	- use the env list instead of the original env
 

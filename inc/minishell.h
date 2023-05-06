@@ -24,6 +24,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
+# include <fcntl.h>
 
 # include "libft.h"
 
@@ -55,6 +56,7 @@
 # define READ_END 	0
 # define WRITE_END 	1
 # define DEBUG
+# define HEREDOC "tmpfile.txt"
 // # define HERE		printf("HERE\n");
 
 typedef enum e_lex_type
@@ -103,14 +105,15 @@ typedef struct s_ms
 	int		exit_status;
 	char	*input;
 	char	**path;
-	char	**envv;
+	char	**envp;
 	int		num_commands;
 	int		**pipes;
-	t_list	*env;
-	t_list	*tmp;
+	int 	in;
+	int 	out;
+	t_list	*envlist;
+	t_list	*envtmp;
 	t_list	*lexemes;
 	t_ast	*ast;
-	t_list	*cmd_list;
 }	t_ms;
 
 //! Lexer
@@ -158,6 +161,7 @@ void		export_directly(t_list **envlist, char *assignment);
 void		export_from_temp_list(char *name);
 void		ft_export(char **tokens);
 bool		is_assignment(t_token *token);
+char	**envlist_to_matrix(t_list *envlist);
 
 //! UNSET
 void		ft_unset(char **tokens);
@@ -167,6 +171,7 @@ t_ms		*ms(void);
 
 //! Pipeline
 void		create_all_pipes(void);
+void		connect_io(void);
 void		connect_pipeline(int cmd_index);
 bool		is_unforkable(char *command);
 bool		is_builtin(char *command);
@@ -179,6 +184,7 @@ bool		env_key_compare(t_env *env, char *key);
 void		env_destroy(t_env *env);
 
 //! Exec
+void		execute(t_ast *ast);
 void		execute_command_list(t_list *cmd_list);
 void		execute_forkable(t_ast *node);
 void		execute_command(char **args);

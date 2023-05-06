@@ -56,20 +56,3 @@ void	ast_clear(t_ast *ast)
 	matrix_destroy(ast->args);
 	ft_free(ast);
 }
-
-t_list	*ast_to_list(t_ast *ast)
-{
-	t_list	*cmd_list;
-	t_list	*curr;
-
-	if (!ast)
-		return (NULL);
-	if (ast->token->type == LEX_TERM)
-		return (ft_lstnew(ast_copy(ast)));
-	cmd_list = ast_to_list(ast->left);
-	curr = cmd_list;
-	while (curr->next)
-		curr = curr->next;
-	curr->next = ast_to_list(ast->right);
-	return (cmd_list);
-}

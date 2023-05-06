@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:26:30 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/02 21:50:06 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/06 17:27:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*get_env(char *str)
 
 	if (str[0] == '$')
 		str++;
-	curr = ms()->env;
+	curr = ms()->envlist;
 	while (curr)
 	{
 		tmp = (t_env *)curr->content;
@@ -56,7 +56,7 @@ void	ft_env(char **tokens)
 		message(CLR_RED, ERROR_EXIT_MANY_ARGS, NULL);
 		return ;
 	}
-	curr = ms()->env;
+	curr = ms()->envlist;
 	while (curr)
 	{
 		tmp = (t_env *)curr->content;

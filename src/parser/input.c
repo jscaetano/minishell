@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/04 09:58:48 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/06 17:43:08 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,12 @@ void	expand_variable(t_token *token)
 	token->str = cpy;
 	return ;
 }
-
+// #ifdef DEBUG
+// 	printf("\n\t -------- LEXER --------\n\n");
+// 	lexer_debug();
+// 	printf("\n\t --------- AST ---------\n\n");
+// 	ast_debug(ms()->ast, 0, token_debug);
+// #endif
 void	handle_input(void)
 {
 	if (is_spaces(ms()->input))
@@ -75,24 +80,9 @@ void	handle_input(void)
 	expander();
 	parser();
 	if (!is_assignment(ms()->lexemes->content))
-		execute_command_list(ms()->cmd_list);
+		execute(ms()->ast);
 	sanitize(false);
 }
-
-// #ifdef DEBUG
-// 	printf("\n\t -------- LEXER --------\n\n");
-// 	lexer_debug();
-// 	printf("\n\t --------- AST ---------\n\n");
-// 	ast_debug(ms()->ast, 0, token_debug);
-// 	printf("\n\t --------- CMD ---------\n\n");
-// 	t_list	*curr = ms()->cmd_list;
-// 	while (curr)
-// 	{
-// 		ast_debug(curr->content, 0, token_debug);
-// 		curr = curr->next;
-// 	}
-// #endif
-// return ;
 
 void	read_input(void)
 {

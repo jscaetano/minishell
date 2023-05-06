@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   testing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:10:59 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/04 09:57:35 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/06 17:27:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	printtmp(void)
 	t_list	*curr;
 	t_env	*tmp;
 
-	curr = ms()->tmp;
+	curr = ms()->envtmp;
 	while (curr)
 	{
 		tmp = (t_env *)curr->content;

@@ -12,32 +12,22 @@
 
 #include "minishell.h"
 
-// static void	sigint_action(int signal)
-// {
-// 	if (signal == SIGINT)
-// 	{
-// 		printf("\n");
-// 		printf(CLR_BLUE"[%s]\n"CLR_RST, ms()->cwd);
-// 		rl_replace_line("", 0);
-// 		rl_on_new_line();
-// 		rl_redisplay();
-// 	}
-// }
-
 static void	fill_args(char **envv)
 {
 	char	**path;
 	char	*cwd;
 
 	ft_bzero(ms(), sizeof(t_ms));
-	ms()->envv = envv;
-	ms()->env = envlist(envv);
+	ms()->envlist = envlist(envv);
+	(ms()->envp) = envlist_to_matrix(ms()->envlist);
 	path = ft_split(get_env("PATH"), ':');
 	ms()->path = path;
 	ms()->exit_status = 0;
 	cwd = getcwd(NULL, 4096);
 	ms()->cwd = cwd;
 	ms()->lexemes = NULL;
+	ms()->in = STDIN_FILENO;
+	ms()->out = STDOUT_FILENO;
 	return ;
 }
 

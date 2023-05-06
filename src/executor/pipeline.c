@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crypto <crypto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:12:35 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/04/27 20:11:43 by crypto           ###   ########.fr       */
+/*   Updated: 2023/05/06 17:13:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,22 @@ void	create_all_pipes(void)
 
 void	connect_pipeline(int cmd_index)
 {
-	if (cmd_index >= 1 && cmd_index <= ms()->num_commands - 1)
-		dup2(ms()->pipes[cmd_index - 1][READ_END], STDIN_FILENO);
-	if (cmd_index >= 0 && cmd_index <= ms()->num_commands - 2)
-		dup2(ms()->pipes[cmd_index][WRITE_END], STDOUT_FILENO);
+	if (ms()->num_commands < 2)
+		return ;
+	if (ms()->in == STDIN_FILENO)
+		if (cmd_index != 0)
+			ms()->in = ms()->pipes[cmd_index - 1][READ_END];
+	if (ms()->out == STDOUT_FILENO)
+		if (cmd_index != ms()->num_commands - 1)
+			ms()->out = ms()->pipes[cmd_index][WRITE_END];
 	if (ms()->pipes[cmd_index])
 		close(ms()->pipes[cmd_index][READ_END]);
+}
+
+void	connect_io(void)
+{
+	dup2(ms()->in, STDIN_FILENO);
+	dup2(ms()->out, STDOUT_FILENO);
 }
 
 bool	is_unforkable(char *command)
