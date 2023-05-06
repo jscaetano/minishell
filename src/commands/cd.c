@@ -16,7 +16,7 @@ void	change_dir(char *path)
 {
 	chdir(path);
 	free(ms()->cwd);
-	ms()->cwd = getcwd(NULL, 4096);
+	(ms()->cwd) = getcwd(NULL, 4096);
 	free(path);
 }
 

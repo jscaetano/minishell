@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:09:10 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/06 20:34:57 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/06 21:06:09 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	ft_export(char **vars)
 			export_from_temp_list(vars[i]);
 		lexeme = lexeme->next;
 	}
-	
 }
 
 //if there is a a=x expression, store it in tmp (old find_equals)
@@ -92,8 +91,8 @@ char	**envlist_to_matrix(t_list *envlist)
 	t_env	*env;
 	char	*tmp1;
 	char	*tmp2;
-	char 	**matrix;
-	
+	char	**matrix;
+
 	matrix = ft_calloc(1, sizeof(char *));
 	if (!matrix)
 		return (NULL);
