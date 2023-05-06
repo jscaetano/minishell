@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:09:10 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/06 17:42:18 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/06 18:16:23 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	ft_export(char **vars)
 		lexeme = lexeme->next;
 	}
 	(ms()->exit_status) = 0;
-	(ms()->path) = ft_split(get_env("PATH"), ':');
 }
 
 //if there is a a=x expression, store it in tmp (old find_equals)

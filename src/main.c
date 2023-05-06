@@ -14,20 +14,13 @@
 
 static void	fill_args(char **envv)
 {
-	char	**path;
-	char	*cwd;
-
 	ft_bzero(ms(), sizeof(t_ms));
-	ms()->envlist = envlist(envv);
-	(ms()->envp) = envlist_to_matrix(ms()->envlist);
-	path = ft_split(get_env("PATH"), ':');
-	ms()->path = path;
-	ms()->exit_status = 0;
-	cwd = getcwd(NULL, 4096);
-	ms()->cwd = cwd;
-	ms()->lexemes = NULL;
-	ms()->in = STDIN_FILENO;
-	ms()->out = STDOUT_FILENO;
+	(ms()->envlist) = envlist(envv);
+	update_envs();
+	(ms()->exit_status) = 0;
+	(ms()->cwd) = getcwd(NULL, 4096);
+	(ms()->in) = STDIN_FILENO;
+	(ms()->out) = STDOUT_FILENO;
 	return ;
 }
 
@@ -38,6 +31,6 @@ int	main(int argc, char **argv, char **envv)
 	(void)argv;
 	fill_args(envv);
 	signals();
-	read_input();
+	reader();
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/06 17:43:08 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/06 18:14:42 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,18 @@ void	expand_variable(t_token *token)
 // 	printf("\n\t --------- AST ---------\n\n");
 // 	ast_debug(ms()->ast, 0, token_debug);
 // #endif
-void	handle_input(void)
+void	update_envs(void)
+{
+	char	*tmp;
+	
+	matrix_destroy(ms()->envp);
+	matrix_destroy(ms()->path);
+	tmp = get_env("PATH");
+	(ms()->path) = ft_split(tmp, ':');
+	(ms()->envp) = envlist_to_matrix(ms()->envlist);
+	free(tmp);
+}
+void	compute(void)
 {
 	if (is_spaces(ms()->input))
 		return ;
@@ -81,27 +92,23 @@ void	handle_input(void)
 	parser();
 	if (!is_assignment(ms()->lexemes->content))
 		execute(ms()->ast);
+	update_envs();
 	sanitize(false);
 }
 
-void	read_input(void)
+void	reader(void)
 {
 	signals();
 	while (1)
 	{
 		(ms()->input) = readline(PROMPT);
-		if (!(ms()->input))
+		if (!ms()->input)
 		{
 			printf("exit\n");
-			exit(0);
-		}
-		if (!ft_strlen((ms()->input)))
-		{
-			free((ms()->input));
-			continue ;
+			sanitize(true);
 		}
 		add_history(ms()->input);
-		handle_input();
+		compute();
 	}
 	rl_clear_history();
 }

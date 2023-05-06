@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:37:44 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/04 10:01:59 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/06 17:57:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ char	**matrix_append(char **m1, char *str)
 	while (m1[++i])
 		res[i] = ft_strdup(m1[i]);
 	res[i] = str;
+	matrix_destroy(m1);
 	return (res);
 }
 

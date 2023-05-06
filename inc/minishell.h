@@ -116,6 +116,8 @@ typedef struct s_ms
 	t_ast	*ast;
 }	t_ms;
 
+void		update_envs(void);
+
 //! Lexer
 int			lexer_push_token(char *str, t_lex_type lexeme);
 int			lexer_find_match(char *symbols, char *input);
@@ -194,8 +196,8 @@ char		*get_executable_path(char *exe);
 //! Input
 void		expander(void);
 void		expand_variable(t_token *token);
-void		handle_input(void);
-void		read_input(void);
+void		compute(void);
+void		reader(void);
 
 //! Prompt
 

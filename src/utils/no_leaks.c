@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:38:08 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/06 17:40:35 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/06 18:09:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,18 @@ void	ft_free(void *p)
 
 void	sanitize(bool end)
 {
-	ft_lstclear(&ms()->lexemes, (void (*)(void *))token_destroy);
-	ast_clear(ms()->ast);
-	matrix_destroy(ms()->pipes);
+	unlink(HEREDOC);
 	ft_free(ms()->input);
-	matrix_destroy(ms()->envp);
-	(ms()->envp) = envlist_to_matrix(ms()->envlist);
+	matrix_destroy(ms()->pipes);
+	ast_clear(ms()->ast);
+	ft_lstclear(&ms()->lexemes, (void (*)(void *))token_destroy);
 	(ms()->pipes) = NULL;
 	(ms()->num_commands) = 0;
-	unlink(HEREDOC);
 	if (end)
 	{
 		ft_free(ms()->cwd);
-		printf("Exit status: %d\n", ms()->exit_status);
+		matrix_destroy(ms()->path);
+		matrix_destroy(ms()->envp);
 		exit(ms()->exit_status);
 	}
 }
