@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:38:08 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/06 18:29:37 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/06 19:08:42 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	sanitize(bool end)
 		ft_free(ms()->cwd);
 		matrix_destroy(ms()->path);
 		matrix_destroy(ms()->envp);
+		ft_lstclear(&ms()->envlist, (void (*)(void *))env_destroy);
+		ft_lstclear(&ms()->envtmp, (void (*)(void *))env_destroy);
 		exit(ms()->exit_status);
 	}
 }

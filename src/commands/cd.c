@@ -16,7 +16,8 @@ void	change_dir(char *path)
 {
 	chdir(path);
 	free(ms()->cwd);
-	ms()->cwd = path;
+	ms()->cwd = getcwd(NULL, 4096);
+	free(path);
 }
 
 void	ft_cd(char **tokens)
@@ -30,16 +31,16 @@ void	ft_cd(char **tokens)
 		message(CLR_RED, ERROR_CD_MANY_ARGS, NULL);
 		return ;
 	}
+	if (!ft_strcmp(tokens[0], "."))
+		return ;
 	if (!tokens[0] || !ft_strcmp(tokens[0], "~"))
 	{
 		change_dir(get_env("HOME"));
 		return ;
 	}
-	if (!ft_strcmp(tokens[0], "."))
-		return ;
 	stat(tokens[0], &stats);
 	if (S_ISDIR(stats.st_mode))
-		change_dir(tokens[0]);
+		change_dir(ft_strdup(tokens[0]));
 	else
 	{
 		(ms()->exit_status) = 127;
