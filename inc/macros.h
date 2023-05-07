@@ -13,6 +13,19 @@
 #ifndef MACROS_H
 # define MACROS_H
 
+# include <stdio.h>
+# include <stdlib.h>
+# include <stdbool.h>
+# include <unistd.h>
+# include <signal.h>
+# include <linux/limits.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+
 //! colors
 # define ANSI_BLACK		"\033[30m"
 # define ANSI_RED		"\033[31m"

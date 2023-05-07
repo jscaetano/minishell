@@ -25,33 +25,9 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <stdbool.h>
-# include <unistd.h>
-# include <signal.h>
-# include <linux/limits.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <sys/stat.h>
-# include <fcntl.h>
-
 # include "libft.h"
+# include "lexer.h"
 # include "macros.h"
-
-typedef enum e_lexeme
-{
-	LEX_IN_1,
-	LEX_OUT_1,
-	LEX_IN_2,
-	LEX_OUT_2,
-	LEX_SINGLE_QUOTES,
-	LEX_DOUBLE_QUOTES,
-	LEX_PIPE,
-	LEX_TERM,
-}	t_lexeme;
 
 typedef enum e_operation
 {
@@ -59,12 +35,6 @@ typedef enum e_operation
 	NEXT,
 	RESET
 }	t_operation;
-
-typedef struct s_token
-{
-	char			*str;
-	t_lexeme		type;
-}	t_token;
 
 typedef struct s_ast
 {
@@ -100,16 +70,6 @@ typedef struct s_ms
 }	t_ms;
 
 void		update_envs(void);
-
-//! Lexer
-int			_lexer_push_token(char *str, t_lexeme lexeme);
-int			_lexer_find_match(char *symbols, char *input);
-void		lexer(void);
-
-//! Token
-t_token		*token_new(char *str, t_lexeme type);
-t_token		*token_copy(t_token *token);
-void		token_destroy(t_token *token);
 
 //! Expansion
 void		expander(void);
