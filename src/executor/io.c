@@ -28,4 +28,6 @@ void	io_disconnect(int command_index)
 		close(ms()->pipes[command_index - 1][READ_END]);
 	if (command_index < ms()->num_commands - 1)
 		close(ms()->pipes[command_index][WRITE_END]);
+	ms()->in_fd = STDIN_FILENO;
+	ms()->out_fd = STDOUT_FILENO;
 }

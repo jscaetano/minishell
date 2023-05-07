@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/07 13:02:08 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/07 19:54:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ void	execute_forkable(t_ast *command)
 	pid = fork();
 	if (pid == 0)
 	{
+		if (ms()->in_fd == -1 || ms()->out_fd == -1)
+			sanitize(true);
 		pipeline_apply(command->index);
 		io_connect();
 		execute_command(command->args);
 		sanitize(true);			
 	}
 	io_disconnect(command->index);
-	ms()->in_fd = STDIN_FILENO;
-	ms()->out_fd = STDOUT_FILENO;
 }
 
 void	execute_command(char **args)
