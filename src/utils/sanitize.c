@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:38:08 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/07 21:03:38 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/07 22:22:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	sanitize(bool end)
 	unlink(HEREDOC);
 	ft_free(ms()->input);
 	ft_free(ms()->prompt);
-	ast_clear(ms()->ast);
+	ast_clear(ms()->ast, ast_destroy_node);
 	matrix_destroy(ms()->pipes);
 	ft_lstclear(&ms()->lexemes, (void (*)(void *))token_destroy);
 	(ms()->ast) = NULL;

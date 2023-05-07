@@ -54,6 +54,8 @@ X		◦ exit with no options
 	
 	- use error 128 for signal terminated commands
 
+	- handle the case HOME is unseted in the CD command
+
 	- segfault when exporting a variable that starts with quotes.
 
 	- deal with leaks

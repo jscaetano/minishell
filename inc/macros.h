@@ -28,7 +28,8 @@
 
 # include "libft.h"
 
-//! colors
+//! _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\ COLORS /=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
+
 # define ANSI_BLACK		"\033[30m"
 # define ANSI_RED		"\033[31m"
 # define ANSI_GREEN		"\033[32m"
@@ -48,30 +49,29 @@
 # define ANSI_BOLD		"\033[1m"
 # define ANSI_UNDERLINE	"\033[4m"
 
-//! minishell errors
+//! Errors
 # define ERROR_UNKNOWN_CMD		"minishell: command not found: "
 # define ERROR_UNKNOWN_FILE		"minishell: no such file or directory: "
 
-//! cd errors
 # define ERROR_CD_WRONG_DIR		"cd: no such file or directory: "
 # define ERROR_CD_MANY_ARGS		"cd: too many arguments"
+# define ERROR_CD_NO_HOME		"cd: HOME not set"
 
-//! exit errors
 # define ERROR_EXIT_NO_NUM		"exit: numeric argument required"
 # define ERROR_EXIT_MANY_ARGS	"exit: too many arguments"
 
-//! lexer symbols
+//! Lexer symbols
 # define SYMBOLS	"<>\'\"| "
 
-//! minishell symbols
+//! Minishell 
 # define PROMPT_UPPER	"┎─── "
 # define PROMPT_LOWER	"┖─ minishell ❯ "
 
-//! pipes indexes
+//! Pipes indexes
 # define READ_END 	0
 # define WRITE_END 	1
 
-//! heredoc temporary file
+//! Heredoc temporary file
 # define HEREDOC	"heredoc.tmp"
 
 //! debug
