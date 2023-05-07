@@ -30,8 +30,8 @@ void		ft_cd(char **tokens);
 
 /**
  * @brief Replica of the original echo command: prints its arguments to the
- * shell, with a newline at the end. If the -n option is chosen, the newline won't
- * be printed
+ * shell, with a newline at the end. If the -n option is chosen, the newline 
+ * won't be printed
  * 
  * @param tokens The arguments of the command
  */

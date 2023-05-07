@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSING_H
-# define PARSING_H
+#ifndef PARSER_H
+# define PARSER_H
 
 # include "macros.h"
 # include "lexer.h"
