@@ -41,8 +41,8 @@ int	ft_strlen_sep(const char *s, char *seps)
 void	error(char *color, char *message, char *param, int status)
 {
 	if (param)
-		printf("%s%s%s%s\n", color, message, param, CLR_RST);
+		printf("%s%s%s%s\n", color, message, param, ANSI_RST);
 	else
-		printf("%s%s%s\n", color, message, CLR_RST);
+		printf("%s%s%s\n", color, message, ANSI_RST);
 	(ms()->exit_status) = status;
 }

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/07 19:54:46 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/07 20:00:36 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	execute_if_exists(char *exe, char **argv)
 	if (path)
 		execve(path, argv, ms()->envp);
 	else
-		error(CLR_RED, ERROR_UNKNOWN_CMD, exe, 127);
+		error(ANSI_RED, ERROR_UNKNOWN_CMD, exe, 127);
 	free(path);
 	return ;
 }

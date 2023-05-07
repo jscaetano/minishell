@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:10:59 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/06 17:27:38 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/07 20:00:36 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,19 @@ void	token_debug(t_token *token)
 	if (!token)
 		return ;
 	if (token->type == LEX_IN_1)
-		printf(CLR_BLUE "[ IN ] -> " CLR_RST "\"%s\"\n", token->str);
+		printf(ANSI_BLUE "[ IN ] -> " ANSI_RST "\"%s\"\n", token->str);
 	else if (token->type == LEX_OUT_1)
-		printf(CLR_BLUE "[ OUT ] -> " CLR_RST "\"%s\"\n", token->str);
+		printf(ANSI_BLUE "[ OUT ] -> " ANSI_RST "\"%s\"\n", token->str);
 	else if (token->type == LEX_IN_2)
-		printf(CLR_YELLOW "[ IN 2 ] -> " CLR_RST "\"%s\"\n", token->str);
+		printf(ANSI_YELLOW "[ IN 2 ] -> " ANSI_RST "\"%s\"\n", token->str);
 	else if (token->type == LEX_OUT_2)
-		printf(CLR_YELLOW "[ OUT 2 ] -> " CLR_RST "\"%s\"\n", token->str);
+		printf(ANSI_YELLOW "[ OUT 2 ] -> " ANSI_RST "\"%s\"\n", token->str);
 	else if (token->type == LEX_SINGLE_QUOTES)
-		printf(CLR_GREEN "[ SQUOTES ] -> " CLR_RST "\"%s\"\n", token->str);
+		printf(ANSI_GREEN "[ SQUOTES ] -> " ANSI_RST "\"%s\"\n", token->str);
 	else if (token->type == LEX_DOUBLE_QUOTES)
-		printf(CLR_GREEN "[ DQUOTES ] -> " CLR_RST "\"%s\"\n", token->str);
+		printf(ANSI_GREEN "[ DQUOTES ] -> " ANSI_RST "\"%s\"\n", token->str);
 	else if (token->type == LEX_PIPE)
-		printf(CLR_RED "[ PIPE ] -> " CLR_RST "\"%s\"\n", token->str);
+		printf(ANSI_RED "[ PIPE ] -> " ANSI_RST "\"%s\"\n", token->str);
 	else if (token->type == LEX_TERM)
 		printf("[ TERM ] -> \"%s\"\n", token->str);
 }

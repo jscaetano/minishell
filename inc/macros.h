@@ -11,24 +11,24 @@
 /* ************************************************************************** */
 
 //! colors
-# define CLR_BLACK		"\033[30m"
-# define CLR_RED		"\033[31m"
-# define CLR_GREEN		"\033[32m"
-# define CLR_YELLOW		"\033[33m"
-# define CLR_BLUE		"\033[34m"
-# define CLR_MAGENTA	"\033[35m"
-# define CLR_CYAN		"\033[36m"
-# define CLR_GRAY		"\033[37m"
-# define CLR_LRED		"\033[91m"
-# define CLR_LGREEN		"\033[92m"
-# define CLR_LYELLOW	"\033[93m"
-# define CLR_LBLUE		"\033[94m"
-# define CLR_LMAGENTA	"\033[95m"
-# define CLR_LCYAN		"\033[96m"
-# define CLR_WHITE		"\033[97m"
-# define CLR_RST		"\033[0m"
-# define CLR_BOLD		"\033[1m"
-# define CLR_UNDERLINE	"\033[4m"
+# define ANSI_BLACK		"\033[30m"
+# define ANSI_RED		"\033[31m"
+# define ANSI_GREEN		"\033[32m"
+# define ANSI_YELLOW	"\033[33m"
+# define ANSI_BLUE		"\033[34m"
+# define ANSI_MAGENTA	"\033[35m"
+# define ANSI_CYAN		"\033[36m"
+# define ANSI_GRAY		"\033[37m"
+# define ANSI_LRED		"\033[91m"
+# define ANSI_LGREEN	"\033[92m"
+# define ANSI_LYELLOW	"\033[93m"
+# define ANSI_LBLUE		"\033[94m"
+# define ANSI_LMAGENTA	"\033[95m"
+# define ANSI_LCYAN		"\033[96m"
+# define ANSI_WHITE		"\033[97m"
+# define ANSI_RST		"\033[0m"
+# define ANSI_BOLD		"\033[1m"
+# define ANSI_UNDERLINE	"\033[4m"
 
 //! minishell errors
 # define ERROR_UNKNOWN_CMD		"minishell: command not found: "
@@ -46,7 +46,8 @@
 # define SYMBOLS	"<>\'\"| "
 
 //! minishell symbols
-# define PROMPT_SYMBOL	"┖─ minishell ❯ "
+# define PROMPT_UPPER	"┎─── "
+# define PROMPT_LOWER	"┖─ minishell ❯ "
 
 //! pipes indexes
 # define READ_END 	0

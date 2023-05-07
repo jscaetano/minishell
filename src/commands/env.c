@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:26:30 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/06 19:38:08 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/07 20:00:36 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	ft_env(char **tokens)
 	(ms()->exit_status) = 0;
 	if (matrix_size(tokens) > 0)
 	{
-		error(CLR_RED, ERROR_EXIT_MANY_ARGS, NULL, 127);
+		error(ANSI_RED, ERROR_EXIT_MANY_ARGS, NULL, 127);
 		return ;
 	}
 	curr = ms()->envlist;

@@ -51,5 +51,5 @@ void	execute_redirection(t_lexeme type, char *filename)
 	if (type == LEX_IN_2)
 		(ms()->in_fd) = heredoc(filename);
 	if (ms()->in_fd == -1 || ms()->out_fd == -1)
-		error(CLR_RED, ERROR_UNKNOWN_FILE, filename, 1);
+		error(ANSI_RED, ERROR_UNKNOWN_FILE, filename, 1);
 }

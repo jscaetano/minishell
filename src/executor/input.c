@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/07 13:21:30 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/07 20:02:07 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ char	*update_prompt(void)
 	char	*prefix;
 	char	*suffix;
 
-	prefix = CLR_BOLD"┎─── "CLR_UNDERLINE""CLR_LCYAN;
-	suffix = CLR_RST"\n"CLR_WHITE""PROMPT_SYMBOL""CLR_RST;
+	prefix = ANSI_BOLD""PROMPT_UPPER""ANSI_UNDERLINE""ANSI_LCYAN;
+	suffix = ANSI_RST"\n"ANSI_WHITE""PROMPT_LOWER""ANSI_RST;
 	tmp = ft_strjoin(prefix, ms()->cwd);
 	prompt = ft_strjoin(tmp, suffix);
 	free(tmp);

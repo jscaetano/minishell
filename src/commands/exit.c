@@ -26,14 +26,14 @@ void	ft_exit(char **args)
 	(ms()->exit_status) = 0;
 	if (matrix_size(args) > 1)
 	{
-		error(CLR_RED, ERROR_EXIT_MANY_ARGS, NULL, 1);
+		error(ANSI_RED, ERROR_EXIT_MANY_ARGS, NULL, 1);
 		return ;
 	}
 	status = args[0];
 	if (status)
 	{
 		if (!is_longlong(status))
-			error(CLR_RED, ERROR_EXIT_NO_NUM, NULL, 2);
+			error(ANSI_RED, ERROR_EXIT_NO_NUM, NULL, 2);
 		else
 			(ms()->exit_status) = (unsigned char) ft_atoull(status);
 	}	

@@ -27,7 +27,7 @@ void	ft_cd(char **tokens)
 	(ms()->exit_status) = 0;
 	if (matrix_size(tokens) > 1)
 	{
-		error(CLR_RED, ERROR_CD_MANY_ARGS, NULL, 1);
+		error(ANSI_RED, ERROR_CD_MANY_ARGS, NULL, 1);
 		return ;
 	}
 	if (!ft_strcmp(tokens[0], "."))
@@ -41,5 +41,5 @@ void	ft_cd(char **tokens)
 	if (S_ISDIR(stats.st_mode))
 		change_dir(ft_strdup(tokens[0]));
 	else
-		error(CLR_RED, ERROR_CD_WRONG_DIR, tokens[0], 127);
+		error(ANSI_RED, ERROR_CD_WRONG_DIR, tokens[0], 127);
 }
