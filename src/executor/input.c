@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/07 20:02:07 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/07 20:32:40 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,19 @@
 // 	printf("\n\t --------- AST ---------\n\n");
 // 	ast_debug(ms()->ast, 0, token_debug);
 // #endif
+void	update_envs(void)
+{
+	char	*tmp;
 
-char	*update_prompt(void)
+	matrix_destroy(ms()->path);
+	matrix_destroy(ms()->envp);
+	tmp = get_env("PATH");
+	(ms()->path) = ft_split(tmp, ':');
+	(ms()->envp) = envlist_to_matrix(ms()->envlist);
+	free(tmp);
+}
+
+char	*_update_prompt(void)
 {
 	char	*tmp;
 	char	*prompt;
@@ -34,19 +45,8 @@ char	*update_prompt(void)
 	return (prompt);
 }
 
-void	update_envs(void)
-{
-	char	*tmp;
-	
-	matrix_destroy(ms()->path);
-	matrix_destroy(ms()->envp);
-	tmp = get_env("PATH");
-	(ms()->path) = ft_split(tmp, ':');
-	(ms()->envp) = envlist_to_matrix(ms()->envlist);
-	free(tmp);
-}
 
-void	compute(void)
+void	_compute(void)
 {
 	if (is_spaces(ms()->input))
 	{
@@ -67,7 +67,7 @@ void	reader(void)
 	signals();
 	while (1)
 	{
-		ms()->prompt = update_prompt();
+		ms()->prompt = _update_prompt();
 		(ms()->input) = readline(ms()->prompt);
 		if (!ms()->input)
 		{
@@ -75,7 +75,7 @@ void	reader(void)
 			sanitize(true);
 		}
 		add_history(ms()->input);
-		compute();
+		_compute();
 	}
 	rl_clear_history();
 }

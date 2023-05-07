@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void	fill_args(char **envv)
+void	fill_args(char **envv)
 {
 	ft_bzero(ms(), sizeof(t_ms));
 	(ms()->envlist) = envlist(envv);

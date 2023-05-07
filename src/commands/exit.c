@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static bool	is_longlong(char *num)
+bool	_is_longlong(char *num)
 {
 	return (ft_isnum(num) \
 		&& ft_strcmp(num, "-9223372036854775808") >= 0 \
@@ -32,7 +32,7 @@ void	ft_exit(char **args)
 	status = args[0];
 	if (status)
 	{
-		if (!is_longlong(status))
+		if (!_is_longlong(status))
 			error(ANSI_RED, ERROR_EXIT_NO_NUM, NULL, 2);
 		else
 			(ms()->exit_status) = (unsigned char) ft_atoull(status);

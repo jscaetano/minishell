@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 11:40:47 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/05/07 11:59:24 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/07 20:30:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ t_token	*token_copy(t_token *token)
 	return (dup);
 }
 
-void	token_destroy(void *token)
+void	token_destroy(t_token *token)
 {
 	if (!token)
 		return ;
-	ft_free(((t_token *)token)->str);
+	ft_free(token->str);
 	ft_free(token);
 }

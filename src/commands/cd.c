@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	change_dir(char *path)
+void	_change_dir(char *path)
 {
 	chdir(path);
 	free(ms()->cwd);
@@ -34,12 +34,12 @@ void	ft_cd(char **tokens)
 		return ;
 	if (!tokens[0] || !ft_strcmp(tokens[0], "~"))
 	{
-		change_dir(get_env("HOME"));
+		_change_dir(get_env("HOME"));
 		return ;
 	}
 	stat(tokens[0], &stats);
 	if (S_ISDIR(stats.st_mode))
-		change_dir(ft_strdup(tokens[0]));
+		_change_dir(ft_strdup(tokens[0]));
 	else
 		error(ANSI_RED, ERROR_CD_WRONG_DIR, tokens[0], 127);
 }

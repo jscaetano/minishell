@@ -102,24 +102,24 @@ typedef struct s_ms
 void		update_envs(void);
 
 //! Lexer
-int			lexer_push_token(char *str, t_lexeme lexeme);
-int			lexer_find_match(char *symbols, char *input);
+int			_lexer_push_token(char *str, t_lexeme lexeme);
+int			_lexer_find_match(char *symbols, char *input);
 void		lexer(void);
 
 //! Token
 t_token		*token_new(char *str, t_lexeme type);
 t_token		*token_copy(t_token *token);
-void		token_destroy(void *token);
+void		token_destroy(t_token *token);
 
 //! Expansion
 void		expander(void);
-void		expand_variable(t_token *token);
+void		_expand_variable(t_token *token);
 
 //! Parser
 void		parser(void);
-t_ast		*parse_pipeline(void);
-t_ast		*parse_command(void);
-t_ast		*extend_pipeline(t_ast *ast, t_ast *command);
+t_ast		*_parse_pipeline(void);
+t_ast		*_parse_command(void);
+t_ast		*_extend_pipeline(t_ast *ast, t_ast *command);
 
 //! Scanner
 t_token		*scanner(t_operation op);
@@ -130,52 +130,54 @@ t_ast		*ast_copy(t_ast *ast);
 void		ast_insert(t_ast **ast, t_ast *node, bool left);
 void		ast_clear(t_ast *ast);
 
-//! EXIT
+//! Exit command
 void		ft_exit(char **args);
 
-//! CD
+//! Cd command
 void		ft_cd(char **tokens);
 
-//! ENV
+//! Env command
 void		ft_env(char **tokens);
 char		*get_env(char *str);
 t_list		*envlist(char **envp);
 
-//! ECHO
+//! Echo command
 void		ft_echo(char **tokens);
 
-//! EXPORT
+//! Export command
 void		export_directly(t_list **envlist, char *assignment);
-void		export_from_temp_list(char *name);
+void		_export_from_temp_list(char *name);
 void		ft_export(char **tokens);
 bool		is_assignment(t_token *token);
 char		**envlist_to_matrix(t_list *envlist);
 
-//! UNSET
+//! Unset command
 void		ft_unset(char **tokens);
 
-//! Fake Global
+//! Fake global
 t_ms		*ms(void);
 
 //! Pipeline
 void		pipeline_create(void);
-void		io_connect(void);
 void		pipeline_apply(int cmd_index);
 bool		is_unforkable(char *command);
 bool		is_builtin(char *command);
 
-//! Lists
+//! Envlist
 t_env		*env_new(char *key, char *value);
 t_env		*env_copy(t_env	*env);
-t_env		*env_find(t_list *envlist, char *key);
-bool		env_key_compare(t_env *env, char *key);
+t_env		*_env_find(t_list *envlist, char *key);
+bool		_env_key_compare(t_env *env, char *key);
 void		env_destroy(t_env *env);
 
 //! Execution
 void		execute(t_ast *ast);
-void		execute_forkable(t_ast *node);
-void		execute_command(char **args);
-void		execute_if_exists(char *exe, char **argv);
+void		_execute_forkable(t_ast *node);
+void		_execute_command(char **args);
+void		_execute_if_exists(char *exe, char **argv);
+char		*get_executable_path(char *exe);
+
+//! Path
 char		*get_executable_path(char *exe);
 
 //! Redirections
@@ -187,9 +189,9 @@ void		io_connect(void);
 void		io_disconnect(int command_index);
 
 //! Prompt
-void		compute(void);
+void		_compute(void);
 void		reader(void);
-char		*update_prompt(void);
+char		*_update_prompt(void);
 
 //! Testing
 void		printtmp(void);

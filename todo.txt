@@ -56,19 +56,11 @@ X		◦ exit with no options
 
 	- segfault when exporting a variable that starts with quotes.
 
-	- take a look at the pipeline file and refactor names
-
-	- refactor parser file in the redirections function
-
 	- deal with leaks
 
 	- deal with norm
 
 	- check for forbidden functions
-
-	- implement ft_readline
-
-	- handle missing files in redirections (might be because of close of -1)
 
 ///////////////////////////////////////////
 

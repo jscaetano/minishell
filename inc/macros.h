@@ -10,6 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef MACROS_H
+# define MACROS_H
+
 //! colors
 # define ANSI_BLACK		"\033[30m"
 # define ANSI_RED		"\033[31m"
@@ -59,3 +62,5 @@
 //! debug
 // # define DEBUG
 // # define HERE		printf("HERE\n");
+
+#endif

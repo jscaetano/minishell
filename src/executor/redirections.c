@@ -17,7 +17,7 @@ int	heredoc(char *term)
 	char	*input;
 	int		fd;
 	int		n;
-	
+
 	fd = open(HEREDOC, O_WRONLY | O_CREAT | O_APPEND, 0600);
 	while (1)
 	{

@@ -12,13 +12,21 @@
 
 #include "minishell.h"
 
-void	parser(void)
+t_ast	*_extend_command(t_ast *command)
 {
-	scanner(RESET);
-	ms()->ast = parse_pipeline();
+	t_ast	*redir;
+
+	redir = ast_new(token_copy(scanner(READ)));
+	if (!redir)
+		return (NULL);
+	scanner(NEXT);
+	redir->args = matrix_append(redir->args, ft_strdup(scanner(READ)->str));
+	redir->left = command->left;
+	command->left = redir;
+	return (command);
 }
 
-t_ast	*extend_pipeline(t_ast *ast, t_ast *command)
+t_ast	*_extend_pipeline(t_ast *ast, t_ast *command)
 {
 	t_ast	*root;
 
@@ -30,54 +38,9 @@ t_ast	*extend_pipeline(t_ast *ast, t_ast *command)
 	return (root);
 }
 
-t_ast	*parse_pipeline(void)
-{
-	t_ast	*ast;
-	t_ast	*command;
-
-	command = NULL;
-	ast = parse_command();
-	if (!ast)
-		return (NULL);
-	while (scanner(READ) && scanner(READ)->type == LEX_PIPE)
-	{
-		scanner(NEXT);
-		command = parse_command();
-		ast = extend_pipeline(ast, command);
-	}
-	return (ast);
-}
-
-t_ast	*extend_command(t_ast *command, t_ast *redirection)
-{
-	if (!command)
-		return (NULL);
-	if (!command->left || (command->left->token->type >= LEX_IN_1 && command->left->token->type <= LEX_OUT_2))
-	{
-		redirection->left = command->left;
-		command->left = redirection;
-		return (command);
-	}
-	extend_command(command->left, redirection);
-	return (command);
-}
-
-t_ast	*parse_redirection(void)
-{
-	t_ast	*redirect;
-
-	redirect = ast_new(token_copy(scanner(READ)));
-	if (!redirect)
-		return (NULL);
-	scanner(NEXT);
-	redirect->args = matrix_append(redirect->args, ft_strdup(scanner(READ)->str));
-	return (redirect);
-}
-
-t_ast	*parse_command(void)
+t_ast	*_parse_command(void)
 {
 	t_ast	*cmd;
-	t_ast	*redirection;
 
 	cmd = ast_new(token_copy(scanner(READ)));
 	if (!cmd)
@@ -86,13 +49,34 @@ t_ast	*parse_command(void)
 	while (scanner(READ) && scanner(READ)->type != LEX_PIPE)
 	{
 		if (scanner(READ)->type >= LEX_IN_1 && scanner(READ)->type <= LEX_OUT_2)
-		{
-			redirection = parse_redirection();
-			cmd = extend_command(cmd, redirection);
-		}	
+			cmd = _extend_command(cmd);
 		else
 			cmd->args = matrix_append(cmd->args, ft_strdup(scanner(READ)->str));
 		scanner(NEXT);
 	}
 	return (cmd);
+}
+
+t_ast	*_parse_pipeline(void)
+{
+	t_ast	*ast;
+	t_ast	*command;
+
+	command = NULL;
+	ast = _parse_command();
+	if (!ast)
+		return (NULL);
+	while (scanner(READ) && scanner(READ)->type == LEX_PIPE)
+	{
+		scanner(NEXT);
+		command = _parse_command();
+		ast = _extend_pipeline(ast, command);
+	}
+	return (ast);
+}
+
+void	parser(void)
+{
+	scanner(RESET);
+	ms()->ast = _parse_pipeline();
 }

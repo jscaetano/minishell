@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   envs.c                                             :+:      :+:    :+:   */
+/*   envlist.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:13:12 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/04 10:04:11 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/07 20:21:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,32 +34,45 @@ t_env	*env_copy(t_env	*env)
 	return (copy);
 }
 
-t_env	*env_find(t_list *envs, char *key)
-{
-	t_list	*curr;
-	t_env	*env;
-
-	if (!envs)
-		return (NULL);
-	curr = envs;
-	while (curr)
-	{
-		env = (t_env *)curr->content;
-		if (!ft_strcmp(env->key, key))
-			return (env);
-		curr = curr->next;
-	}
-	return (NULL);
-}
-
-bool	env_key_compare(t_env *env, char *key)
-{
-	return (ft_strcmp(env->key, key) == 0);
-}
-
 void	env_destroy(t_env *env)
 {
 	ft_free(env->key);
 	ft_free(env->value);
 	ft_free(env);
 }
+
+char	**envlist_to_matrix(t_list *envlist)
+{
+	t_env	*env;
+	char	*tmp1;
+	char	*tmp2;
+	char	**matrix;
+
+	matrix = ft_calloc(1, sizeof(char *));
+	if (!matrix)
+		return (NULL);
+	while (envlist)
+	{
+		env = (t_env *)envlist->content;
+		tmp1 = ft_strjoin(env->key, "=");
+		tmp2 = ft_strjoin(tmp1, env->value);
+		matrix = matrix_append(matrix, ft_strdup(tmp2));
+		free(tmp1);
+		free(tmp2);
+		envlist = envlist->next;
+	}
+	return (matrix);
+}
+
+t_list	*envlist(char **envp)
+{
+	t_list	*envlist;
+	int		i;
+
+	i = matrix_size(envp);
+	envlist = NULL;
+	while (--i >= 0)
+		export_directly(&envlist, envp[i]);
+	return (envlist);
+}
+

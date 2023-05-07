@@ -12,22 +12,7 @@
 
 #include "minishell.h"
 
-void	expander(void)
-{
-	t_list	*curr;
-	t_token	*token;
-
-	curr = ms()->lexemes;
-	while (curr)
-	{
-		token = ((t_token *)curr->content);
-		if (token->type == LEX_DOUBLE_QUOTES || token->type == LEX_TERM)
-			expand_variable(token);
-		curr = curr->next;
-	}
-}
-
-char	*find_key(char *str)
+char	*_find_key(char *str)
 {
 	char	*tmp;
 	char	*var;
@@ -43,7 +28,7 @@ char	*find_key(char *str)
 	return (var);
 }
 
-void	expand_variable(t_token *token)
+void	_expand_variable(t_token *token)
 {
 	char	*value;
 	char	*key;
@@ -51,7 +36,7 @@ void	expand_variable(t_token *token)
 
 	while (ft_strnstr(token->str, "$", ft_strlen(token->str)))
 	{
-		key = find_key(token->str);
+		key = _find_key(token->str);
 		if (!ft_strcmp(key, "$?"))
 			value = ft_itoa(ms()->exit_status);
 		else
@@ -61,5 +46,20 @@ void	expand_variable(t_token *token)
 		ft_free(tmp);
 		ft_free(value);
 		ft_free(key);
+	}
+}
+
+void	expander(void)
+{
+	t_list	*curr;
+	t_token	*token;
+
+	curr = ms()->lexemes;
+	while (curr)
+	{
+		token = ((t_token *)curr->content);
+		if (token->type == LEX_DOUBLE_QUOTES || token->type == LEX_TERM)
+			_expand_variable(token);
+		curr = curr->next;
 	}
 }

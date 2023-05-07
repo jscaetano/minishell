@@ -6,70 +6,12 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:09:10 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/07 12:23:07 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/07 20:32:40 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Pushed a new variable to an envlist either tmp or env
-void	export_directly(t_list **envlist, char *assignment)
-{
-	int		i;
-	char	*name;
-	char	*value;
-	t_env	*env;
-
-	i = ft_strlen_sep(assignment, "=");
-	name = ft_substr(assignment, 0, i);
-	value = ft_strdup(assignment + i + 1);
-	env = env_find(*envlist, name);
-	if (env)
-	{
-		free(name);
-		free(env->value);
-		env->value = value;
-	}
-	else
-		ft_lstadd_front(envlist, ft_lstnew(env_new(name, value)));
-}
-
-// Exports the variable from the temporary list
-void	export_from_temp_list(char *name)
-{
-	t_env	*env;
-	t_env	*temp;
-
-	temp = env_find(ms()->envtmp, name);
-	env = env_find(ms()->envlist, name);
-	if (env && temp)
-	{
-		ft_free(env->value);
-		env->value = ft_strdup(temp->value);
-	}
-	else
-		ft_lstadd_front(&ms()->envlist, ft_lstnew(env_copy(temp)));
-}
-
-void	ft_export(char **vars)
-{
-	int		i;
-	t_list	*lexeme;
-
-	i = -1;
-	(ms()->exit_status) = 0;
-	lexeme = ms()->lexemes->next;
-	while (vars[++i])
-	{
-		if (is_assignment(lexeme->content))
-			export_directly(&ms()->envlist, vars[i]);
-		else
-			export_from_temp_list(vars[i]);
-		lexeme = lexeme->next;
-	}
-}
-
-//if there is a a=x expression, store it in tmp (old find_equals)
 bool	is_assignment(t_token *token)
 {
 	int	i;
@@ -86,25 +28,75 @@ bool	is_assignment(t_token *token)
 	return (false);
 }
 
-char	**envlist_to_matrix(t_list *envlist)
+t_env	*_env_find(t_list *envs, char *key)
+{
+	t_list	*curr;
+	t_env	*env;
+
+	if (!envs)
+		return (NULL);
+	curr = envs;
+	while (curr)
+	{
+		env = (t_env *)curr->content;
+		if (!ft_strcmp(env->key, key))
+			return (env);
+		curr = curr->next;
+	}
+	return (NULL);
+}
+
+void	_export_from_temp_list(char *name)
 {
 	t_env	*env;
-	char	*tmp1;
-	char	*tmp2;
-	char	**matrix;
+	t_env	*temp;
 
-	matrix = ft_calloc(1, sizeof(char *));
-	if (!matrix)
-		return (NULL);
-	while (envlist)
+	temp = _env_find(ms()->envtmp, name);
+	env = _env_find(ms()->envlist, name);
+	if (env && temp)
 	{
-		env = (t_env *)envlist->content;
-		tmp1 = ft_strjoin(env->key, "=");
-		tmp2 = ft_strjoin(tmp1, env->value);
-		matrix = matrix_append(matrix, ft_strdup(tmp2));
-		free(tmp1);
-		free(tmp2);
-		envlist = envlist->next;
+		ft_free(env->value);
+		env->value = ft_strdup(temp->value);
 	}
-	return (matrix);
+	else
+		ft_lstadd_front(&ms()->envlist, ft_lstnew(env_copy(temp)));
+}
+
+void	export_directly(t_list **envlist, char *assignment)
+{
+	int		i;
+	char	*name;
+	char	*value;
+	t_env	*env;
+
+	i = ft_strlen_sep(assignment, "=");
+	name = ft_substr(assignment, 0, i);
+	value = ft_strdup(assignment + i + 1);
+	env = _env_find(*envlist, name);
+	if (env)
+	{
+		free(name);
+		free(env->value);
+		env->value = value;
+	}
+	else
+		ft_lstadd_front(envlist, ft_lstnew(env_new(name, value)));
+}
+
+void	ft_export(char **vars)
+{
+	int		i;
+	t_list	*lexeme;
+
+	i = -1;
+	(ms()->exit_status) = 0;
+	lexeme = ms()->lexemes->next;
+	while (vars[++i])
+	{
+		if (is_assignment(lexeme->content))
+			export_directly(&ms()->envlist, vars[i]);
+		else
+			_export_from_temp_list(vars[i]);
+		lexeme = lexeme->next;
+	}
 }

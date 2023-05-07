@@ -6,13 +6,12 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:10:59 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/07 20:00:36 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/07 20:25:14 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// for testing purposes, print tmp list
 void	printtmp(void)
 {
 	t_list	*curr;
