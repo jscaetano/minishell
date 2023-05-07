@@ -66,6 +66,10 @@ X		◦ exit with no options
 
 	- check for forbidden functions
 
+	- implement ft_readline
+
+	- handle missing files in redirections (might be because of close of -1)
+
 ///////////////////////////////////////////
 
 

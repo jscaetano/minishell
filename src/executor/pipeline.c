@@ -6,13 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:12:35 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/05/06 21:48:21 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/07 13:02:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	create_all_pipes(void)
+void	pipeline_create(void)
 {
 	int	i;
 
@@ -27,26 +27,16 @@ void	create_all_pipes(void)
 	}
 }
 
-void	connect_pipeline(int cmd_index)
+void	pipeline_apply(int command_index)
 {
 	if (ms()->num_commands < 2)
 		return ;
 	if (ms()->in_fd == STDIN_FILENO)
-		if (cmd_index != 0)
-			ms()->in_fd = ms()->pipes[cmd_index - 1][READ_END];
+		if (command_index != 0)
+			ms()->in_fd = ms()->pipes[command_index - 1][READ_END];
 	if (ms()->out_fd == STDOUT_FILENO)
-		if (cmd_index != ms()->num_commands - 1)
-			ms()->out_fd = ms()->pipes[cmd_index][WRITE_END];
-	if (ms()->pipes[cmd_index])
-		close(ms()->pipes[cmd_index][READ_END]);
-}
-
-void	connect_io(void)
-{
-	if (ms()->in_fd >= STDIN_FILENO)
-		dup2(ms()->in_fd, STDIN_FILENO);
-	if (ms()->out_fd >= STDOUT_FILENO)
-		dup2(ms()->out_fd, STDOUT_FILENO);
+		if (command_index != ms()->num_commands - 1)
+			ms()->out_fd = ms()->pipes[command_index][WRITE_END];
 }
 
 bool	is_unforkable(char *command)

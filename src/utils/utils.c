@@ -12,16 +12,6 @@
 
 #include "minishell.h"
 
-int	ft_strcmp(char *s1, char *s2)
-{
-	int	i;
-
-	i = 0;
-	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
-		i++;
-	return (s1[i] - s2[i]);
-}
-
 int	is_spaces(char *str)
 {
 	size_t	i;
@@ -46,4 +36,13 @@ int	ft_strlen_sep(const char *s, char *seps)
 	while (s[i] && !ft_strchr(seps, s[i]))
 		i++;
 	return (i);
+}
+
+void	error(char *color, char *message, char *param, int status)
+{
+	if (param)
+		printf("%s%s%s%s\n", color, message, param, CLR_RST);
+	else
+		printf("%s%s%s\n", color, message, CLR_RST);
+	(ms()->exit_status) = status;
 }

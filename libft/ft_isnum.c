@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isnum.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 10:02:56 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/05/04 10:04:33 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/07 13:01:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-bool	ft_isnum(char *str)
+int	ft_isnum(char *str)
 {
 	int	i;
 
@@ -21,6 +21,6 @@ bool	ft_isnum(char *str)
 		i++;
 	while (str[i])
 		if (!ft_isdigit(str[i++]))
-			return (false);
-	return (true);
+			return (0);
+	return (1);
 }

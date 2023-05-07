@@ -15,7 +15,7 @@ RM = rm -rf
 AR = ar -rcs
 
 #_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_ FLAGS _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
-CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS	= -Wall -Wextra -Werror -g #-fsanitize=address
 MK		= --no-print-directory
 LIBFT	= -L ./libft -lft
 GNL		= -L ./get_next_line -lgnl
@@ -36,8 +36,8 @@ OBJ_DIR			= bin
 
 #_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_ FILES _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
 NAME			= minishell
-_FILES			= ast cd echo env envs exec exit expander export fake_global input lexer no_leaks \
-					main matrix parser pipeline scanner testing token utils unset signals
+_FILES			= ast cd echo env envs exec exit expander export fake_global input io lexer no_leaks \
+					main matrix parser pipeline redirections scanner testing token utils unset signals
 OBJS			= $(_FILES:%=%.o)
 TARGET			= $(addprefix $(OBJ_DIR)/, $(OBJS))
 
@@ -80,8 +80,8 @@ run:
 
 r: re run
 
-debug:
-	gdb -tui $(NAME)
+leaks:
+	valgrind --leak-check=full --show-leak-kinds=all --log-file=output.log ./minishell
 
 .SILENT:
 

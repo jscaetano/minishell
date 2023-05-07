@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/07 11:54:57 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/07 13:21:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,12 @@ void	compute(void)
 }
 
 void	reader(void)
-{
-	char	*prompt;
+{	
 	signals();
 	while (1)
 	{
-		prompt = update_prompt();
-		(ms()->input) = readline(prompt);
+		ms()->prompt = update_prompt();
+		(ms()->input) = readline(ms()->prompt);
 		if (!ms()->input)
 		{
 			printf("exit\n");
@@ -77,7 +76,6 @@ void	reader(void)
 		}
 		add_history(ms()->input);
 		compute();
-		free(prompt);
 	}
 	rl_clear_history();
 }

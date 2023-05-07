@@ -89,6 +89,7 @@ typedef struct s_ms
 	int		num_commands;
 	char	*cwd;
 	char	*input;
+	char	*prompt;
 	char	**path;
 	char	**envp;
 	int		**pipes;
@@ -109,6 +110,10 @@ void		lexer(void);
 t_token		*token_new(char *str, t_lexeme type);
 t_token		*token_copy(t_token *token);
 void		token_destroy(void *token);
+
+//! Expansion
+void		expander(void);
+void		expand_variable(t_token *token);
 
 //! Parser
 void		parser(void);
@@ -153,9 +158,9 @@ void		ft_unset(char **tokens);
 t_ms		*ms(void);
 
 //! Pipeline
-void		create_all_pipes(void);
-void		connect_io(void);
-void		connect_pipeline(int cmd_index);
+void		pipeline_create(void);
+void		io_connect(void);
+void		pipeline_apply(int cmd_index);
 bool		is_unforkable(char *command);
 bool		is_builtin(char *command);
 
@@ -166,21 +171,24 @@ t_env		*env_find(t_list *envlist, char *key);
 bool		env_key_compare(t_env *env, char *key);
 void		env_destroy(t_env *env);
 
-//! Exec
+//! Execution
 void		execute(t_ast *ast);
 void		execute_forkable(t_ast *node);
 void		execute_command(char **args);
 void		execute_if_exists(char *exe, char **argv);
 char		*get_executable_path(char *exe);
 
-//! Input
-void		expander(void);
-void		expand_variable(t_token *token);
-void		compute(void);
-void		reader(void);
+//! Redirections
+void		execute_redirection(t_lexeme type, char *filename);
+int			heredoc(char *term);
+
+//! IO
+void		io_connect(void);
+void		io_disconnect(int command_index);
 
 //! Prompt
-
+void		compute(void);
+void		reader(void);
 char		*update_prompt(void);
 
 //! Testing
@@ -198,16 +206,16 @@ void		handler_sigint(int signum);
 void		handler_child(int signum);
 
 //! Utils
-int			ft_strcmp(char *s1, char *s2);
 void		ft_free(void *p);
 int			ft_strlen_sep(const char *s, char *seps);
 void		sanitize(bool end);
 int			is_spaces(char *str);
+void		error(char *color, char *message, char *param, int status);
+
+//! Matrix
 void		matrix_destroy(void *matrix);
 size_t		matrix_size(char **mat);
 char		**matrix_append(char **m1, char *str);
 char		**matrix_copy(char **matrix);
-void		error(char *color, char *message, char *param, int status);
-bool		ft_isnum(char *str);
 
 #endif
