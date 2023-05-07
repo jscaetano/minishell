@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:09:10 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/06 21:06:09 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/07 12:23:07 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	export_directly(t_list **envlist, char *assignment)
 	t_env	*env;
 
 	i = ft_strlen_sep(assignment, "=");
-	name = ft_strndup(assignment, i);
+	name = ft_substr(assignment, 0, i);
 	value = ft_strdup(assignment + i + 1);
 	env = env_find(*envlist, name);
 	if (env)

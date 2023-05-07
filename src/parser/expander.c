@@ -15,14 +15,14 @@
 void	expander(void)
 {
 	t_list	*curr;
-	t_token	*lexeme;
+	t_token	*token;
 
 	curr = ms()->lexemes;
 	while (curr)
 	{
-		lexeme = ((t_token *)curr->content);
-		if (lexeme->type == LEX_DOUBLE_QUOTES || lexeme->type == LEX_TERM)
-			expand_variable(lexeme);
+		token = ((t_token *)curr->content);
+		if (token->type == LEX_DOUBLE_QUOTES || token->type == LEX_TERM)
+			expand_variable(token);
 		curr = curr->next;
 	}
 }
@@ -39,14 +39,14 @@ char	*find_key(char *str)
 		return (ft_strdup("$?"));
 	while (ft_isalnum(tmp[len + 1]) || tmp[len + 1] == '_')
 		len++;
-	var = ft_strndup(tmp, len + 1);
+	var = ft_substr(tmp, 0, len + 1);
 	return (var);
 }
 
 void	expand_variable(t_token *token)
 {
 	char	*value;
-	char 	*key;
+	char	*key;
 	char	*tmp;
 
 	while (ft_strnstr(token->str, "$", ft_strlen(token->str)))

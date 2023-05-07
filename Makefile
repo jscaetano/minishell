@@ -37,7 +37,7 @@ OBJ_DIR			= bin
 #_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_ FILES _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
 NAME			= minishell
 _FILES			= ast cd echo env envs exec exit expander export fake_global input lexer no_leaks \
-					main parser pipeline prompt scanner testing token utils utils2 unset signals
+					main matrix parser pipeline scanner testing token utils unset signals
 OBJS			= $(_FILES:%=%.o)
 TARGET			= $(addprefix $(OBJ_DIR)/, $(OBJS))
 

@@ -53,14 +53,18 @@ X		◦ exit with no options
 	- test inputs with missing fields (unclosed pipes, redirections without names...)
 	
 	- use error 128 for signal terminated commands
-	
+
+	- segfault when exporting a variable that starts with quotes.
+
+	- take a look at the pipeline file and refactor names
+
+	- refactor parser file in the redirections function
+
 	- deal with leaks
 
 	- deal with norm
 
 	- check for forbidden functions
-
-	- use the env list instead of the original env
 
 ///////////////////////////////////////////
 

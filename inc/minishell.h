@@ -39,50 +39,9 @@
 # include <fcntl.h>
 
 # include "libft.h"
+# include "macros.h"
 
-//! Colors
-# define CLR_BLACK		"\033[30m"
-# define CLR_RED		"\033[31m"
-# define CLR_GREEN		"\033[32m"
-# define CLR_YELLOW		"\033[33m"
-# define CLR_BLUE		"\033[34m"
-# define CLR_MAGENTA	"\033[35m"
-# define CLR_CYAN		"\033[36m"
-# define CLR_GRAY		"\033[37m"
-# define CLR_LRED		"\033[91m"
-# define CLR_LGREEN		"\033[92m"
-# define CLR_LYELLOW	"\033[93m"
-# define CLR_LBLUE		"\033[94m"
-# define CLR_LMAGENTA	"\033[95m"
-# define CLR_LCYAN		"\033[96m"
-# define CLR_WHITE		"\033[97m"
-# define CLR_RST		"\033[0m"
-# define CLR_BOLD		"\033[1m"
-# define CLR_UNDERLINE	"\033[4m"
-
-# define PROMPT_SYMBOL        "┖─ minishell ❯ "
-
-//! minishell errors
-# define ERROR_UNKNOWN_CMD		"minishell: command not found: "
-# define ERROR_UNKNOWN_FILE		"minishell: no such file or directory: "
-
-//! cd errors
-# define ERROR_CD_WRONG_DIR		"cd: no such file or directory: "
-# define ERROR_CD_MANY_ARGS		"cd: too many arguments"
-
-//! exit errors
-# define ERROR_EXIT_NO_NUM		"exit: numeric argument required"
-# define ERROR_EXIT_MANY_ARGS	"exit: too many arguments"
-
-# define PROMPT		"\033[38;5;13mminishell > \033[0m"
-# define SYMBOLS	"<>\'\"| "
-# define READ_END 	0
-# define WRITE_END 	1
-# define DEBUG
-# define HEREDOC "heredoc.tmp"
-// # define HERE		printf("HERE\n");
-
-typedef enum e_lex_type
+typedef enum e_lexeme
 {
 	LEX_IN_1,
 	LEX_OUT_1,
@@ -92,19 +51,19 @@ typedef enum e_lex_type
 	LEX_DOUBLE_QUOTES,
 	LEX_PIPE,
 	LEX_TERM,
-}	t_lex_type;
+}	t_lexeme;
 
-typedef enum e_scanner_op
+typedef enum e_operation
 {
 	READ,
 	NEXT,
 	RESET
-}	t_scanner_op;
+}	t_operation;
 
 typedef struct s_token
 {
 	char			*str;
-	t_lex_type		type;
+	t_lexeme		type;
 }	t_token;
 
 typedef struct s_ast
@@ -142,12 +101,12 @@ typedef struct s_ms
 void		update_envs(void);
 
 //! Lexer
-int			lexer_push_token(char *str, t_lex_type lexeme);
+int			lexer_push_token(char *str, t_lexeme lexeme);
 int			lexer_find_match(char *symbols, char *input);
 void		lexer(void);
 
 //! Token
-t_token		*token_new(char *str, t_lex_type type);
+t_token		*token_new(char *str, t_lexeme type);
 t_token		*token_copy(t_token *token);
 void		token_destroy(void *token);
 
@@ -158,7 +117,7 @@ t_ast		*parse_command(void);
 t_ast		*extend_pipeline(t_ast *ast, t_ast *command);
 
 //! Scanner
-t_token		*scanner(t_scanner_op op);
+t_token		*scanner(t_operation op);
 
 //! Abstract Syntax Tree
 t_ast		*ast_new(t_token *token);
@@ -239,11 +198,9 @@ void		handler_sigint(int signum);
 void		handler_child(int signum);
 
 //! Utils
-char		*ft_strndup(const char *s1, int size);
 int			ft_strcmp(char *s1, char *s2);
 void		ft_free(void *p);
 int			ft_strlen_sep(const char *s, char *seps);
-int			ft_strlen_sep_alnum(const char *s);
 void		sanitize(bool end);
 int			is_spaces(char *str);
 void		matrix_destroy(void *matrix);

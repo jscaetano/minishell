@@ -6,13 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 11:40:47 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/05/06 18:52:52 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/07 11:59:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*token_new(char *str, t_lex_type type)
+t_token	*token_new(char *str, t_lexeme type)
 {
 	t_token	*token;
 

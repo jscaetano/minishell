@@ -47,30 +47,3 @@ int	ft_strlen_sep(const char *s, char *seps)
 		i++;
 	return (i);
 }
-
-int	ft_strlen_sep_alnum(const char *s)
-{
-	int	i;
-
-	i = 0;
-	while (ft_isalnum(s[i]))
-		i++;
-	return (i);
-}
-
-char	*ft_strndup(const char *s1, int size)
-{
-	char	*dest;
-	int		srcsize;
-	char	*str;
-	int		tmpsize;
-
-	tmpsize = size;
-	str = (char *)s1;
-	srcsize = 0;
-	while (s1[srcsize] != '\0' && tmpsize--)
-		srcsize++;
-	dest = malloc((srcsize + 1));
-	ft_strlcpy(dest, str, size + 1);
-	return (dest);
-}

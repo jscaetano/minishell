@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/06 21:56:30 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/07 11:59:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	heredoc(char *term)
 	return (open(HEREDOC, O_RDONLY));
 }
 
-void	execute_redirection(t_lex_type type, char *filename)
+void	execute_redirection(t_lexeme type, char *filename)
 {
 	if (type == LEX_OUT_1)
 		(ms()->out_fd) = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0777);

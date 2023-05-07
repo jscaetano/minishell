@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 12:10:46 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/05/04 09:59:01 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/07 12:24:37 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	lexer_push_token(char *str, t_lex_type lexeme)
+int	lexer_push_token(char *str, t_lexeme lexeme)
 {
 	t_token	*token;
 

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:38:08 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/06 20:38:22 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/07 12:01:28 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,13 @@ void	sanitize(bool end)
 		ft_lstclear(&ms()->envtmp, (void (*)(void *))env_destroy);
 		exit(ms()->exit_status);
 	}
+}
+
+void	error(char *color, char *message, char *param, int status)
+{
+	if (param)
+		printf("%s%s%s%s\n", color, message, param, CLR_RST);
+	else
+		printf("%s%s%s\n", color, message, CLR_RST);
+	(ms()->exit_status) = status;
 }

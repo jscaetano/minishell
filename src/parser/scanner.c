@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-t_token	*scanner(t_scanner_op op)
+t_token	*scanner(t_operation op)
 {
 	static t_list	*current = NULL;
 
