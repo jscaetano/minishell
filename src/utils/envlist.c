@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:13:12 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/07 20:21:41 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/07 20:35:00 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,3 @@ t_list	*envlist(char **envp)
 		export_directly(&envlist, envp[i]);
 	return (envlist);
 }
-

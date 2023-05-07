@@ -167,7 +167,7 @@ bool		is_builtin(char *command);
 t_env		*env_new(char *key, char *value);
 t_env		*env_copy(t_env	*env);
 t_env		*_env_find(t_list *envlist, char *key);
-bool		_env_key_compare(t_env *env, char *key);
+bool		_env_key_cmp(t_env *env, char *key);
 void		env_destroy(t_env *env);
 
 //! Execution

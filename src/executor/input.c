@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/07 20:32:40 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/07 20:34:52 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ char	*_update_prompt(void)
 	free(tmp);
 	return (prompt);
 }
-
 
 void	_compute(void)
 {
