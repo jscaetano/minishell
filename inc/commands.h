@@ -16,7 +16,8 @@
 # include "macros.h"
 # include "env.h"
 
-//! Cd command
+//! _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\ CD /=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
+
 /**
  * @brief Replica of the original cd command: changes the working directory
  * based on its arguments.
@@ -25,7 +26,8 @@
  */
 void		ft_cd(char **tokens);
 
-//! Echo command
+//! _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\ ECHO /=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
+
 /**
  * @brief Replica of the original echo command: prints its arguments to the
  * shell, with a newline at the end. If the -n option is chosen, the newline won't
@@ -35,7 +37,8 @@ void		ft_cd(char **tokens);
  */
 void		ft_echo(char **tokens);
 
-//! Env command
+//! _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\ ENV /=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
+
 /**
  * @brief Searches in the envlist for an environment variable that matches
  * the given key and returns its value.
@@ -54,7 +57,8 @@ char		*get_env(char *key);
  */
 void		ft_env(char **tokens);
 
-//! Exit command
+//! _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\ EXIT /=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
+
 /**
  * @brief Given a string, this function checks if it is a valid number and fits
  * in the long long range.
@@ -74,7 +78,8 @@ bool		_is_longlong(char *num);
  */
 void		ft_exit(char **tokens);
 
-//! Export command
+//! _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\ EXPORT /=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
+
 /**
  * @brief Given a token of the lexeme list, it takes the lexeme string and 
  * checks if the string is formatted as NAME=VALUE (is an assignment). 
@@ -127,7 +132,8 @@ void		export_directly(t_list **envlist, char *assignment);
  */
 void		ft_export(char **tokens);
 
-//! Unset command
+//! _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\ UNSET /=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
+
 /**
  * @brief A helper of the unset function: given the name of an environment 
  * variable, it returns the result of the comparison of the key of the 

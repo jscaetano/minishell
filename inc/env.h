@@ -28,7 +28,7 @@ typedef struct s_env
 	char			*value;
 }	t_env;
 
-//! Envlist
+//! _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\ ENVLIST /=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
 
 /**
  * @brief Creates a new pointer to a new t_env struct.
