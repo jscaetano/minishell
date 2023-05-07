@@ -15,20 +15,19 @@ RM = rm -rf
 AR = ar -rcs
 
 #_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_ FLAGS _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
-CFLAGS	= -Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address
 MK		= --no-print-directory
 LIBFT	= -L ./libft -lft
-GNL		= -L ./get_next_line -lgnl
-PRINTF	= -L ./ft_printf -lftprintf
-DEBUG	= false
+# GNL		= -L ./get_next_line -lgnl
+# PRINTF	= -L ./ft_printf -lftprintf
 
 #_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_ FOLDERS _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
 DEPS			= inc
 SRCS			= src
 #SRCS_BONUS		= srcs_bonus
 LIBFT_PATH		= libft
-GNL_PATH		= get_next_line
-PRINTF_PATH		= ft_printf
+# GNL_PATH		= get_next_line
+# PRINTF_PATH		= ft_printf
 _SUBFOLDERS		= commands debug executor parser utils
 VPATH			= $(SRCS) $(addprefix $(SRCS)/, $(_SUBFOLDERS))
 OBJ_DIR			= bin
@@ -86,4 +85,4 @@ leaks:
 
 .SILENT:
 
-.PHONY: libft all bonus clean fclean re r
+.PHONY: libft all bonus clean fclean re run r leaks

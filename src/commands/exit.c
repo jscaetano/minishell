@@ -19,17 +19,17 @@ bool	_is_longlong(char *num)
 		&& ft_strcmp(num, "9223372036854775807") <= 0);
 }
 
-void	ft_exit(char **args)
+void	ft_exit(char **tokens)
 {
 	char	*status;
 
 	(ms()->exit_status) = 0;
-	if (matrix_size(args) > 1)
+	if (matrix_size(tokens) > 1)
 	{
 		error(ANSI_RED, ERROR_EXIT_MANY_ARGS, NULL, 1);
 		return ;
 	}
-	status = args[0];
+	status = tokens[0];
 	if (status)
 	{
 		if (!_is_longlong(status))

@@ -6,24 +6,24 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:26:30 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/07 20:50:51 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/07 21:28:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_env(char *str)
+char	*get_env(char *key)
 {
 	t_env	*tmp;
 	t_list	*curr;
 
-	if (str[0] == '$')
-		str++;
+	if (key[0] == '$')
+		key++;
 	curr = ms()->envlist;
 	while (curr)
 	{
 		tmp = (t_env *)curr->content;
-		if (!ft_strcmp(tmp->key, str))
+		if (!ft_strcmp(tmp->key, key))
 			return (ft_strdup(tmp->value));
 		curr = curr->next;
 	}
