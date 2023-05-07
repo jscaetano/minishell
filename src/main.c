@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	fill_args(char **envv)
+void	_ms_init(char **envv)
 {
 	ft_bzero(ms(), sizeof(t_ms));
 	(ms()->envlist) = envlist(envv);
@@ -24,12 +24,11 @@ void	fill_args(char **envv)
 	return ;
 }
 
-//add
 int	main(int argc, char **argv, char **envv)
 {
 	(void)argc;
 	(void)argv;
-	fill_args(envv);
+	_ms_init(envv);
 	signals();
 	reader();
 	return (0);

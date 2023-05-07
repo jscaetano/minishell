@@ -6,13 +6,12 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:26:30 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/07 20:20:31 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/07 20:50:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// returns the content of the env in env with the name str or just returns ""
 char	*get_env(char *str)
 {
 	t_env	*tmp;
@@ -31,7 +30,6 @@ char	*get_env(char *str)
 	return (ft_strdup(""));
 }
 
-// env builtin, prints all env
 void	ft_env(char **tokens)
 {
 	t_list	*curr;

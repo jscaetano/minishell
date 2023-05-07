@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   no_leaks.c                                         :+:      :+:    :+:   */
+/*   sanitize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:38:08 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/07 13:23:19 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/07 21:03:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,18 @@ void	ft_free(void *p)
 	if (p)
 		free(p);
 	p = NULL;
+}
+
+void	update_envs(void)
+{
+	char	*tmp;
+
+	matrix_destroy(ms()->path);
+	matrix_destroy(ms()->envp);
+	tmp = get_env("PATH");
+	(ms()->path) = ft_split(tmp, ':');
+	(ms()->envp) = envlist_to_matrix(ms()->envlist);
+	free(tmp);
 }
 
 void	sanitize(bool end)

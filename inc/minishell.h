@@ -25,31 +25,11 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "libft.h"
 # include "lexer.h"
+# include "parser.h"
+# include "commands.h"
+# include "env.h"
 # include "macros.h"
-
-typedef enum e_operation
-{
-	READ,
-	NEXT,
-	RESET
-}	t_operation;
-
-typedef struct s_ast
-{
-	t_token			*token;
-	char			**args;
-	int				index;
-	struct s_ast	*left;
-	struct s_ast	*right;
-}	t_ast;
-
-typedef struct s_env
-{
-	char			*key;
-	char			*value;
-}	t_env;
 
 typedef struct s_ms
 {
@@ -69,53 +49,19 @@ typedef struct s_ms
 	t_ast	*ast;
 }	t_ms;
 
-void		update_envs(void);
+//! Execution
+void		_execute_if_exists(char *exe, char **argv);
+void		_execute_command(char **args);
+void		_execute_forkable(t_ast *node);
+void		_execute_pipeline(t_ast *node);
+void		execute(t_ast *ast);
 
-//! Expansion
-void		expander(void);
-void		_expand_variable(t_token *token);
+//! IO
+void		io_connect(void);
+void		io_disconnect(int command_index);
 
-//! Parser
-void		parser(void);
-t_ast		*_parse_pipeline(void);
-t_ast		*_parse_command(void);
-t_ast		*_extend_pipeline(t_ast *ast, t_ast *command);
-
-//! Scanner
-t_token		*scanner(t_operation op);
-
-//! Abstract Syntax Tree
-t_ast		*ast_new(t_token *token);
-t_ast		*ast_copy(t_ast *ast);
-void		ast_insert(t_ast **ast, t_ast *node, bool left);
-void		ast_clear(t_ast *ast);
-
-//! Exit command
-void		ft_exit(char **args);
-
-//! Cd command
-void		ft_cd(char **tokens);
-
-//! Env command
-void		ft_env(char **tokens);
-char		*get_env(char *str);
-t_list		*envlist(char **envp);
-
-//! Echo command
-void		ft_echo(char **tokens);
-
-//! Export command
-void		export_directly(t_list **envlist, char *assignment);
-void		_export_from_temp_list(char *name);
-void		ft_export(char **tokens);
-bool		is_assignment(t_token *token);
-char		**envlist_to_matrix(t_list *envlist);
-
-//! Unset command
-void		ft_unset(char **tokens);
-
-//! Fake global
-t_ms		*ms(void);
+//! Path
+char		*get_executable_path(char *exe);
 
 //! Pipeline
 void		pipeline_create(void);
@@ -123,61 +69,49 @@ void		pipeline_apply(int cmd_index);
 bool		is_unforkable(char *command);
 bool		is_builtin(char *command);
 
-//! Envlist
-t_env		*env_new(char *key, char *value);
-t_env		*env_copy(t_env	*env);
-t_env		*_env_find(t_list *envlist, char *key);
-bool		_env_key_cmp(t_env *env, char *key);
-void		env_destroy(t_env *env);
-
-//! Execution
-void		execute(t_ast *ast);
-void		_execute_forkable(t_ast *node);
-void		_execute_command(char **args);
-void		_execute_if_exists(char *exe, char **argv);
-char		*get_executable_path(char *exe);
-
-//! Path
-char		*get_executable_path(char *exe);
-
 //! Redirections
-void		execute_redirection(t_lexeme type, char *filename);
 int			heredoc(char *term);
-
-//! IO
-void		io_connect(void);
-void		io_disconnect(int command_index);
-
-//! Prompt
-void		_compute(void);
-void		reader(void);
-char		*_update_prompt(void);
-
-//! Testing
-void		printtmp(void);
-void		lexer_debug(void);
-void		matrix_debug(char **matrix);
-void		token_debug(t_token *token);
-void		ast_debug(t_ast *ast, int depth, void (*f)());
+void		execute_redirection(t_lexeme type, char *filename);
 
 //! Signals
-void		signals(void);
-void		signals_child(void);
-void		signals_heredoc(void);
 void		handler_sigint(int signum);
 void		handler_child(int signum);
+void		signals_heredoc(void);
+void		signals_child(void);
+void		signals(void);
 
-//! Utils
-void		ft_free(void *p);
-int			ft_strlen_sep(const char *s, char *seps);
-void		sanitize(bool end);
-int			is_spaces(char *str);
-void		error(char *color, char *message, char *param, int status);
+//! Fake global
+t_ms		*ms(void);
 
 //! Matrix
 void		matrix_destroy(void *matrix);
 size_t		matrix_size(char **mat);
 char		**matrix_append(char **m1, char *str);
 char		**matrix_copy(char **matrix);
+
+//! Sanitize
+void		ft_free(void *p);
+void		sanitize(bool end);
+void		update_envs(void);
+
+//! Utils
+int			ft_strlen_sep(const char *s, char *seps);
+int			is_spaces(char *str);
+void		error(char *color, char *message, char *param, int status);
+
+//! Testing
+void		printtmp(void);
+void		matrix_debug(char **matrix);
+void		token_debug(t_token *token);
+void		lexer_debug(void);
+void		ast_debug(t_ast *ast, int depth, void (*f)());
+
+//! Input
+char		*_update_prompt(void);
+void		_compute(void);
+void		reader(void);
+
+//! Main
+void		_ms_init(char **envv);
 
 #endif

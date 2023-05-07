@@ -33,6 +33,11 @@ typedef struct s_token
 	t_lexeme		type;
 }	t_token;
 
+//! Expansion
+char		*_find_key(char *str);
+void		_expand_variable(t_token *token);
+void		expander(void);
+
 //! Lexer
 int			_lexer_push_token(char *str, t_lexeme lexeme);
 int			_lexer_find_match(char *symbols, char *input);
