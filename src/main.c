@@ -12,10 +12,10 @@
 
 #include "minishell.h"
 
-void	_ms_init(char **envv)
+void	_ms_init(char **envp)
 {
 	ft_bzero(ms(), sizeof(t_ms));
-	(ms()->envlist) = envlist(envv);
+	(ms()->envlist) = envlist(envp);
 	update_envs();
 	(ms()->exit_status) = 0;
 	(ms()->cwd) = getcwd(NULL, 4096);
@@ -24,11 +24,11 @@ void	_ms_init(char **envv)
 	return ;
 }
 
-int	main(int argc, char **argv, char **envv)
+int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
-	_ms_init(envv);
+	_ms_init(envp);
 	signals();
 	reader();
 	return (0);

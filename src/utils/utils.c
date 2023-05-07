@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	is_spaces(char *str)
+bool	is_spaces(char *str)
 {
 	size_t	i;
 
@@ -22,10 +22,10 @@ int	is_spaces(char *str)
 		if (str[i] != '\f' && str[i] != '\n' \
 			&& str[i] != '\r' && str[i] != '\t' \
 			&& str[i] != '\v' && str[i] != ' ')
-			return (0);
+			return (false);
 		i++;
 	}
-	return (1);
+	return (true);
 }
 
 int	ft_strlen_sep(const char *s, char *seps)

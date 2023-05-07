@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/07 20:32:40 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/07 23:02:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	_execute_command(char **args)
 	else if (!ft_strcmp(args[0], "cd"))
 		ft_cd(args + 1);
 	else if (!ft_strcmp(args[0], "ptmp"))
-		printtmp();
+		tmp_debug();
 }
 
 void	_execute_forkable(t_ast *command)
