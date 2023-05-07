@@ -3,6 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/07 11:11:17 by marvin            #+#    #+#             */
+/*   Updated: 2023/05/07 11:11:17 by marvin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:03:07 by joacaeta          #+#    #+#             */
@@ -29,15 +41,26 @@
 # include "libft.h"
 
 //! Colors
-# define CLR_RED	"\033[38;5;1m"
-# define CLR_GREEN	"\033[38;5;47m"
-# define CLR_BLUE	"\033[0;34m"
-# define CLR_CYAN	"\033[38;5;14m"
-# define CLR_YELLOW	"\033[33m"
-# define CLR_PURPLE	"\033[38;5;13m"
-# define CLR_WHITE	"\033[0;37m"
-# define CLR_BLACK	"\033[0;30m"
-# define CLR_RST	"\033[0m"
+# define CLR_BLACK		"\033[30m"
+# define CLR_RED		"\033[31m"
+# define CLR_GREEN		"\033[32m"
+# define CLR_YELLOW		"\033[33m"
+# define CLR_BLUE		"\033[34m"
+# define CLR_MAGENTA	"\033[35m"
+# define CLR_CYAN		"\033[36m"
+# define CLR_GRAY		"\033[37m"
+# define CLR_LRED		"\033[91m"
+# define CLR_LGREEN		"\033[92m"
+# define CLR_LYELLOW	"\033[93m"
+# define CLR_LBLUE		"\033[94m"
+# define CLR_LMAGENTA	"\033[95m"
+# define CLR_LCYAN		"\033[96m"
+# define CLR_WHITE		"\033[97m"
+# define CLR_RST		"\033[0m"
+# define CLR_BOLD		"\033[1m"
+# define CLR_UNDERLINE	"\033[4m"
+
+# define PROMPT_SYMBOL        "┖─ minishell ❯ "
 
 //! minishell errors
 # define ERROR_UNKNOWN_CMD		"minishell: command not found: "
@@ -51,13 +74,12 @@
 # define ERROR_EXIT_NO_NUM		"exit: numeric argument required"
 # define ERROR_EXIT_MANY_ARGS	"exit: too many arguments"
 
-# define INPUT_LEN	1000
 # define PROMPT		"\033[38;5;13mminishell > \033[0m"
 # define SYMBOLS	"<>\'\"| "
 # define READ_END 	0
 # define WRITE_END 	1
 # define DEBUG
-# define HEREDOC "tmpfile.txt"
+# define HEREDOC "heredoc.tmp"
 // # define HERE		printf("HERE\n");
 
 typedef enum e_lex_type
@@ -102,8 +124,8 @@ typedef struct s_env
 
 typedef struct s_ms
 {
-	int 	in_fd;
-	int 	out_fd;
+	int		in_fd;
+	int		out_fd;
 	int		exit_status;
 	int		num_commands;
 	char	*cwd;
@@ -187,7 +209,6 @@ void		env_destroy(t_env *env);
 
 //! Exec
 void		execute(t_ast *ast);
-void		execute_command_list(t_list *cmd_list);
 void		execute_forkable(t_ast *node);
 void		execute_command(char **args);
 void		execute_if_exists(char *exe, char **argv);

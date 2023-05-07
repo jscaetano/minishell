@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/06 20:47:04 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/07 11:54:57 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,21 @@
 // 	printf("\n\t --------- AST ---------\n\n");
 // 	ast_debug(ms()->ast, 0, token_debug);
 // #endif
+
+char	*update_prompt(void)
+{
+	char	*tmp;
+	char	*prompt;
+	char	*prefix;
+	char	*suffix;
+
+	prefix = CLR_BOLD"┎─── "CLR_UNDERLINE""CLR_LCYAN;
+	suffix = CLR_RST"\n"CLR_WHITE""PROMPT_SYMBOL""CLR_RST;
+	tmp = ft_strjoin(prefix, ms()->cwd);
+	prompt = ft_strjoin(tmp, suffix);
+	free(tmp);
+	return (prompt);
+}
 
 void	update_envs(void)
 {
@@ -49,10 +64,12 @@ void	compute(void)
 
 void	reader(void)
 {
+	char	*prompt;
 	signals();
 	while (1)
 	{
-		(ms()->input) = readline(PROMPT);
+		prompt = update_prompt();
+		(ms()->input) = readline(prompt);
 		if (!ms()->input)
 		{
 			printf("exit\n");
@@ -60,6 +77,7 @@ void	reader(void)
 		}
 		add_history(ms()->input);
 		compute();
+		free(prompt);
 	}
 	rl_clear_history();
 }
