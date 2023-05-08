@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 11:40:47 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/05/07 20:30:30 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/08 19:49:42 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*token_new(char *str, t_lexeme type)
+t_token	*token_new(char *str, t_lexeme type, bool is_joinable)
 {
 	t_token	*token;
 
@@ -21,6 +21,7 @@ t_token	*token_new(char *str, t_lexeme type)
 		return (NULL);
 	token->str = str;
 	token->type = type;
+	token->is_joinable = is_joinable;
 	return (token);
 }
 
@@ -28,7 +29,7 @@ t_token	*token_copy(t_token *token)
 {
 	t_token	*dup;
 
-	dup = token_new(ft_strdup(token->str), token->type);
+	dup = token_new(ft_strdup(token->str), token->type, token->is_joinable);
 	if (!dup)
 		return (NULL);
 	return (dup);

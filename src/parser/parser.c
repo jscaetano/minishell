@@ -30,7 +30,7 @@ t_ast	*_extend_pipeline(t_ast *ast, t_ast *command)
 {
 	t_ast	*root;
 
-	root = ast_new(token_new(ft_strdup("|"), LEX_PIPE));
+	root = ast_new(token_new(ft_strdup("|"), LEX_PIPE, false));
 	if (!root)
 		return (NULL);
 	ast_insert(&root, ast, true);
