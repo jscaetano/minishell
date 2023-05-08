@@ -22,5 +22,7 @@ t_token	*scanner(t_operation op)
 		current = ms()->lexemes;
 	else if (op == NEXT)
 		current = current->next;
+	else if (op == LOOKAHEAD && current->next)
+		return (current->next->content);
 	return (NULL);
 }

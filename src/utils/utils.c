@@ -38,11 +38,22 @@ int	ft_strlen_sep(const char *s, char *seps)
 	return (i);
 }
 
-void	error(char *color, char *message, char *param, int status)
+bool	is_redirection(t_token *token)
+{
+	return (token->type >= LEX_IN_1 && token->type <= LEX_OUT_2);
+}
+
+bool	is_special_token(t_token *token)
+{
+	return (token->type >= LEX_IN_1 && token->type <= LEX_PIPE);
+}
+
+int	error(char *color, char *message, char *param, int status)
 {
 	if (param)
 		printf("%s%s%s%s\n", color, message, param, ANSI_RST);
 	else
 		printf("%s%s%s\n", color, message, ANSI_RST);
 	(ms()->exit_status) = status;
+	return (0);
 }

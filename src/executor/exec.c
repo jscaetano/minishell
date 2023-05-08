@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/08 08:52:12 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/08 10:01:17 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ pid_t	_execute_forkable(t_ast *command)
 pid_t	_execute_pipeline(t_ast *node)
 {
 	pid_t	last;
-	
+
 	last = 0;
 	if (!node)
 		return (last);
@@ -103,7 +103,7 @@ void	execute(t_ast *ast)
 	last = waitpid(last, &status, 0);
 	while (waitpid(0, NULL, 0) > 0)
 		continue ;
-	if(WIFEXITED(status))
+	if (WIFEXITED(status))
 		ms()->exit_status = WEXITSTATUS(status);
 	signals();
 }

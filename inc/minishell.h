@@ -159,7 +159,7 @@ void		pipeline_apply(int command_index);
  * @return true If it is the last command
  * @return false Otherwise
  */
-bool	is_last_command(int command_index);
+bool		is_last_command(int command_index);
 
 /**
  * @brief Given a command name, checks if the command can be forked. In
@@ -340,6 +340,24 @@ int			ft_strlen_sep(const char *s, char *seps);
 bool		is_spaces(char *str);
 
 /**
+ * @brief Checks if the given token is a redirection
+ * 
+ * @param token The token to check
+ * @return true If the token is a redirection
+ * @return false Otherwise
+ */
+bool		is_redirection(t_token *token);
+
+/**
+ * @brief Checks if the given token is a special token (redirection or pipe)
+ * 
+ * @param token The token to check
+ * @return true If the token is a special token
+ * @return false Otherwise
+ */
+bool		is_special_token(t_token *token);
+
+/**
  * @brief Display an error message and sets the exit status of the minishell
  * to the status parameter.
  * 
@@ -347,8 +365,9 @@ bool		is_spaces(char *str);
  * @param message The message to display.
  * @param param An optional parameter to display.
  * @param status The exit status of the minishell.
+ * @return int A dummy return value.
  */
-void		error(char *color, char *message, char *param, int status);
+int			error(char *color, char *message, char *param, int status);
 
 //! _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/= DEBUG =\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
 
@@ -399,8 +418,9 @@ char		*_update_prompt(void);
 /**
  * @brief The newly read line is processed by the 3 most important functions
  * called by this one : lexer, expander and parser.
+ * @return int A dummy return value.
  */
-void		_compute(void);
+int			_compute(void);
 
 /**
  * @brief Reads a line from the standard input and stores it in the

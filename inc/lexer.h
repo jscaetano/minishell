@@ -27,9 +27,9 @@ typedef enum e_lexeme
 	LEX_OUT_1,
 	LEX_IN_2,
 	LEX_OUT_2,
+	LEX_PIPE,
 	LEX_SINGLE_QUOTES,
 	LEX_DOUBLE_QUOTES,
-	LEX_PIPE,
 	LEX_TERM,
 }	t_lexeme;
 
@@ -76,6 +76,15 @@ void		_expand_variable(t_token *token);
 void		expander(void);
 
 //! _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_ LEXER _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
+
+/**
+ * @brief After the list of lexemes is generated, an intermediate step is
+ * required to enforce the correct syntax of the input string.
+ * 
+ * @return true If the input's syntax is correct.
+ * @return false Otherwise.
+ */
+bool		lexical_analysis(void);
 
 /**
  * @brief Given a string and a type of lexeme, it creates a new pointer to

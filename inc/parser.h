@@ -23,6 +23,7 @@ typedef enum e_operation
 {
 	READ,
 	NEXT,
+	LOOKAHEAD,
 	RESET
 }	t_operation;
 

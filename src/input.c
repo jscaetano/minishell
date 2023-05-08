@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/07 21:08:32 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/08 09:58:15 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,19 @@ char	*_update_prompt(void)
 	return (prompt);
 }
 
-void	_compute(void)
+int	_compute(void)
 {
 	if (is_spaces(ms()->input))
-	{
-		sanitize(false);
-		return ;
-	}
+		return (0);
 	lexer();
+	if (!lexical_analysis())
+		return (0);
 	expander();
 	parser();
 	if (!is_assignment(ms()->lexemes->content))
 		execute(ms()->ast);
 	update_envs();
-	sanitize(false);
+	return (0);
 }
 
 void	reader(void)
@@ -63,6 +62,7 @@ void	reader(void)
 		}
 		add_history(ms()->input);
 		_compute();
+		sanitize(false);
 	}
 	rl_clear_history();
 }

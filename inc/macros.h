@@ -53,6 +53,9 @@
 # define ERROR_UNKNOWN_CMD		"minishell: command not found: "
 # define ERROR_UNKNOWN_FILE		"minishell: no such file or directory: "
 # define ERROR_NO_PERMISSIONS	"minishell: permission denied: "
+# define ERROR_SYNTAX			"minishell: syntax error near unexpected token "
+# define ERROR_UNCLOSED_RED		"minishell: unclosed redirection"
+# define ERROR_UNCLOSED_PIPES	"minishell: unclosed pipes"
 
 # define ERROR_CD_WRONG_DIR		"cd: no such file or directory: "
 # define ERROR_CD_MANY_ARGS		"cd: too many arguments"
