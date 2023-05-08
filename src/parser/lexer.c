@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 12:10:46 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/05/08 09:59:37 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/08 10:05:10 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ bool	lexical_analysis(void)
 			num_pipes++;
 			if (next && !is_special_token(next))
 				num_commands++;
-			scanner(NEXT);
 		}
+		scanner(NEXT);
 	}
 	if (num_pipes >= num_commands)
 		return (error(ANSI_RED, ERROR_UNCLOSED_PIPES, NULL, 2));
