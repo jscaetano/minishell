@@ -54,9 +54,7 @@ void	_execute_command(char **args)
 pid_t	_execute_forkable(t_ast *command)
 {
 	pid_t	pid;
-	int		status;
 
-	status = 0;
 	signals_child();
 	pid = fork();
 	if (pid == 0)
