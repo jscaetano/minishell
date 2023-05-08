@@ -14,6 +14,8 @@
 
 void	_change_dir(char *path)
 {
+	if (!ft_strcmp(path, ""))
+		error(ANSI_RED, ERROR_CD_NO_HOME, NULL, 1);
 	chdir(path);
 	free(ms()->cwd);
 	(ms()->cwd) = getcwd(NULL, 4096);
@@ -30,8 +32,6 @@ void	ft_cd(char **tokens)
 		error(ANSI_RED, ERROR_CD_MANY_ARGS, NULL, 1);
 		return ;
 	}
-	if (!ft_strcmp(tokens[0], "."))
-		return ;
 	if (!tokens[0] || !ft_strcmp(tokens[0], "~"))
 	{
 		_change_dir(get_env("HOME"));
