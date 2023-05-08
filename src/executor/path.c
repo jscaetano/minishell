@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*get_executable_path(char *exe)
+char *get_absolute_path(char *exe)
 {
 	char	*tmp;
 	char	*path;
@@ -28,8 +28,16 @@ char	*get_executable_path(char *exe)
 			return (path);
 		free(path);
 	}
+	return (NULL);
+}
+
+char	*get_relative_path(char *exe)
+{
+	char	*tmp;
+	char	*path;
+
 	tmp = ft_strjoin(ms()->cwd, "/");
-	path = ft_strjoin(tmp, exe);
+	path = ft_strjoin(tmp, exe + 2);
 	free(tmp);
 	if (access(path, F_OK) == 0)
 		return (path);
@@ -37,4 +45,18 @@ char	*get_executable_path(char *exe)
 	if (access(exe, F_OK) == 0)
 		return (ft_strdup(exe));
 	return (NULL);
+}
+
+char	*get_executable_path(char *exe)
+{
+	char	*path;
+
+	if (exe[0] == '.')
+		path = get_relative_path(exe);
+	else
+		path = get_absolute_path(exe);
+	if (path)
+		return (path);
+	else
+		return (NULL);
 }

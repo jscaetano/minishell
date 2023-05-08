@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/08 15:09:48 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/08 21:16:45 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,9 @@ pid_t	_execute_pipeline(t_ast *node)
 		return (last);
 	last = _execute_pipeline(node->left);
 	last = _execute_pipeline(node->right);
-	if (node->token->type == LEX_TERM)
+	if (node->token->type == LEX_TERM ||
+		node->token->type == LEX_DOUBLE_QUOTES ||
+		node->token->type == LEX_SINGLE_QUOTES)
 	{
 		if (is_unforkable(node->args[0]))
 			_execute_command(node->args);
