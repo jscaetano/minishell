@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/07 23:02:44 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/08 08:35:39 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ void	_execute_if_exists(char *exe, char **argv)
 
 	path = get_executable_path(exe);
 	if (path)
+	{
 		execve(path, argv, ms()->envp);
+		error(ANSI_RED, ERROR_NO_PERMISSIONS, exe, 126);
+	}
 	else
 		error(ANSI_RED, ERROR_UNKNOWN_CMD, exe, 127);
 	free(path);

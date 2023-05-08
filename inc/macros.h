@@ -52,6 +52,7 @@
 //! Errors
 # define ERROR_UNKNOWN_CMD		"minishell: command not found: "
 # define ERROR_UNKNOWN_FILE		"minishell: no such file or directory: "
+# define ERROR_NO_PERMISSIONS	"minishell: permission denied: "
 
 # define ERROR_CD_WRONG_DIR		"cd: no such file or directory: "
 # define ERROR_CD_MANY_ARGS		"cd: too many arguments"
