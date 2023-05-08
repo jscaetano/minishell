@@ -14,11 +14,16 @@
 
 void	_change_dir(char *path)
 {
+	char *newpwd;
+
 	if (!ft_strcmp(path, ""))
 		error(ANSI_RED, ERROR_CD_NO_HOME, NULL, 1);
 	chdir(path);
 	free(ms()->cwd);
 	(ms()->cwd) = getcwd(NULL, 4096);
+	newpwd = "PATH=";
+	newpwd = ft_strjoin(newpwd, ms()->cwd);
+	export_directly(newpwd);
 	free(path);
 }
 

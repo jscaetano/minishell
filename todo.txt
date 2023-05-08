@@ -54,6 +54,10 @@ X		◦ exit with no options
 	- segfault when exporting a variable that starts with quotes.
 
 	- expansion occuring in heredoc
+
+	- env | grep PWD (pwd not changing in env after cd)
+
+	- "echo" (first arg, even between quotes must be executed)
 ///////////////////////////////////////////
 
 
