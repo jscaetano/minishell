@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/08 10:01:17 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/08 15:09:48 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	_execute_if_exists(char *exe, char **argv)
 
 void	_execute_command(char **args)
 {
+	(ms()->exit_status) = 0;
 	if (!is_builtin(args[0]))
 		_execute_if_exists(args[0], args);
 	else if (!ft_strcmp(args[0], "exit"))

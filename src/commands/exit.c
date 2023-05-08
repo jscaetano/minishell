@@ -23,7 +23,6 @@ void	ft_exit(char **tokens)
 {
 	char	*status;
 
-	(ms()->exit_status) = 0;
 	if (matrix_size(tokens) > 1)
 	{
 		error(ANSI_RED, ERROR_EXIT_MANY_ARGS, NULL, 1);

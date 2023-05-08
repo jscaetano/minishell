@@ -26,7 +26,6 @@ void	ft_cd(char **tokens)
 {
 	struct stat	stats;
 
-	(ms()->exit_status) = 0;
 	if (matrix_size(tokens) > 1)
 	{
 		error(ANSI_RED, ERROR_CD_MANY_ARGS, NULL, 1);

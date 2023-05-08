@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/08 12:41:26 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/08 15:19:52 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*_update_prompt(void)
 	char	*prefix;
 	char	*suffix;
 
-	prefix = ANSI_BOLD""PROMPT_UPPER""ANSI_UNDERLINE""ANSI_LCYAN;
+	prefix = ANSI_BOLD""PROMPT_UPPER""ANSI_UNDERLINE""ANSI_CYAN;
 	suffix = ANSI_RST"\n"ANSI_WHITE""PROMPT_LOWER""ANSI_RST;
 	tmp = ft_strjoin(prefix, ms()->cwd);
 	prompt = ft_strjoin(tmp, suffix);
@@ -27,6 +27,12 @@ char	*_update_prompt(void)
 	return (prompt);
 }
 
+// #ifdef DEBUG
+// 	printf("\n\t -------- LEXER --------\n\n");
+// 	lexer_debug();
+// 	printf("\n\t --------- AST ---------\n\n");
+// 	ast_debug(ms()->ast, 0, token_debug);
+// #endif
 int	_compute(void)
 {
 	if (is_spaces(ms()->input))
@@ -36,12 +42,6 @@ int	_compute(void)
 		return (0);
 	expander();
 	parser();
-	#ifdef DEBUG
-		printf("\n\t -------- LEXER --------\n\n");
-		lexer_debug();
-		printf("\n\t --------- AST ---------\n\n");
-		ast_debug(ms()->ast, 0, token_debug);
-	#endif
 	if (!is_assignment(ms()->lexemes->content))
 		execute(ms()->ast);
 	update_envs();

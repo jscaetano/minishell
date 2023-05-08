@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:33:06 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/07 12:33:09 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/08 15:10:05 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	ft_echo(char **tokens)
 	int		i;
 
 	i = 0;
-	ms()->exit_status = 0;
 	if (tokens[0] && !ft_strcmp(tokens[0], "-n"))
 		i++;
 	while (tokens[i])

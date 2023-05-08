@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 18:31:44 by crypto            #+#    #+#             */
-/*   Updated: 2023/05/07 20:34:38 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/08 15:10:18 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	ft_unset(char **var)
 	int	i;
 
 	i = -1;
-	(ms()->exit_status) = 0;
 	while (var[++i])
 	{
 		ft_list_remove_if(&ms()->envlist, var[i], _env_key_cmp, env_destroy);
