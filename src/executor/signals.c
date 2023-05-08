@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 17:45:25 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/07 21:08:02 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/08 08:38:09 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	handler_child(int signum)
 		ft_putstr_fd("\n", STDERR_FILENO);
 	else if (signum == SIGQUIT)
 		ft_putstr_fd("Quit: 3\n", STDERR_FILENO);
+	ms()->exit_status = 126;
 }
 
 void	signals_heredoc(void)

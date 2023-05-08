@@ -61,6 +61,8 @@
 # define ERROR_EXIT_NO_NUM		"exit: numeric argument required"
 # define ERROR_EXIT_MANY_ARGS	"exit: too many arguments"
 
+# define ERROR_ENV_UNKNOWN_FILE	"env: no such file or directory: "
+
 //! Lexer symbols
 # define SYMBOLS	"<>\'\"| "
 

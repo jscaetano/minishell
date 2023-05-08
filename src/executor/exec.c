@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/08 08:35:39 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/08 08:52:12 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,12 @@ void	_execute_command(char **args)
 		tmp_debug();
 }
 
-void	_execute_forkable(t_ast *command)
+pid_t	_execute_forkable(t_ast *command)
 {
 	pid_t	pid;
+	int		status;
 
+	status = 0;
 	signals_child();
 	pid = fork();
 	if (pid == 0)
@@ -66,35 +68,42 @@ void	_execute_forkable(t_ast *command)
 		sanitize(true);
 	}
 	io_disconnect(command->index);
+	return (pid);
 }
 
-void	_execute_pipeline(t_ast *node)
+pid_t	_execute_pipeline(t_ast *node)
 {
+	pid_t	last;
+	
+	last = 0;
 	if (!node)
-		return ;
-	_execute_pipeline(node->left);
-	_execute_pipeline(node->right);
+		return (last);
+	last = _execute_pipeline(node->left);
+	last = _execute_pipeline(node->right);
 	if (node->token->type == LEX_TERM)
 	{
 		if (is_unforkable(node->args[0]))
 			_execute_command(node->args);
 		else
-			_execute_forkable(node);
+			last = _execute_forkable(node);
 	}
 	else if (node->token->type >= LEX_IN_1 && node->token->type <= LEX_OUT_2)
 		execute_redirection(node->token->type, node->args[0]);
+	return (last);
 }
 
 void	execute(t_ast *ast)
 {
 	int		status;
+	pid_t	last;
 
-	status = 0;
+	status = 0x7F;
 	pipeline_create();
-	_execute_pipeline(ast);
-	while (waitpid(0, &status, 0) > 0)
+	last = _execute_pipeline(ast);
+	last = waitpid(last, &status, 0);
+	while (waitpid(0, NULL, 0) > 0)
 		continue ;
-	signals();
-	if (WIFEXITED(status))
+	if(WIFEXITED(status))
 		ms()->exit_status = WEXITSTATUS(status);
+	signals();
 }

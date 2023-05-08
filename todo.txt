@@ -52,8 +52,6 @@ X		◦ exit with no options
 ///////////////////////////////////////////
 	- test inputs with missing fields (unclosed pipes, redirections without names...)
 	
-	- use error 128 for signal terminated commands
-
 	- segfault when exporting a variable that starts with quotes.
 
 	- deal with leaks

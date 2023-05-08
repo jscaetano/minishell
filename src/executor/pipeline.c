@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:12:35 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/05/07 13:02:18 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/08 08:45:10 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,13 @@ void	pipeline_apply(int command_index)
 		if (command_index != 0)
 			ms()->in_fd = ms()->pipes[command_index - 1][READ_END];
 	if (ms()->out_fd == STDOUT_FILENO)
-		if (command_index != ms()->num_commands - 1)
+		if (!is_last_command(command_index))
 			ms()->out_fd = ms()->pipes[command_index][WRITE_END];
+}
+
+bool	is_last_command(int command_index)
+{
+	return (command_index == ms()->num_commands - 1);
 }
 
 bool	is_unforkable(char *command)

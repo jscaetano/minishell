@@ -82,7 +82,7 @@ void		_execute_command(char **args);
  * ensure the continuity of IO.
  * @param node The ast node containing the command to execute
  */
-void		_execute_forkable(t_ast *node);
+pid_t		_execute_forkable(t_ast *node);
 
 /**
  * @brief Recursively executes a pipeline of commands, by iterating down
@@ -90,8 +90,9 @@ void		_execute_forkable(t_ast *node);
  * If a command is found, it is executed.
  * 
  * @param node The starting node of the pipeline
+ * @return pid_t The pid of the last command executed
  */
-void		_execute_pipeline(t_ast *node);
+pid_t		_execute_pipeline(t_ast *node);
 
 /**
  * @brief The base function to recursively execute an AST. Responsible to
@@ -99,6 +100,7 @@ void		_execute_pipeline(t_ast *node);
  * commands to finish.
  * 
  * @param ast The pipeline to execute
+ * @return int The exit status of the last command executed
  */
 void		execute(t_ast *ast);
 
@@ -149,6 +151,15 @@ void		pipeline_create(void);
  * @param command_index The index of the command in the pipeline
  */
 void		pipeline_apply(int command_index);
+
+/**
+ * @brief Checks if the current command is the last command in the pipeline.
+ * 
+ * @param command_index The index of the command
+ * @return true If it is the last command
+ * @return false Otherwise
+ */
+bool	is_last_command(int command_index);
 
 /**
  * @brief Given a command name, checks if the command can be forked. In
