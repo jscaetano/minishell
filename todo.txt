@@ -50,14 +50,10 @@ X		◦ exit with no options
 
 
 ///////////////////////////////////////////
-	- test inputs with missing fields (unclosed pipes, redirections without names...)
-		- segfaulting in redirection without value
+
 	- segfault when exporting a variable that starts with quotes.
 
-	- deal with leaks
-
-	- deal with norm
-
+	- expansion occuring in heredoc
 ///////////////////////////////////////////
 
 

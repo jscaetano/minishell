@@ -6,18 +6,11 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/08 09:58:15 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/08 12:41:26 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// #ifdef DEBUG
-// 	printf("\n\t -------- LEXER --------\n\n");
-// 	lexer_debug();
-// 	printf("\n\t --------- AST ---------\n\n");
-// 	ast_debug(ms()->ast, 0, token_debug);
-// #endif
 
 char	*_update_prompt(void)
 {
@@ -43,6 +36,12 @@ int	_compute(void)
 		return (0);
 	expander();
 	parser();
+	#ifdef DEBUG
+		printf("\n\t -------- LEXER --------\n\n");
+		lexer_debug();
+		printf("\n\t --------- AST ---------\n\n");
+		ast_debug(ms()->ast, 0, token_debug);
+	#endif
 	if (!is_assignment(ms()->lexemes->content))
 		execute(ms()->ast);
 	update_envs();

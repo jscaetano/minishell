@@ -63,7 +63,6 @@ char		*_find_key(char *str);
  * for $ signs and expand them into their respective environment variables
  * values. For instance, if $SHELL is set to "/bin/zsh" and found
  * on the string, $SHELL is replaced with "/bin/zsh".
- * 
  * @param token The token to parse the string on
  */
 void		_expand_variable(t_token *token);

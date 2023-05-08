@@ -81,7 +81,7 @@
 # define HEREDOC	"heredoc.tmp"
 
 //! debug
-// # define DEBUG
+# define DEBUG
 // # define HERE		printf("HERE\n");
 
 #endif
