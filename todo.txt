@@ -60,7 +60,7 @@ X		◦ exit with no options
 	// unended quotes
 	// exit neg numbrs
 
-	// echo 'a>'b tem de dar 'a>b' (random espacos)
+	✅ echo 'a>'b tem de dar 'a>b' (random espacos)
 	✅ handle absolute and relative commands
 	✅ - "echo" (first arg, even between quotes must be executed)
 

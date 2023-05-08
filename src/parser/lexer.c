@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 12:10:46 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/05/08 10:05:10 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/08 21:18:37 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,41 @@ bool	lexical_analysis(void)
 	return (true);
 }
 
-int	_lexer_push_token(char *str, t_lexeme lexeme)
+bool	remove_if(t_token *token, t_token *to_remove)
+{
+	return (ft_strcmp(token->str, to_remove->str) == 0);
+}
+
+void	lexer_join(t_list *lexemes)
+{
+	t_list	*curr;
+	t_token *token;
+	char	*tmp;
+
+	curr = lexemes;
+	while (curr)
+	{
+		token = curr->content;
+		if (!curr->next)
+			return ;
+		if (!token->is_joinable)
+		{
+			curr = curr->next;
+			continue ;
+		}
+		tmp = token->str;
+		token->str = ft_strjoin(token->str, \
+			((t_token *)curr->next->content)->str);
+		ft_list_remove_if(&ms()->lexemes, curr->next->content, remove_if, token_destroy);
+		free(tmp);
+	}
+}
+
+int	_lexer_push_token(char *str, t_lexeme lexeme, bool is_joinable)
 {
 	t_token	*token;
 
-	token = token_new(str, lexeme);
+	token = token_new(str, lexeme, is_joinable);
 	if (!token || !str)
 		return (0);
 	ft_lstadd_back(&ms()->lexemes, ft_lstnew(token));
@@ -54,18 +84,31 @@ int	_lexer_push_token(char *str, t_lexeme lexeme)
 
 int	_lexer_find_match(char *symbols, char *input)
 {
-	int		token_length;
 	char	*value;
+	int		tk_len;
+	bool	is_joinable;
 
-	token_length = ft_strlen_sep(input, symbols);
-	value = ft_substr(input, 0, token_length);
+	is_joinable = false;
+	tk_len = ft_strlen_sep(input, symbols);
+	// #ifdef DEBUG
+	// 	printf("\n\t---------------------------\n\n");
+	// 	printf("input: %s\n", input);
+	// 	printf("input[%d]: '%c'\n", tk_len, input[tk_len]);
+	// #endif
+	if (input[tk_len])
+		if (input[tk_len + 1] != ' ' && ft_strchr("\'\"", input[tk_len]))
+			is_joinable = true;
+	// #ifdef DEBUG
+	// 	printf("is_joinable: %d\n", is_joinable);
+	// #endif
+	value = ft_substr(input, 0, tk_len);
 	if (symbols[0] == '"')
-		_lexer_push_token(value, LEX_DOUBLE_QUOTES);
+		_lexer_push_token(value, LEX_DOUBLE_QUOTES, is_joinable);
 	else if (symbols[0] == '\'')
-		_lexer_push_token(value, LEX_SINGLE_QUOTES);
+		_lexer_push_token(value, LEX_SINGLE_QUOTES, is_joinable);
 	else
-		_lexer_push_token(value, LEX_TERM);
-	return (token_length);
+		_lexer_push_token(value, LEX_TERM, is_joinable);		
+	return (tk_len);
 }
 
 void	lexer(void)
@@ -78,15 +121,15 @@ void	lexer(void)
 		if (ms()->input[i] == ' ')
 			i++;
 		else if (ms()->input[i] == '|')
-			i += _lexer_push_token(ft_strdup("|"), LEX_PIPE);
+			i += _lexer_push_token(ft_strdup("|"), LEX_PIPE, false);
 		else if (!ft_strncmp(&ms()->input[i], "<<", 2))
-			i += _lexer_push_token(ft_strdup("<<"), LEX_IN_2);
+			i += _lexer_push_token(ft_strdup("<<"), LEX_IN_2, false);
 		else if (!ft_strncmp(&ms()->input[i], ">>", 2))
-			i += _lexer_push_token(ft_strdup(">>"), LEX_OUT_2);
+			i += _lexer_push_token(ft_strdup(">>"), LEX_OUT_2, false);
 		else if (ms()->input[i] == '<')
-			i += _lexer_push_token(ft_strdup("<"), LEX_IN_1);
+			i += _lexer_push_token(ft_strdup("<"), LEX_IN_1, false);
 		else if (ms()->input[i] == '>')
-			i += _lexer_push_token(ft_strdup(">"), LEX_OUT_1);
+			i += _lexer_push_token(ft_strdup(">"), LEX_OUT_1, false);
 		else if (ms()->input[i] == '"')
 			i += _lexer_find_match("\"", &ms()->input[i + 1]) + 2;
 		else if (ms()->input[i] == '\'')
@@ -94,4 +137,5 @@ void	lexer(void)
 		else
 			i += _lexer_find_match(SYMBOLS, &ms()->input[i]);
 	}
+	lexer_join(ms()->lexemes);
 }

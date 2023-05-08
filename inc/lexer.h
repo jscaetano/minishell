@@ -42,6 +42,7 @@ typedef enum e_lexeme
 typedef struct s_token
 {
 	char			*str;
+	bool			is_joinable;
 	t_lexeme		type;
 }	t_token;
 
@@ -91,9 +92,11 @@ bool		lexical_analysis(void);
  * 
  * @param str The string of the token.
  * @param lexeme The type of lexeme that the token is.
+ * @param is_joinable A boolean that indicates if the token is joinable.
  * @return int The number of characters to skip in the input string.
  */
-int			_lexer_push_token(char *str, t_lexeme lexeme);
+int		_lexer_push_token(char *str, t_lexeme lexeme, bool is_joinable);
+
 
 /**
  * @brief This function is set to find the match of a quote in string.
@@ -106,7 +109,7 @@ int			_lexer_push_token(char *str, t_lexeme lexeme);
  * @param input The raw input string.
  * @return int The number of characters to skip in the input string.
  */
-int			_lexer_find_match(char *symbols, char *input);
+int		_lexer_find_match(char *symbols, char *input);
 
 /**
  * @brief The lexer is one of the components of the shell. It is responsible
@@ -126,11 +129,11 @@ void		lexer(void);
  * 
  * @param str The string of the token.
  * @param type The type of lexeme that the token is.
+ * @param is_joinable A boolean that indicates if the token is joinable.
  * @return t_token* A pointer to new t_token struct.
  * @return NULL If the allocation fails.
  */
-t_token		*token_new(char *str, t_lexeme type);
-
+t_token		*token_new(char *str, t_lexeme type, bool is_joinable);
 /**
  * @brief Creates a new pointer to a copy of the token passed as argument.
  * 
