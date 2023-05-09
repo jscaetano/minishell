@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 11:40:47 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/05/08 19:49:42 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/09 11:24:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_token	*token_new(char *str, t_lexeme type, bool is_joinable)
 		return (NULL);
 	token->str = str;
 	token->type = type;
-	token->is_joinable = is_joinable;
+	token->can_merge = is_joinable;
 	return (token);
 }
 
@@ -29,7 +29,7 @@ t_token	*token_copy(t_token *token)
 {
 	t_token	*dup;
 
-	dup = token_new(ft_strdup(token->str), token->type, token->is_joinable);
+	dup = token_new(ft_strdup(token->str), token->type, token->can_merge);
 	if (!dup)
 		return (NULL);
 	return (dup);

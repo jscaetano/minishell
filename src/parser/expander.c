@@ -12,6 +12,34 @@
 
 #include "minishell.h"
 
+void	merge_lexemes(t_list *lexemes)
+{
+	t_list	*aux;
+	t_token	*next_token;
+	t_token *curr_token;
+	char	*tmp;
+
+	while (lexemes)
+	{
+		curr_token = lexemes->content;
+		if (!lexemes->next)
+			return ;
+		if (!curr_token->can_merge)
+		{
+			lexemes = lexemes->next;
+			continue ;
+		}
+		next_token = lexemes->next->content;
+		tmp = curr_token->str;
+		curr_token->str = ft_strjoin(curr_token->str, next_token->str);
+		free(tmp);
+		curr_token->can_merge &= next_token->can_merge;
+		aux = lexemes->next;
+		lexemes->next = lexemes->next->next;
+		ft_lstdelone(aux, (void*)token_destroy);
+	}
+}
+
 char	*_find_key(char *str)
 {
 	char	*tmp;
@@ -62,4 +90,5 @@ void	expander(void)
 			_expand_variable(token);
 		curr = curr->next;
 	}
+	merge_lexemes(ms()->lexemes);
 }

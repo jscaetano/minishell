@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/08 15:19:52 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/09 11:31:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ char	*_update_prompt(void)
 // #endif
 int	_compute(void)
 {
-	if (is_spaces(ms()->input))
+	if (!lexical_analysis())
 		return (0);
 	lexer();
-	if (!lexical_analysis())
+	if (!syntatic_analysis())
 		return (0);
 	expander();
 	parser();

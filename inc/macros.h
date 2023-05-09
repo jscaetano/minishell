@@ -56,6 +56,7 @@
 # define ERROR_SYNTAX			"minishell: syntax error near unexpected token "
 # define ERROR_UNCLOSED_RED		"minishell: unclosed redirection"
 # define ERROR_UNCLOSED_PIPES	"minishell: unclosed pipes"
+# define ERROR_UNCLOSED_QUOTES	"minishell: unclosed quotes"
 
 # define ERROR_CD_WRONG_DIR		"cd: no such file or directory: "
 # define ERROR_CD_MANY_ARGS		"cd: too many arguments"

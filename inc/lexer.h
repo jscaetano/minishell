@@ -33,16 +33,37 @@ typedef enum e_lexeme
 	LEX_TERM,
 }	t_lexeme;
 
+//! _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/= ANALYSIS =\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
+
 /**
- * @brief A struct representing a token. A token is a string of characters
- * that are recognized by the lexer as a single unit. 
- * @param str The string of characters that make up the token.
- * @param type The type of lexeme that the token is.
+ * @brief Ensures the raw input string is valid to be parsed. This steps 
+ * takes into account misconfigurations like a blank string or unclosed
+ * quotes, which could crash the lexer.
+ * 
+ * @return true If the string is well configured
+ * @return false Otherwise
  */
+bool		lexical_analysis(void);
+
+/**
+ * @brief After the string has been tokenized, the syntatic analysis
+ * has the role 
+ * 
+ * @return true 
+ * @return false 
+ */
+bool		syntatic_analysis(void);
+
+/**
+* @brief 
+* that are recognized by the lexer as a single unit. 
+* @param str The string of characters that make up the token.
+* @param type The type of lexeme that the token is.
+*/
 typedef struct s_token
 {
 	char			*str;
-	bool			is_joinable;
+	bool			can_merge;
 	t_lexeme		type;
 }	t_token;
 
@@ -77,6 +98,7 @@ void		expander(void);
 
 //! _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_ LEXER _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
 
+void		merge_lexemes(t_list *lexemes);
 /**
  * @brief After the list of lexemes is generated, an intermediate step is
  * required to enforce the correct syntax of the input string.
@@ -95,8 +117,7 @@ bool		lexical_analysis(void);
  * @param is_joinable A boolean that indicates if the token is joinable.
  * @return int The number of characters to skip in the input string.
  */
-int		_lexer_push_token(char *str, t_lexeme lexeme, bool is_joinable);
-
+int			_lexer_push_token(char *str, t_lexeme lexeme, bool is_joinable);
 
 /**
  * @brief This function is set to find the match of a quote in string.
@@ -109,7 +130,7 @@ int		_lexer_push_token(char *str, t_lexeme lexeme, bool is_joinable);
  * @param input The raw input string.
  * @return int The number of characters to skip in the input string.
  */
-int		_lexer_find_match(char *symbols, char *input);
+int			_lexer_find_match(char *symbols, char *input);
 
 /**
  * @brief The lexer is one of the components of the shell. It is responsible

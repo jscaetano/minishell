@@ -35,8 +35,8 @@ OBJ_DIR			= bin
 
 #_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_ FILES _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
 NAME			= minishell
-_FILES			= ast cd debug echo env envlist exec exit expander export \
-					fake_global input io lexer main matrix parser path \
+_FILES			= ast analysis cd debug echo env envlist exec exit expander \
+					export fake_global input io lexer main matrix parser path \
 					pipeline redirections sanitize scanner token utils unset \
 					signals
 OBJS			= $(_FILES:%=%.o)
