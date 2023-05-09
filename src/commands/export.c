@@ -6,7 +6,7 @@
 /*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:09:10 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/09 18:01:46 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/05/09 18:50:04 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ bool	is_assignment(t_token *token)
 	i = -1;
 	if (token->str[0])
 	{
-		if (token->str[0] == '=' || token->str[ft_strlen(token->str) - 1] == '=')
+		if (token->str[0] == '='
+			|| token->str[ft_strlen(token->str) - 1] == '=')
 		{
 			error(ANSI_RED, ERROR_BAD_ASSIGNMENT, NULL, 1);
 			return (false);

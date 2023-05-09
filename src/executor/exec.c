@@ -6,7 +6,7 @@
 /*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/09 18:01:48 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/05/09 18:53:27 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	_execute_if_exists(char *exe, char **argv)
 	}
 	else
 		error(ANSI_RED, ERROR_UNKNOWN_CMD, exe, 127);
-	//ft_free(path);
 	return ;
 }
 

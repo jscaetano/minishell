@@ -47,6 +47,6 @@ void	ft_exit(char **tokens)
 			error(ANSI_RED, ERROR_EXIT_NO_NUM, NULL, 2);
 		else
 			(ms()->exit_status) = ft_atoi(status) % 256;
-	}	
+	}
 	sanitize(true);
 }

@@ -23,15 +23,12 @@ char	*expand_input(char *input)
 	while (ft_strnstr(expanded, "$", ft_strlen(expanded)))
 	{
 		key = _find_key(expanded);
-		printf("Found the key: %s\n", key);
 		if (!ft_strcmp(key, "$?"))
 			value = ft_itoa(ms()->exit_status);
 		else
 			value = get_env(key);
-		printf("Found the key: %s\n", value);
 		tmp = expanded;
 		expanded = ft_strreplace(expanded, key, value);
-		printf("Expanded input: %s\n", expanded);
 		ft_free(tmp);
 		ft_free(value);
 		ft_free(key);
@@ -55,9 +52,9 @@ int	heredoc(char *term)
 		while (1)
 		{
 			input = readline("heredoc > ");
-			input = expand_input(input);
 			if (!input || !ft_strcmp(input, term))
 				break ;
+			input = expand_input(input);
 			n = ft_strlen(input);
 			input[n] = '\n';
 			if (write(fd, input, n + 1) == -1)

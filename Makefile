@@ -38,7 +38,7 @@ NAME			= minishell
 _FILES			= ast analysis cd debug echo env envlist exec exit expander \
 					export fake_global input io lexer main matrix parser path \
 					pipeline redirections sanitize scanner token utils unset \
-					signals
+					signals handlers
 OBJS			= $(_FILES:%=%.o)
 TARGET			= $(addprefix $(OBJ_DIR)/, $(OBJS))
 

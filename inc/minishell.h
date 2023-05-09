@@ -225,6 +225,9 @@ void		handler_sigint(int signum);
  */
 void		handler_child(int signum);
 
+
+void		handler_heredoc(int signum);
+
 /**
  * @brief Installs the signal handlers for SIGINT and SIGQUIT before
  * heredoc starts.
