@@ -6,17 +6,17 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 12:10:46 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/05/09 11:40:43 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/09 12:20:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	_lexer_push_token(char *str, t_lexeme lexeme, bool is_joinable)
+int	_lexer_push_token(char *str, t_lexeme lexeme, bool can_merge)
 {
 	t_token	*token;
 
-	token = token_new(str, lexeme, is_joinable);
+	token = token_new(str, lexeme, can_merge);
 	if (!token || !str)
 		return (0);
 	ft_lstadd_back(&ms()->lexemes, ft_lstnew(token));
@@ -33,24 +33,23 @@ int	_lexer_push_token(char *str, t_lexeme lexeme, bool is_joinable)
 // #endif
 int	_lexer_find_match(char *symbols, char *input)
 {
-	char	*value;
-	int		tk_len;
-	bool	is_joinable;
+	int		jump;
+	char	*token;
+	bool	can_merge;
 
-	is_joinable = false;
-	tk_len = ft_strlen_sep(input, symbols);
-	
-	if (input[tk_len])
-		if (input[tk_len + 1] != ' ' && ft_strchr("\'\"", input[tk_len]))
-			is_joinable = true;
-	value = ft_substr(input, 0, tk_len);
+	can_merge = false;
+	jump = ft_strlen_sep(input, symbols);
+	if (input[jump])
+		if (input[jump + 1] != ' ' && ft_strchr("\'\"", input[jump]))
+			can_merge = true;
+	token = ft_substr(input, 0, jump);
 	if (symbols[0] == '"')
-		_lexer_push_token(value, LEX_DOUBLE_QUOTES, is_joinable);
+		_lexer_push_token(token, LEX_DOUBLE_QUOTES, can_merge);
 	else if (symbols[0] == '\'')
-		_lexer_push_token(value, LEX_SINGLE_QUOTES, is_joinable);
+		_lexer_push_token(token, LEX_SINGLE_QUOTES, can_merge);
 	else
-		_lexer_push_token(value, LEX_TERM, is_joinable);		
-	return (tk_len);
+		_lexer_push_token(token, LEX_TERM, can_merge);
+	return (jump);
 }
 
 void	lexer(void)

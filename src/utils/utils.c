@@ -43,7 +43,7 @@ bool	is_redirection(t_token *token)
 	return (token->type >= LEX_IN_1 && token->type <= LEX_OUT_2);
 }
 
-bool	is_special_token(t_token *token)
+bool	is_redir_or_pipe(t_token *token)
 {
 	return (token->type >= LEX_IN_1 && token->type <= LEX_PIPE);
 }

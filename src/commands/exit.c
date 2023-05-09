@@ -14,14 +14,26 @@
 
 bool	_is_longlong(char *num)
 {
-	return (ft_isnum(num) \
-		&& ft_strcmp(num, "-9223372036854775808") >= 0 \
-		&& ft_strcmp(num, "9223372036854775807") <= 0);
+	bool	is_negative;
+
+	is_negative = false;
+	if (!ft_isnum(num))
+		return (false);
+	if (num[0] == '-')
+		is_negative = true;
+	if (is_negative)
+		num++;
+	while (*num == '0')
+		num++;
+	if (is_negative)
+		return (ft_strncmp(num, "9223372036854775808", ft_strlen(num)) <= 0);
+	else
+		return (ft_strncmp(num, "9223372036854775807", ft_strlen(num)) <= 0);
 }
 
 void	ft_exit(char **tokens)
 {
-	char	*status;
+	char			*status;
 
 	if (matrix_size(tokens) > 1)
 	{
@@ -34,7 +46,7 @@ void	ft_exit(char **tokens)
 		if (!_is_longlong(status))
 			error(ANSI_RED, ERROR_EXIT_NO_NUM, NULL, 2);
 		else
-			(ms()->exit_status) = (unsigned char) ft_atoull(status);
+			(ms()->exit_status) = ft_atoi(status) % 256;
 	}	
 	sanitize(true);
 }

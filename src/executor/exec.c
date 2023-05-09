@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/09 11:42:22 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/09 12:44:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,16 +79,14 @@ pid_t	_execute_pipeline(t_ast *node)
 		return (last);
 	last = _execute_pipeline(node->left);
 	last = _execute_pipeline(node->right);
-	if (node->token->type == LEX_TERM 
-		|| node->token->type == LEX_DOUBLE_QUOTES
-		|| node->token->type == LEX_SINGLE_QUOTES)
+	if (!is_redir_or_pipe(node->token))
 	{
 		if (is_unforkable(node->args[0]))
 			_execute_command(node->args);
 		else
 			last = _execute_forkable(node);
 	}
-	else if (node->token->type >= LEX_IN_1 && node->token->type <= LEX_OUT_2)
+	else if (is_redirection(node->token))
 		execute_redirection(node->token->type, node->args[0]);
 	return (last);
 }

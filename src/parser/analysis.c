@@ -47,17 +47,17 @@ bool	syntatic_analysis(void)
 	num_pipes = 0;
 	num_commands = 1;
 	scanner(RESET);
-	if (is_special_token(scanner(READ)))
+	if (is_redir_or_pipe(scanner(READ)))
 		return (error(ANSI_RED, ERROR_SYNTAX, scanner(READ)->str, 2));
 	while (scanner(READ))
 	{
 		next = scanner(LOOKAHEAD);
-		if (is_redirection(scanner(READ)) && (!next || is_special_token(next)))
+		if (is_redirection(scanner(READ)) && (!next || is_redir_or_pipe(next)))
 			return (error(ANSI_RED, ERROR_UNCLOSED_RED, NULL, 2));
 		if (scanner(READ)->type == LEX_PIPE)
 		{
 			num_pipes++;
-			if (next && !is_special_token(next))
+			if (next && !is_redir_or_pipe(next))
 				num_commands++;
 		}
 		scanner(NEXT);

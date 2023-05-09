@@ -50,16 +50,11 @@ X		◦ exit with no options
 
 
 ///////////////////////////////////////////
-
-	- segfault when exporting a variable that starts with quotes.
-
-	- expansion occuring in heredoc
-
 	// irdoc ctrlc
 	// heredoc expand variables lol
-	// unended quotes
-	// exit neg numbrs
 
+	✅unended quotes
+	✅ exit neg numbrs
 	✅ echo 'a>'b tem de dar 'a>b' (random espacos)
 	✅ handle absolute and relative commands
 	✅ - "echo" (first arg, even between quotes must be executed)

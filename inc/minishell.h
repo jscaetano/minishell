@@ -356,7 +356,7 @@ bool		is_redirection(t_token *token);
  * @return true If the token is a special token
  * @return false Otherwise
  */
-bool		is_special_token(t_token *token);
+bool		is_redir_or_pipe(t_token *token);
 
 /**
  * @brief Display an error message and sets the exit status of the minishell
