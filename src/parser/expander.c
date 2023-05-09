@@ -16,7 +16,7 @@ void	merge_lexemes(t_list *lexemes)
 {
 	t_list	*aux;
 	t_token	*next_token;
-	t_token *curr_token;
+	t_token	*curr_token;
 	char	*tmp;
 
 	while (lexemes)
@@ -36,7 +36,7 @@ void	merge_lexemes(t_list *lexemes)
 		curr_token->can_merge &= next_token->can_merge;
 		aux = lexemes->next;
 		lexemes->next = lexemes->next->next;
-		ft_lstdelone(aux, (void*)token_destroy);
+		ft_lstdelone(aux, (void *)token_destroy);
 	}
 }
 

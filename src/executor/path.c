@@ -12,13 +12,15 @@
 
 #include "minishell.h"
 
-char *get_absolute_path(char *exe)
+char	*get_absolute_path(char *exe)
 {
 	char	*tmp;
 	char	*path;
 	int		i;
 
 	i = -1;
+	if (access(exe, F_OK) == 0)
+		return (exe);
 	while (ms()->path[++i])
 	{
 		tmp = ft_strjoin(ms()->path[i], "/");

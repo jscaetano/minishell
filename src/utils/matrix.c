@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:37:44 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/07 12:06:52 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/09 17:08:22 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,6 @@ void	matrix_destroy(void *matrix)
 	i = 0;
 	mat = (char **)matrix;
 	while (mat[i])
-		free(mat[i++]);
-	free(matrix);
+		ft_free(mat[i++]);
+	ft_free(matrix);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:24:58 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/09 12:44:26 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/09 17:12:28 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,26 @@
 
 void	_execute_if_exists(char *exe, char **argv)
 {
-	char	*path;
+	char		*path;
+	struct stat	path_stat;
 
 	path = get_executable_path(exe);
+	stat(path, &path_stat);
 	if (path)
 	{
-		execve(path, argv, ms()->envp);
-		error(ANSI_RED, ERROR_NO_PERMISSIONS, exe, 126);
+		if (S_ISDIR(path_stat.st_mode))
+		{
+			error(ANSI_RED, ERROR_DIRECTORY, exe, 126);
+		}
+		else if (S_ISREG(path_stat.st_mode))
+		{
+			execve(path, argv, ms()->envp);
+			error(ANSI_RED, ERROR_NO_PERMISSIONS, exe, 126);
+		}
 	}
 	else
 		error(ANSI_RED, ERROR_UNKNOWN_CMD, exe, 127);
-	free(path);
+	//ft_free(path);
 	return ;
 }
 

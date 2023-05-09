@@ -52,7 +52,9 @@
 //! Errors
 # define ERROR_UNKNOWN_CMD		"minishell: command not found: "
 # define ERROR_UNKNOWN_FILE		"minishell: no such file or directory: "
+# define ERROR_DIRECTORY		"minishell: that's a directory: "
 # define ERROR_NO_PERMISSIONS	"minishell: permission denied: "
+# define ERROR_BAD_ASSIGNMENT	"minishell: bad assignment "
 # define ERROR_SYNTAX			"minishell: syntax error near unexpected token "
 # define ERROR_UNCLOSED_RED		"minishell: unclosed redirection"
 # define ERROR_UNCLOSED_PIPES	"minishell: unclosed pipes"
@@ -70,7 +72,7 @@
 //! Lexer symbols
 # define SYMBOLS	"<>\'\"| "
 
-//! Minishell 
+//! Minishell
 # define PROMPT_UPPER	"┎─── "
 # define PROMPT_LOWER	"┖─ minishell ❯ "
 

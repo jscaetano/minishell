@@ -6,7 +6,7 @@
 /*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 17:45:25 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/08 21:10:15 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/05/09 17:11:10 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,6 @@ void	handler_sigint(int signum)
 	printf("\n");
 	rl_on_new_line();
 	rl_redisplay();
-}
-
-void	handler_heredoc(int signum)
-{
-	rl_replace_line("", 0);
-	kill(getpid(), SIGTERM);
-	handler_sigint(signum);
 }
 
 void	handler_child(int signum)
