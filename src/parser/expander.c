@@ -86,7 +86,9 @@ void	expander(void)
 	while (curr)
 	{
 		token = ((t_token *)curr->content);
-		if (token->type == LEX_DOUBLE_QUOTES || token->type == LEX_TERM)
+		if (token->type == LEX_IN_2)
+			curr = curr->next;
+		else if (token->type == LEX_DOUBLE_QUOTES || token->type == LEX_TERM)
 			_expand_variable(token);
 		curr = curr->next;
 	}
