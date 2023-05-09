@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 12:10:46 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/05/09 12:20:15 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/09 18:27:58 by joacaeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int	_lexer_find_match(char *symbols, char *input)
 	can_merge = false;
 	jump = ft_strlen_sep(input, symbols);
 	if (input[jump])
-		if (input[jump + 1] != ' ' && ft_strchr("\'\"", input[jump]))
+		if (!ft_strchr(SYMBOLS, input[jump + 1])
+			&& ft_strchr("\'\"", input[jump]))
 			can_merge = true;
 	token = ft_substr(input, 0, jump);
 	if (symbols[0] == '"')

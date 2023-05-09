@@ -19,6 +19,8 @@ char	*get_absolute_path(char *exe)
 	int		i;
 
 	i = -1;
+	if (exe[0] == '\0')
+		return (NULL);
 	if (access(exe, F_OK) == 0)
 		return (exe);
 	while (ms()->path[++i])
