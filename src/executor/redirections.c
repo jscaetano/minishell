@@ -12,6 +12,34 @@
 
 #include "minishell.h"
 
+char	*expand_input(char *input)
+{
+	char	*expanded;
+	char	*value;
+	char	*key;
+	char	*tmp;
+
+	expanded = ft_strdup(input);
+	while (ft_strnstr(expanded, "$", ft_strlen(expanded)))
+	{
+		key = _find_key(expanded);
+		printf("Found the key: %s\n", key);
+		if (!ft_strcmp(key, "$?"))
+			value = ft_itoa(ms()->exit_status);
+		else
+			value = get_env(key);
+		printf("Found the key: %s\n", value);
+		tmp = expanded;
+		expanded = ft_strreplace(expanded, key, value);
+		printf("Expanded input: %s\n", expanded);
+		ft_free(tmp);
+		ft_free(value);
+		ft_free(key);
+	}
+	ft_free(input);
+	return (expanded);
+}
+
 int	heredoc(char *term)
 {
 	char	*input;
@@ -27,6 +55,7 @@ int	heredoc(char *term)
 		while (1)
 		{
 			input = readline("heredoc > ");
+			input = expand_input(input);
 			if (!input || !ft_strcmp(input, term))
 				break ;
 			n = ft_strlen(input);
