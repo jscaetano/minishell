@@ -89,9 +89,9 @@ int	heredoc(char *term)
 void	execute_redirection(t_lexeme type, char *filename)
 {
 	if (type == LEX_OUT_1)
-		(ms()->out_fd) = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		(ms()->out_fd) = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	else if (type == LEX_OUT_2)
-		(ms()->out_fd) = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0777);
+		(ms()->out_fd) = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0666);
 	else if (type == LEX_IN_1)
 		(ms()->in_fd) = open(filename, O_RDONLY);
 	else if (type == LEX_IN_2)
