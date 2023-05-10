@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:10:59 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/07 23:02:44 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/10 10:49:20 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	token_debug(t_token *token)
 		printf(ANSI_RED "[ PIPE ] -> " ANSI_RST "\"%s\"\n", token->str);
 	else if (token->type == LEX_TERM)
 		printf("[ TERM ] -> \"%s\"\n", token->str);
+	printf("Merge: %d\n", token->can_merge);
 }
 
 void	lexer_debug(void)

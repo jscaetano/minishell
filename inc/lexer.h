@@ -33,6 +33,13 @@ typedef enum e_lexeme
 	LEX_TERM,
 }	t_lexeme;
 
+typedef struct s_token
+{
+	char			*str;
+	bool			can_merge;
+	t_lexeme		type;
+}	t_token;
+
 //! _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/= ANALYSIS =\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
 
 /**
@@ -60,14 +67,16 @@ bool		syntatic_analysis(void);
 * @param str The string of characters that make up the token.
 * @param type The type of lexeme that the token is.
 */
-typedef struct s_token
-{
-	char			*str;
-	bool			can_merge;
-	t_lexeme		type;
-}	t_token;
 
 //! _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/= EXPANSION =\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
+
+/**
+ * @brief Iterates through the lexemes list to reduce the list to unmergeable
+ * tokens. The list will be smaller or of the same size.
+ * 
+ * @param lexemes The lexemes list
+ */
+void		merge_lexemes(t_list *lexemes);
 
 /**
  * @brief Responsible for findind the name of a environment variable in a
@@ -98,15 +107,18 @@ void		expander(void);
 
 //! _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_ LEXER _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
 
-void		merge_lexemes(t_list *lexemes);
 /**
- * @brief After the list of lexemes is generated, an intermediate step is
- * required to enforce the correct syntax of the input string.
+ * @brief Verifies if a fresh token can be merged with the next. Looks ahead
+ * in the raw input after the end of the token. Depending on the matches we
+ * are looking for, we might need to check different conditions
  * 
- * @return true If the input's syntax is correct.
- * @return false Otherwise.
+ * @param str The input string
+ * @param match The matches we are looking for
+ * @param jump The len of the token
+ * @return true If the token is mergeable
+ * @return false Otherwise
  */
-bool		lexical_analysis(void);
+bool		_is_mergeable(char *str, char *match, int jump);
 
 /**
  * @brief Given a string and a type of lexeme, it creates a new pointer to
@@ -117,7 +129,7 @@ bool		lexical_analysis(void);
  * @param is_joinable A boolean that indicates if the token is joinable.
  * @return int The number of characters to skip in the input string.
  */
-int			_lexer_push_token(char *str, t_lexeme lexeme, bool is_joinable);
+int			_lexer_push_token(char *str, t_lexeme lexeme, bool can_merge);
 
 /**
  * @brief This function is set to find the match of a quote in string.

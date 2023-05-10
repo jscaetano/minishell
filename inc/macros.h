@@ -71,6 +71,8 @@
 
 //! Lexer symbols
 # define SYMBOLS	"<>\'\"| "
+# define QUOTES		"\'\""
+# define SPECIAL	"<>| "
 
 //! Minishell
 # define PROMPT_UPPER	"┎─── "

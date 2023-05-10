@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 12:10:46 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/05/09 18:45:15 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/05/10 11:30:03 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+bool	_is_mergeable(char *str, char *match, int jump)
+{
+	if (!str[jump])
+		return (false);
+	if (!ft_strcmp(SYMBOLS, match) && ft_strchr(QUOTES, str[jump]))
+		return (true);
+	if (ft_strchr(QUOTES, match[0]) && !ft_strchr(SPECIAL, str[jump + 1]))
+		return (true);
+}
 
 int	_lexer_push_token(char *str, t_lexeme lexeme, bool can_merge)
 {
@@ -23,30 +33,18 @@ int	_lexer_push_token(char *str, t_lexeme lexeme, bool can_merge)
 	return (ft_strlen(str));
 }
 
-// #ifdef DEBUG
-// 	printf("\n\t---------------------------\n\n");
-// 	printf("input: %s\n", input);
-// 	printf("input[%d]: '%c'\n", tk_len, input[tk_len]);
-// #endif
-// #ifdef DEBUG
-// 	printf("is_joinable: %d\n", is_joinable);
-// #endif
-int	_lexer_find_match(char *symbols, char *input)
+int	_lexer_find_match(char *match, char *input)
 {
 	int		jump;
 	char	*token;
 	bool	can_merge;
 
-	can_merge = false;
-	jump = ft_strlen_sep(input, symbols);
-	if (input[jump])
-		if (!ft_strchr(SYMBOLS, input[jump + 1])
-			&& ft_strchr("\'\"", input[jump]))
-			can_merge = true;
+	jump = ft_strlen_sep(input, match);
+	can_merge = _is_mergeable(input, match, jump);
 	token = ft_substr(input, 0, jump);
-	if (symbols[0] == '"')
+	if (match[0] == '"')
 		_lexer_push_token(token, LEX_DOUBLE_QUOTES, can_merge);
-	else if (symbols[0] == '\'')
+	else if (match[0] == '\'')
 		_lexer_push_token(token, LEX_SINGLE_QUOTES, can_merge);
 	else
 		_lexer_push_token(token, LEX_TERM, can_merge);
@@ -80,3 +78,7 @@ void	lexer(void)
 			i += _lexer_find_match(SYMBOLS, &ms()->input[i]);
 	}
 }
+
+// printf("\n\t---------------------------\n\n");
+// printf("input: %s\n", input);
+// printf("input[%d]: '%c'\n", jump, input[jump]);

@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:28:42 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/10 10:03:10 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/10 11:25:33 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,6 @@ char	*_update_prompt(void)
 	return (prompt);
 }
 
-// #ifdef DEBUG
-// 	printf("\n\t -------- LEXER --------\n\n");
-// 	lexer_debug();
-// 	printf("\n\t --------- AST ---------\n\n");
-// 	ast_debug(ms()->ast, 0, token_debug);
-// #endif
 int	_compute(void)
 {
 	if (!lexical_analysis())
