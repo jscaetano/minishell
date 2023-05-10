@@ -90,7 +90,5 @@ void	expander(void)
 			_expand_variable(token);
 		curr = curr->next;
 	}
-	printf("\n\t -------- LEXER --------\n\n");
-	lexer_debug();
 	merge_lexemes(ms()->lexemes);
 }

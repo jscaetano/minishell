@@ -6,7 +6,7 @@
 /*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 12:10:46 by ncarvalh          #+#    #+#             */
-/*   Updated: 2023/05/10 11:30:03 by ncarvalh         ###   ########.fr       */
+/*   Updated: 2023/05/10 11:31:42 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ bool	_is_mergeable(char *str, char *match, int jump)
 		return (true);
 	if (ft_strchr(QUOTES, match[0]) && !ft_strchr(SPECIAL, str[jump + 1]))
 		return (true);
+	return (false);
 }
 
 int	_lexer_push_token(char *str, t_lexeme lexeme, bool can_merge)
