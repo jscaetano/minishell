@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handlers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 18:48:11 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/09 18:48:51 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/05/10 10:16:27 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	handler_heredoc(int signum)
 {
 	(void)signum;
 	printf("\n");
-	exit(0);
+	sanitize(true);
 }
 
 void	handler_child(int signum)

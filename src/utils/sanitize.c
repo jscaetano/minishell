@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sanitize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joacaeta <joacaeta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ncarvalh <ncarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:38:08 by joacaeta          #+#    #+#             */
-/*   Updated: 2023/05/09 17:08:25 by joacaeta         ###   ########.fr       */
+/*   Updated: 2023/05/10 09:54:10 by ncarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	update_envs(void)
 
 void	sanitize(bool end)
 {
-	unlink(HEREDOC);
 	ft_free(ms()->input);
 	ft_free(ms()->prompt);
 	ast_clear(ms()->ast, ast_destroy_node);

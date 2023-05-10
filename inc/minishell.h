@@ -247,7 +247,7 @@ void		signals_child(void);
  */
 void		signals(void);
 
-void		signals_2(void);
+void		signals_ignore(void);
 
 //! _/=\_/=\_/=\_/=\_/=\_/=\_/=\_ FAKE GLOBAL _/=\_/=\_/=\_/=\_/=\_/=\_/=\_
 

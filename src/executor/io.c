@@ -22,6 +22,8 @@ void	io_connect(void)
 
 void	io_disconnect(int command_index)
 {
+	if (ms()->in_fd > STDIN_FILENO)
+		close(ms()->in_fd);
 	if (ms()->out_fd > STDOUT_FILENO)
 		close(ms()->out_fd);
 	if (command_index > 0)

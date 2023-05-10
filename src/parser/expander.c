@@ -43,7 +43,6 @@ void	merge_lexemes(t_list *lexemes)
 char	*_find_key(char *str)
 {
 	char	*tmp;
-	char	*var;
 	int		len;
 
 	len = 0;
@@ -52,8 +51,7 @@ char	*_find_key(char *str)
 		return (ft_strdup("$?"));
 	while (ft_isalnum(tmp[len + 1]) || tmp[len + 1] == '_')
 		len++;
-	var = ft_substr(tmp, 0, len + 1);
-	return (var);
+	return (ft_substr(tmp, 0, len + 1));
 }
 
 void	_expand_variable(t_token *token)
