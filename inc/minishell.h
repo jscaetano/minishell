@@ -185,6 +185,13 @@ bool		is_builtin(char *command);
 //! _/=\_/=\_/=\_/=\_/=\_/=\_/=\_ REDIRECTIONS _/=\_/=\_/=\_/=\_/=\_/=\_/=\_
 
 /**
+ * @brief Heredoc helper: the real reader of the heredoc functionality.
+ * 
+ * @param term The terminator of the heredoc.
+ */
+void		heredoc_reader(char *term);
+
+/**
  * @brief Mimics the heredoc functionality of bash. It reads from stdin
  * until the terminator is found. The content is then written to a temporary
  * file and later linked to the input of the running command by setting
@@ -205,7 +212,7 @@ int			heredoc(char *term);
  */
 void		execute_redirection(t_lexeme type, char *filename);
 
-//! _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/= SIGNALS =\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
+//! _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/= HANDLERS =\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
 
 /**
  * @brief Handles the SIGINT signal. If the signal is received while
@@ -225,8 +232,15 @@ void		handler_sigint(int signum);
  */
 void		handler_child(int signum);
 
-
+/**
+ * @brief Handler of the heredoc SIGINT signal. Flushed all the allocated
+ * child memory and exits the program
+ * 
+ * @param signum The signal number 
+ */
 void		handler_heredoc(int signum);
+
+//! _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/= SIGNALS =\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
 
 /**
  * @brief Installs the signal handlers for SIGINT and SIGQUIT before
@@ -247,6 +261,11 @@ void		signals_child(void);
  */
 void		signals(void);
 
+/**
+ * @brief After the heredoc child finished execution, this function is
+ * called to prevent propagation of any signal to the parent process.
+ * It ignores the possible signals temporarly.
+ */
 void		signals_ignore(void);
 
 //! _/=\_/=\_/=\_/=\_/=\_/=\_/=\_ FAKE GLOBAL _/=\_/=\_/=\_/=\_/=\_/=\_/=\_

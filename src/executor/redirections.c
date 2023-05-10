@@ -58,7 +58,7 @@ void	heredoc_reader(char *term)
 		if (!input)
 		{
 			printf("\n");
-			break;
+			break ;
 		}
 		else if (input && !ft_strcmp(input, term))
 		{

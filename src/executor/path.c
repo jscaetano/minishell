@@ -23,7 +23,7 @@ char	*get_absolute_path(char *exe)
 		return (NULL);
 	if (access(exe, F_OK) == 0)
 	{
-		path = ft_strjoin("", exe);;
+		path = ft_strjoin("", exe);
 		return (path);
 	}
 	while (ms()->path[++i])
@@ -62,8 +62,5 @@ char	*get_executable_path(char *exe)
 		path = get_relative_path(exe);
 	else
 		path = get_absolute_path(exe);
-	if (path)
-		return (path);
-	else
-		return (NULL);
+	return (path);
 }
