@@ -25,6 +25,8 @@ bool	_is_longlong(char *num)
 		num++;
 	while (*num == '0')
 		num++;
+	if (ft_strlen(num) > 19)
+		return (false);
 	if (is_negative)
 		return (ft_strncmp(num, "9223372036854775808", ft_strlen(num)) <= 0);
 	else

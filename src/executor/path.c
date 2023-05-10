@@ -22,7 +22,10 @@ char	*get_absolute_path(char *exe)
 	if (exe[0] == '\0')
 		return (NULL);
 	if (access(exe, F_OK) == 0)
-		return (exe);
+	{
+		path = ft_strjoin("", exe);;
+		return (path);
+	}
 	while (ms()->path[++i])
 	{
 		tmp = ft_strjoin(ms()->path[i], "/");

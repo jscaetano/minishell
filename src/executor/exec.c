@@ -23,7 +23,8 @@ void	_execute_if_exists(char *exe, char **argv)
 	{
 		if (S_ISDIR(path_stat.st_mode))
 		{
-			error(ANSI_RED, ERROR_DIRECTORY, exe, 126);
+			error(ANSI_RED, ERROR_DIRECTORY, path, 126);
+			ft_free(path);
 		}
 		else if (S_ISREG(path_stat.st_mode))
 		{

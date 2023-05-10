@@ -49,7 +49,7 @@ int	_compute(void)
 }
 
 void	reader(void)
-{	
+{
 	while (1)
 	{
 		ms()->prompt = _update_prompt();
