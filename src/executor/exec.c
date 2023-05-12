@@ -22,15 +22,13 @@ void	_execute_if_exists(char *exe, char **argv)
 	if (path)
 	{
 		if (S_ISDIR(path_stat.st_mode))
-		{
 			error(ANSI_RED, ERROR_DIRECTORY, path, 126);
-			ft_free(path);
-		}
 		else if (S_ISREG(path_stat.st_mode))
 		{
 			execve(path, argv, ms()->envp);
 			error(ANSI_RED, ERROR_NO_PERMISSIONS, exe, 126);
 		}
+		ft_free(path);
 	}
 	else
 		error(ANSI_RED, ERROR_UNKNOWN_CMD, exe, 127);

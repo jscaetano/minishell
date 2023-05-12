@@ -40,6 +40,12 @@ void		ft_echo(char **tokens);
 //! _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\ ENV /=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
 
 /**
+ * @brief Prints all the declarations of variables, both exported and 
+ * temporary in the format declare -x NAME="VALUE". 
+ */
+void		export_print_all(void);
+
+/**
  * @brief Searches in the envlist for an environment variable that matches
  * the given key and returns its value.
  * 
@@ -79,17 +85,6 @@ bool		_is_longlong(char *num);
 void		ft_exit(char **tokens);
 
 //! _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\ EXPORT /=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
-
-/**
- * @brief Given a token of the lexeme list, it takes the lexeme string and 
- * checks if the string is formatted as NAME=VALUE (is an assignment). 
- * If it is, it exports the token as a temporary environment variable.
- * 
- * @param token The token to check
- * @return true If the token is an assignment
- * @return false Otherwise
- */
-bool		is_assignment(t_token *token);
 
 /**
  * @brief Like get_env, given a key it searches in the envlist passed as 

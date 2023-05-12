@@ -12,6 +12,31 @@
 
 #include "minishell.h"
 
+bool	is_assignment(t_token *token)
+{
+	int	i;
+
+	i = -1;
+	if (token->str[0])
+	{
+		if (token->str[0] == '='
+			|| token->str[ft_strlen(token->str) - 1] == '=')
+		{
+			error(ANSI_RED, ERROR_BAD_ASSIGNMENT, NULL, 1);
+			return (false);
+		}
+	}
+	while (token->str[++i])
+	{
+		if (token->str[i] == '=')
+		{
+			export_directly(&ms()->envtmp, token->str);
+			return (true);
+		}
+	}
+	return (false);
+}
+
 char	*_update_prompt(void)
 {
 	char	*tmp;
@@ -19,7 +44,7 @@ char	*_update_prompt(void)
 	char	*prefix;
 	char	*suffix;
 
-	prefix = ANSI_BOLD""PROMPT_UPPER""ANSI_UNDERLINE""ANSI_CYAN;
+	prefix = ANSI_BOLD""ANSI_WHITE""PROMPT_UPPER""ANSI_UNDERLINE""ANSI_CYAN;
 	suffix = ANSI_RST"\n"ANSI_WHITE""PROMPT_LOWER""ANSI_RST;
 	tmp = ft_strjoin(prefix, ms()->cwd);
 	prompt = ft_strjoin(tmp, suffix);
@@ -47,7 +72,7 @@ void	reader(void)
 {
 	while (1)
 	{
-		ms()->prompt = _update_prompt();
+		(ms()->prompt) = _update_prompt();
 		(ms()->input) = readline(ms()->prompt);
 		if (!ms()->input)
 		{

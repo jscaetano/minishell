@@ -432,6 +432,16 @@ void		ast_debug(t_ast *ast, int depth, void (*f)());
 //! _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/= INPUT =\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
 
 /**
+ * @brief Given a token of the lexeme list, it takes the lexeme string and 
+ * checks if the string is formatted as NAME=VALUE (is an assignment). 
+ * If it is, it exports the token as a temporary environment variable.
+ * 
+ * @param token The token to check
+ * @return true If the token is an assignment
+ * @return false Otherwise
+ */
+bool		is_assignment(t_token *token);
+/**
  * @brief Updates the prompt of the minishell struct. It is called
  * after each command execution so that it contains the current working
  * directory.

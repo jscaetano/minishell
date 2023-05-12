@@ -12,31 +12,6 @@
 
 #include "minishell.h"
 
-bool	is_assignment(t_token *token)
-{
-	int	i;
-
-	i = -1;
-	if (token->str[0])
-	{
-		if (token->str[0] == '='
-			|| token->str[ft_strlen(token->str) - 1] == '=')
-		{
-			error(ANSI_RED, ERROR_BAD_ASSIGNMENT, NULL, 1);
-			return (false);
-		}
-	}
-	while (token->str[++i])
-	{
-		if (token->str[i] == '=')
-		{
-			export_directly(&ms()->envtmp, token->str);
-			return (true);
-		}
-	}
-	return (false);
-}
-
 t_env	*_env_find(t_list *envs, char *key)
 {
 	t_list	*curr;
@@ -94,12 +69,34 @@ void	export_directly(t_list **envlist, char *assignment)
 		ft_lstadd_front(envlist, ft_lstnew(env_new(name, value)));
 }
 
-void	ft_export(char **vars)
-{
-	int		i;
+void	export_print_all(void)
+{	
 	t_env	*env;
 	t_list	*curr;
 
+	curr = ms()->envlist;
+	while (curr)
+	{
+		env = curr->content;
+		printf("declare -x %s=\"%s\"\n", env->key, env->value);
+		curr = curr->next;
+	}
+	curr = ms()->envtmp;
+	while (curr)
+	{
+		env = curr->content;
+		printf("declare -x %s=\"%s\"\n", env->key, env->value);
+		curr = curr->next;
+	}
+}
+
+void	ft_export(char **vars)
+{
+	int		i;
+	t_list	*curr;
+
+	if (!vars[0])
+		export_print_all();
 	i = -1;
 	curr = ms()->lexemes->next;
 	while (vars[++i])
@@ -108,15 +105,6 @@ void	ft_export(char **vars)
 			export_directly(&ms()->envlist, vars[i]);
 		else
 			_export_from_temp_list(vars[i]);
-		curr = curr->next;
-	}
-	if (vars[0] != NULL)
-		return ;
-	curr = ms()->envlist;
-	while (curr)
-	{
-		env = curr->content;
-		printf("declare -x %s=\"%s\"\n", env->key, env->value);
 		curr = curr->next;
 	}
 }
