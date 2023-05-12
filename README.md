@@ -14,7 +14,9 @@ The implementation of this project is based on the original ``Bourne-Again Shell
 ## **Mandatory Part**
 
 <div align=center>
-
+	
+![minishell](https://github.com/jscaetano/minishell/assets/93390807/2559e36d-9d22-4b72-81a5-81983a76f8bf)
+	
 </div>
 
 Here's a list of features our minishell has:
