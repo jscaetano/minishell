@@ -105,9 +105,3 @@ $ ./minishell
 ## 💫 **Testing**
 
 This project was tested using self-made tests and other colleagues pressure tests.
-
-
-## 📞 **Contact me**
-
-Feel free to ask me any questions through Slack (**ncarvalh**).
-
